@@ -254,6 +254,41 @@ function flux_first_order!(
     flux.ρe = ((ref.ρe + ref.p) / ref.ρ) * state.ρu
     nothing
 end
+
+function update_auxiliary_state!(
+    dg::DGModel,
+    lm::AtmosAcousticGravityLinearModel,
+    Q::MPIStateArray,
+    t::Real,
+    elems::UnitRange,
+)
+    state_auxiliary = dg.state_auxiliary
+    update_auxiliary_state!(nodal_update_auxiliary_state!, dg, lm, Q, t, elems)
+
+    # Filter the highest order vertical mode from density
+    grid = dg.grid
+    Filters.apply!(
+        state_auxiliary,
+        (:projected_ρ,),
+        grid,
+        Filters.CutoffFilter(grid),
+        state_auxiliary = state_auxiliary,
+        direction = VerticalDirection(),
+    )
+
+    return true
+end
+
+function nodal_update_auxiliary_state!(
+    ::AtmosAcousticGravityLinearModel,
+    state::Vars,
+    aux::Vars,
+    t::Real,
+)
+    aux.projected_ρ = state.ρ
+end
+
+
 function source!(
     lm::AtmosAcousticGravityLinearModel,
     source::Vars,
@@ -265,7 +300,7 @@ function source!(
 ) where {Dir <: Direction}
     if Dir === VerticalDirection || Dir === EveryDirection
         ∇Φ = ∇gravitational_potential(lm.atmos.orientation, aux)
-        source.ρu -= state.ρ * ∇Φ
+        source.ρu -= aux.projected_ρ * ∇Φ
     end
     nothing
 end

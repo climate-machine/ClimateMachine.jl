@@ -35,6 +35,7 @@ using ..Mesh.Grids:
     min_node_distance,
     EveryDirection,
     Direction
+using ..Mesh.Filters
 
 using ClimateMachine.BalanceLaws
 using ClimateMachine.Problems
@@ -316,6 +317,7 @@ debug variables.
 """
 function vars_state(m::AtmosModel, st::Auxiliary, FT)
     @vars begin
+        projected_ρ::FT
         ∫dz::vars_state(m, UpwardIntegrals(), FT)
         ∫dnz::vars_state(m, DownwardIntegrals(), FT)
         coord::SVector{3, FT}
@@ -601,6 +603,22 @@ function update_auxiliary_state!(
 
     update_auxiliary_state!(nodal_update_auxiliary_state!, dg, m, Q, t, elems)
 
+    # Filter the highest order vertical mode from density
+    grid = dg.grid
+    if m.ref_state isa HydrostaticState
+        target = AtmosFilterDensityPerturbation(m)
+    else
+        target = (:projected_ρ,)
+    end
+    Filters.apply!(
+        state_auxiliary,
+        target,
+        grid,
+        Filters.CutoffFilter(grid),
+        state_auxiliary = state_auxiliary,
+        direction = VerticalDirection(),
+    )
+
     # TODO: Remove this hook. This hook was added for implementing
     # the first draft of EDMF, and should be removed so that we can
     # rely on a single vertical element traversal. This hook allows
@@ -618,6 +636,8 @@ function nodal_update_auxiliary_state!(
     aux::Vars,
     t::Real,
 )
+    aux.projected_ρ = state.ρ
+
     atmos_nodal_update_auxiliary_state!(m.moisture, m, state, aux, t)
     atmos_nodal_update_auxiliary_state!(m.radiation, m, state, aux, t)
     atmos_nodal_update_auxiliary_state!(m.tracers, m, state, aux, t)

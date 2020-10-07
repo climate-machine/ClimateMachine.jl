@@ -75,9 +75,9 @@ function atmos_source!(
     direction,
 )
     if atmos.ref_state isa HydrostaticState
-        source.ρu -= (state.ρ - aux.ref_state.ρ) * aux.orientation.∇Φ
+        source.ρu -= (aux.projected_ρ - aux.ref_state.ρ) * aux.orientation.∇Φ
     else
-        source.ρu -= state.ρ * aux.orientation.∇Φ
+        source.ρu -= aux.projected_ρ * aux.orientation.∇Φ
     end
 end
 

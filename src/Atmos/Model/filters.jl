@@ -1,4 +1,5 @@
 export AtmosFilterPerturbations
+export AtmosFilterDensityPerturbation
 
 import ..Mesh.Filters:
     AbstractFilterTarget,
@@ -50,4 +51,28 @@ function compute_filter_result!(
         filter_state.moisture.ρq_liq += aux.ref_state.ρq_liq
         filter_state.moisture.ρq_ice += aux.ref_state.ρq_ice
     end
+end
+
+struct AtmosFilterDensityPerturbation{M} <: AbstractFilterTarget
+    atmos::M
+end
+
+vars_state_filtered(target::AtmosFilterDensityPerturbation, FT) =
+    @vars(projected_ρ::FT)
+
+function compute_filter_argument!(
+    target::AtmosFilterDensityPerturbation,
+    filter_state::Vars,
+    state::Vars,
+    aux::Vars,
+)
+    filter_state.projected_ρ = aux.projected_ρ - aux.ref_state.ρ
+end
+function compute_filter_result!(
+    target::AtmosFilterDensityPerturbation,
+    state::Vars,
+    filter_state::Vars,
+    aux::Vars,
+)
+    state.projected_ρ = filter_state.projected_ρ + aux.ref_state.ρ
 end
