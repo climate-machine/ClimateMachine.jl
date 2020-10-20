@@ -143,10 +143,10 @@ function main(BC)
     ntFreq = 1
     cbcs_dg = ClimateMachine.StateCheck.sccreate(
         [
-            (Q_3D, "oce Q_3D"),
-            (dg.state_auxiliary, "oce aux"),
-            (Q_2D, "baro Q_2D"),
-            (barotropic_dg.state_auxiliary, "baro aux"),
+            (Q_3D, "3D state"),
+            (dg.state_auxiliary, "3D aux"),
+            (Q_2D, "2D state"),
+            (barotropic_dg.state_auxiliary, "2D aux"),
             # (dg.diffstate,"oce diff",),	
             # (lsrk_ocean.dQ,"oce_dQ",),	
             # (dg.modeldata.tendency_dg.state_auxiliary,"tend Int aux",),	
@@ -309,7 +309,8 @@ end
 # RUN THE TESTS #
 #################
 FT = Float64
-vtkpath = abspath(joinpath(ClimateMachine.Settings.output_dir, "vtk_split"))
+vtkpath =
+    abspath(joinpath(ClimateMachine.Settings.output_dir, "vtk_simple_box_ivd"))
 
 const timeend = 5 * 24 * 3600 # s
 const tout = 24 * 3600 # s
@@ -339,9 +340,7 @@ add_fast_substeps = 2
 # default = 0 : disable implicit vertical diffusion
 numImplSteps = 5
 
-#const τₒ = 2e-1  # (Pa = N/m^2)
-# since we are using old BC (with factor of 2), take only half:
-const τₒ = 1e-1
+const τₒ = 2e-1  # (Pa = N/m^2)
 const λʳ = 10 // 86400 # m/s
 const θᴱ = 10    # deg.C
 

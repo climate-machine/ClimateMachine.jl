@@ -1097,6 +1097,16 @@ steps:
       slurm_ntasks: 1
       slurm_gres: "gpu:1"
 
+  - label: "gpu_simple_box_2dt"
+    key: "gpu_simple_box_2dt"
+    command:
+      - "mpiexec julia --color=yes --project test/Ocean/SplitExplicit/simple_box_2dt.jl "
+    agents:
+      config: gpu
+      queue: central
+      slurm_ntasks: 1
+      slurm_gres: "gpu:1"
+
   - label: "gpu_discrete_hydrostatic_balance"
     key: "gpu_discrete_hydrostatic_balance"
     command:

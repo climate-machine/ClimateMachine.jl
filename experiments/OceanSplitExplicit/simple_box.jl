@@ -26,7 +26,7 @@ function config_simple_box(
 
     problem = OceanGyre{FT}(
         dimensions...;
-        τₒ = 0.1,
+        τₒ = 0.2,
         λʳ = 10 // 86400,
         θᴱ = 10,
         BC = boundary_conditions,
@@ -76,10 +76,10 @@ function run_simple_box(driver_config, timespan; refDat = ())
     nt_freq = 1 # floor(Int, 1 // 10 * solver_config.timeend / solver_config.dt)
     cb = ClimateMachine.StateCheck.sccreate(
         [
-            (solver_config.Q, "oce Q_3D"),
-            (solver_config.dg.state_auxiliary, "oce aux"),
-            (solver_config.dg.modeldata.Q_2D, "baro Q_2D"),
-            (solver_config.dg.modeldata.dg_2D.state_auxiliary, "baro aux"),
+            (solver_config.Q, "3D state"),
+            (solver_config.dg.state_auxiliary, "3D aux"),
+            (solver_config.dg.modeldata.Q_2D, "2D state"),
+            (solver_config.dg.modeldata.dg_2D.state_auxiliary, "2D aux"),
         ],
         nt_freq;
         prec = 12,
