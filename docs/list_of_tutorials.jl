@@ -35,7 +35,9 @@ if generate_tutorials
         ],
         "Ocean" => [],
         "Land" => [
-            "Heat" => ["Heat Equation" => "Land/Heat/heat_equation.jl"],
+            "Heat" => ["Heat Equation" => "Land/Heat/heat_equation.jl",
+                "Heat Equation - Compare steppers" =>
+                    "Land/Heat/compare_steppers.jl"],
             "Soil" => [
                 "Hydraulic Functions" =>
                     "Land/Soil/Water/hydraulic_functions.jl",
