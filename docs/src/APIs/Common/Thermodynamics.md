@@ -5,14 +5,12 @@ CurrentModule = ClimateMachine.Thermodynamics
 ```
 ```@docs
 Thermodynamics
+ThermodynamicState
 ```
 
 ## Thermodynamic State Constructors
 
 ```@docs
-PhasePartition
-PhasePartition_equil
-ThermodynamicState
 PhaseDry
 PhaseDry_pT
 PhaseDry_pθ
@@ -46,7 +44,6 @@ exner
 gas_constant_air
 gas_constants
 has_condensate
-Ice
 ice_specific_humidity
 internal_energy
 internal_energy_dry
@@ -58,7 +55,6 @@ latent_heat_fusion
 latent_heat_liq_ice
 latent_heat_sublim
 latent_heat_vapor
-Liquid
 liquid_fraction
 liquid_ice_pottemp
 liquid_ice_pottemp_sat
@@ -87,8 +83,12 @@ virtual_pottemp
 virtual_temperature
 ```
 
-## Dispatch types
+## Additional types/constructors
 
 ```@docs
+Liquid
+Ice
+PhasePartition
+PhasePartition_equil
 DryAdiabaticProcess
 ```

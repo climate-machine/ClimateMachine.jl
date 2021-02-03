@@ -133,7 +133,11 @@ function save_binned_surface_plots(
     filename,
     n_plots = (3, 3),
     z_label_prefix = "z",
-    n_digits = 5,
+    n_digits = 5;
+    xlims = (:auto, :auto),
+    ylims = (:auto, :auto),
+    label = label,
+    ref_points = nothing,
 )
     n_z_partitions = prod(n_plots)
     z_min_global = min(z...)
@@ -154,7 +158,22 @@ function save_binned_surface_plots(
             title = "$(title), in ($sz_min, $sz_max)",
             seriestype = :scatter,
             markersize = 5,
+            label = label,
+            xlims = xlims,
+            ylims = ylims,
         )
+        # This is highly specific code, and will likely not
+        # be useful outside of thermo analysis:
+        if ref_points ≠ nothing
+            ref_mask = z_min[i] .<= ref_points[3] .<= z_max[i]
+            plot!(
+                ref_points[1][ref_mask],
+                ref_points[2][ref_mask],
+                seriestype = :scatter,
+                markersize = 5,
+                label = "ref points",
+            )
+        end
         push!(p, p_i)
     end
     plot(p..., layout = n_plots, legend = false)

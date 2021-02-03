@@ -80,10 +80,28 @@ function sa_numerical_method(
     phase_type::Type{<:PhaseEquil},
 ) where {FT, NM <: RegulaFalsiMethod}
     _T_min::FT = T_min(param_set)
+
+    _e_int_v0::FT = e_int_v0(param_set)
+    _e_int_i0::FT = e_int_i0(param_set)
+    _cv_d::FT = cv_d(param_set)
+    _cv_l::FT = cv_l(param_set)
+    _T_0::FT = T_0(param_set)
+
     q_pt = PhasePartition(q_tot, FT(0), q_tot) # Assume all ice
+
+    # Sometimes T_1 is slightly larger than the root.
+    # So, we subtract a small amount to ensure the root is bounded
+
     T_2 = air_temperature(param_set, e_int, q_pt)
-    T_1 = max(_T_min, air_temperature(param_set, e_int, PhasePartition(q_tot))) # Assume all vapor
-    T_2 = bound_upper_temperature(T_1, T_2)
+    T_1 = air_temperature(param_set, e_int, PhasePartition(q_tot)) - FT(0.1) # Assume all vapor
+    T_1 = max(_T_min, T_1)
+
+    # This bound works in the reference states, but not in the full 3D input space
+    # T_2 = _T_0 + ( e_int + q_tot * _e_int_i0 )  / _cv_d + FT(0.1)
+    # T_1 = _T_0 +
+    #        ( e_int - q_tot * _e_int_v0 )  / (_cv_d + (_cv_l - _cv_d) * q_tot) - FT(0.1)
+    # T_1 = max(_T_min, T_1)
+
     return RegulaFalsiMethod(T_1, T_2)
 end
 

@@ -4,6 +4,10 @@
 
 dev_docs = Any[
     "Coding style" => "DevDocs/CodeStyle.md",
+    "Common" => [
+        "Thermodynamics" =>
+            "DevDocs/Common/Thermodynamics/Thermodynamics.md",
+    ],
     "Acceptable Unicode" => "DevDocs/AcceptableUnicode.md",
     "Model variable list" => "DevDocs/ModelVariableList.md",
     "Model output" => "DevDocs/ModelOutput.md",
