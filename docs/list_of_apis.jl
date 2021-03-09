@@ -23,6 +23,7 @@ apis = [
         "Soil Heat Parameterizations" =>
             "APIs/Land/SoilHeatParameterizations.md",
     ],
+    "Coupling" => "APIs/Coupling/Coupling.md",
     "Common" => [
         "Orientations" => "APIs/Common/Orientations.md",
         "Spectra" => "APIs/Common/Spectra.md",

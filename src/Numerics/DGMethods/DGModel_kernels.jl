@@ -151,6 +151,8 @@ fluxes, respectively.
             end
 
             # Read fields into registers (hopefully)
+
+            # need to interpolate here
             @unroll for s in 1:num_state_prognostic
                 local_state_prognostic[s] = state_prognostic[ijk, s, e]
             end

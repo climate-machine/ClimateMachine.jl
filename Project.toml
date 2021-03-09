@@ -47,6 +47,7 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 StaticNumbers = "c5e4b96a-f99f-5557-8ed2-dc63ef9b5131"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 UnPack = "3a884ed6-31ef-47d7-9d2a-63182c4928ed"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 WriteVTK = "64499a7a-5c06-52f2-abe2-ccb03c286192"
 
 [compat]

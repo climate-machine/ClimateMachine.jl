@@ -50,4 +50,6 @@ include(joinpath("Driver", "Driver.jl"))
 
 include(joinpath("Ocean", "Ocean.jl"))
 
+include(joinpath("Coupling", "Coupling.jl"))
+
 end
