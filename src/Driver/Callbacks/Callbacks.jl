@@ -153,6 +153,13 @@ function vtk(vtk_opt, solver_config, output_dir, number_sample_points)
     cb_constr = CB_constructor(vtk_opt, solver_config)
     cb_constr === nothing && return nothing
 
+    if number_sample_points < 0 || number_sample_points == 1
+        error(
+            "number of vtk sample must be `0` (element interpolation points) " *
+            "or `≥ 2` (use specified numer of equally spaced points)",
+        )
+    end
+
     vtknum = Ref(1)
 
     mpicomm = solver_config.mpicomm

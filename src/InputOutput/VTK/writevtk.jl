@@ -119,7 +119,7 @@ function writevtk_helper(
     auxfieldnames = nothing;
     number_sample_points,
 )
-    @assert number_sample_points >= 0
+    @assert number_sample_points == 0 || number_sample_points >= 2
 
     dim = dimensionality(grid)
     N = polynomialorders(grid)

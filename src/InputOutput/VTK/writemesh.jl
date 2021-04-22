@@ -122,7 +122,7 @@ function writemesh_highorder(
             compress = false,
         )
     end
-    for (name, v) in fields
+    length(realelems) > 0 && for (name, v) in fields
         vtk_point_data(vtkfile, v, name)
     end
     outfiles = vtk_save(vtkfile)
@@ -170,7 +170,7 @@ function writemesh_highorder(
             compress = false,
         )
     end
-    for (name, v) in fields
+    length(realelems) > 0 && for (name, v) in fields
         vtk_point_data(vtkfile, v, name)
     end
     outfiles = vtk_save(vtkfile)
@@ -205,7 +205,7 @@ function writemesh_highorder(
         cells;
         compress = false,
     )
-    for (name, v) in fields
+    length(realelems) > 0 && for (name, v) in fields
         vtk_point_data(vtkfile, v, name)
     end
     outfiles = vtk_save(vtkfile)
@@ -236,7 +236,7 @@ function writemesh_raw(
     end
 
     vtkfile = vtk_grid("$(base_name)", @view(x1[:]), cells; compress = false)
-    for (name, v) in fields
+    length(realelems) > 0 && for (name, v) in fields
         vtk_point_data(vtkfile, v, name)
     end
     outfiles = vtk_save(vtkfile)
@@ -290,7 +290,7 @@ function writemesh_raw(
             compress = false,
         )
     end
-    for (name, v) in fields
+    length(realelems) > 0 && for (name, v) in fields
         vtk_point_data(vtkfile, v, name)
     end
     outfiles = vtk_save(vtkfile)
@@ -337,7 +337,7 @@ function writemesh_raw(
         cells;
         compress = false,
     )
-    for (name, v) in fields
+    length(realelems) > 0 && for (name, v) in fields
         vtk_point_data(vtkfile, v, name)
     end
     outfiles = vtk_save(vtkfile)
