@@ -204,6 +204,15 @@ steps:
   - label: "cpu_vars_test"
     key: "cpu_vars_test"
     command:
+      - "mpiexec julia --color=yes --project test/Numerics/DGMethods/test_planet_sizes.jl "
+    agents:
+      config: cpu
+      queue: central
+      slurm_ntasks: 1
+
+  - label: "cpu_vars_test"
+    key: "cpu_vars_test"
+    command:
       - "mpiexec julia --color=yes --project test/Numerics/DGMethods/vars_test.jl "
     agents:
       config: cpu
