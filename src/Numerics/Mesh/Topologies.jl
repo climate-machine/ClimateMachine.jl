@@ -1,5 +1,6 @@
 module Topologies
 using ClimateMachine
+using CubedSphere, Rotations
 import ..BrickMesh
 import MPI
 using CUDA
@@ -24,7 +25,8 @@ export AbstractTopology,
     equiangular_cubed_sphere_warp,
     equiangular_cubed_sphere_unwarp,
     equidistant_cubed_sphere_warp,
-    equidistant_cubed_sphere_unwarp
+    equidistant_cubed_sphere_unwarp,
+    conformal_cubed_sphere_warp
 
 export grid1d, SingleExponentialStretching, InteriorStretching
 
@@ -1138,15 +1140,15 @@ end
 """
     cubedshellmesh(T, Ne; part=1, numparts=1)
 
-Generate a cubed mesh with each of the "cubes" has an `Ne X Ne` grid of
+Generate a cubed mesh where each of the "cubes" has an `Ne X Ne` grid of
 elements.
 
 The mesh can optionally be partitioned into `numparts` and this returns
-partition `part`.  This is a simple Cartesian partition and further partitioning
+partition `part`. This is a simple Cartesian partition and further partitioning
 (e.g, based on a space-filling curve) should be done before the mesh is used for
 computation.
 
-This mesh returns the cubed spehere in a flatten fashion for the vertex values,
+This mesh returns the cubed spehere in a flattened fashion for the vertex values,
 and a remapping is needed to embed the mesh in a 3-D space.
 
 The mesh structures for the cubes is as follows:
@@ -1239,6 +1241,7 @@ end
 abstract type AbstractCubedSphere end
 struct EquiangularCubedSphere <: AbstractCubedSphere end
 struct EquidistantCubedSphere <: AbstractCubedSphere end
+struct ConformalCubedSphere <: AbstractCubedSphere end
 
 """
     cubed_sphere_warp(::EquiangularCubedSphere, a, b, c, R = max(abs(a), abs(b), abs(c)))
@@ -1421,6 +1424,62 @@ EquidistantCubedSphere type
 """
 equidistant_cubed_sphere_unwarp(x1, x2, x3) =
     cubed_sphere_unwarp(EquidistantCubedSphere(), x1, x2, x3)
+
+"""
+    cubed_sphere_warp(::ConformalCubedSphere, a, b, c, R = max(abs(a), abs(b), abs(c)))
+
+Given points `(a, b, c)` on the surface of a cube, warp the points out to a
+spherical shell of radius `R` based on the conformal grid proposed by
+[Rancic1996](@cite)
+"""
+function cubed_sphere_warp(
+    ::ConformalCubedSphere,
+    a,
+    b,
+    c,
+    R = max(abs(a), abs(b), abs(c)),
+)
+
+    fdim = argmax(abs.((a, b, c)))
+    M = max(abs.((a, b, c))...)
+    if fdim == 1 && a < 0
+        # left face
+        x1, x2, x3 = conformal_cubed_sphere_mapping(-b / M, c / M)
+        x1, x2, x3 = RotX(π / 2) * RotY(-π / 2) * [x1, x2, x3]
+    elseif fdim == 2 && b < 0
+        # front face
+        x1, x2, x3 = conformal_cubed_sphere_mapping(a / M, c / M)
+        x1, x2, x3 = RotX(π / 2) * [x1, x2, x3]
+    elseif fdim == 1 && a > 0
+        # right face
+        x1, x2, x3 = conformal_cubed_sphere_mapping(b / M, c / M)
+        x1, x2, x3 = RotX(π / 2) * RotY(π / 2) * [x1, x2, x3]
+    elseif fdim == 2 && b > 0
+        # back face
+        x1, x2, x3 = conformal_cubed_sphere_mapping(a / M, -c / M)
+        x1, x2, x3 = RotX(-π / 2) * [x1, x2, x3]
+    elseif fdim == 3 && c > 0
+        # top face
+        x1, x2, x3 = conformal_cubed_sphere_mapping(a / M, b / M)
+    elseif fdim == 3 && c < 0
+        # bottom face
+        x1, x2, x3 = conformal_cubed_sphere_mapping(a / M, -b / M)
+        x1, x2, x3 = RotX(π) * [x1, x2, x3]
+    else
+        error("invalid case for cubed_sphere_warp(::ConformalCubedSphere): $a, $b, $c")
+    end
+
+    return x1 * R, x2 * R, x3 * R
+end
+
+"""
+    conformal_cubed_sphere_warp(a, b, c, R = max(abs(a), abs(b), abs(c)))
+
+A wrapper function for the cubed_sphere_warp function, when called with the
+ConformalCubedSphere type
+"""
+conformal_cubed_sphere_warp(a, b, c, R = max(abs(a), abs(b), abs(c))) =
+    cubed_sphere_warp(ConformalCubedSphere(), a, b, c, R)
 
 """
    StackedCubedSphereTopology(mpicomm, Nhorz, Rrange;
