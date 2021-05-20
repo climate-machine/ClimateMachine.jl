@@ -221,7 +221,7 @@ function SolverConfiguration(
             if ode_solver_type.solver_method == LSRK144NiegemannDiehlBusch
                 Courant_number = FT(1.7)
             else
-                @assert ode_solver_type.solver_method == LSRK54CarpenterKennedy
+                @warn "Courant_number configured for ode_solver_type.solver_method == LSRK54CarpenterKennedy"
                 Courant_number = FT(0.3)
             end
         else

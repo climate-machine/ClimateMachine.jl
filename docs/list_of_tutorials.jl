@@ -23,6 +23,8 @@ if generate_tutorials
         "BalanceLaws" => [
             "Tendency specification" =>
                 "BalanceLaws/tendency_specification_layer.jl",
+            "Boundary conditions (duct flow)" =>
+                "BalanceLaws/bcs_duct_flow.jl",
         ],
         "Atmos" => [
             "Dry Idealized GCM (Held-Suarez)" => "Atmos/heldsuarez.jl",
