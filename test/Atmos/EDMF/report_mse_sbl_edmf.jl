@@ -13,11 +13,11 @@ data_file = Dataset(joinpath(PyCLES_output_dataset_path, "Gabls.nc"), "r")
 
 #! format: off
 best_mse = OrderedDict()
-best_mse["prog_ρ"] = 6.8766006877255519e-03
-best_mse["prog_ρu_1"] = 6.2597055026242824e+03
-best_mse["prog_ρu_2"] = 1.3231034873190784e-04
-best_mse["prog_turbconv_environment_ρatke"] = 2.6066585472739206e+02
-best_mse["prog_turbconv_environment_ρaθ_liq_cv"] = 8.7727378309967946e+01
+best_mse["prog_ρ"] = 6.8041561724036673e-03
+best_mse["prog_ρu_1"] = 6.2586216904022822e+03
+best_mse["prog_ρu_2"] = 1.2965826326450741e-04
+best_mse["prog_turbconv_environment_ρatke"] = 4.9035225536000081e+02
+best_mse["prog_turbconv_environment_ρaθ_liq_cv"] = 8.7727377301948991e+01
 best_mse["prog_turbconv_updraft_1_ρa"] = 1.8213581913998944e+01
 best_mse["prog_turbconv_updraft_1_ρaw"] = 1.7800899665237452e-01
 best_mse["prog_turbconv_updraft_1_ρaθ_liq"] = 1.3358308964295857e+01

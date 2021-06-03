@@ -1254,15 +1254,65 @@ end;
 
 
 # The boundary conditions for second-order unknowns
+# (here we prescribe a flux at state⁺ to match that at state⁻ so that the flux divergence is zero)
 function turbconv_normal_boundary_flux_second_order!(
     nf,
     bc::EDMFBottomBC,
     atmos::AtmosModel,
     fluxᵀn::Vars,
-    _...,
+    args,
 )
-    nothing
+    @unpack state⁻, aux⁻, diffusive⁻, hyperdiff⁻, t, n⁻ = args
+    en_flx = fluxᵀn.turbconv.environment
+    tend_type = Flux{SecondOrder}()
+    _args⁻ = (;
+        state = state⁻,
+        aux = aux⁻,
+        t,
+        diffusive = diffusive⁻,
+        hyperdiffusive = hyperdiff⁻,
+    )
+    pargs = merge(_args⁻, (precomputed = precompute(atmos, _args⁻, tend_type),))
+
+    total_flux = Σfluxes(
+        en_ρatke(),
+        eq_tends(en_ρatke(), atmos, tend_type),
+        atmos,
+        pargs,
+    )
+    nd_ρatke = dot(n⁻, total_flux)
+    en_flx.ρatke = nd_ρatke
+
+    total_flux = Σfluxes(
+        en_ρaθ_liq_cv(),
+        eq_tends(en_ρaθ_liq_cv(), atmos, tend_type),
+        atmos,
+        pargs,
+    )
+    nd_ρaθ_liq_cv = dot(n⁻, total_flux)
+    en_flx.ρaθ_liq_cv = nd_ρaθ_liq_cv
+
+    if !(moisture_model(atmos) isa DryModel)
+        total_flux = Σfluxes(
+            en_ρaq_tot_cv(),
+            eq_tends(en_ρaq_tot_cv(), atmos, tend_type),
+            atmos,
+            pargs,
+        )
+        nd_ρaq_tot_cv = dot(n⁻, total_flux)
+        en_flx.ρaq_tot_cv = nd_ρaq_tot_cv
+
+        total_flux = Σfluxes(
+            en_ρaθ_liq_q_tot_cv(),
+            eq_tends(en_ρaθ_liq_q_tot_cv(), atmos, tend_type),
+            atmos,
+            pargs,
+        )
+        nd_ρaθ_liq_q_tot_cv = dot(n⁻, total_flux)
+        en_flx.ρaθ_liq_q_tot_cv = nd_ρaθ_liq_q_tot_cv
+    end
 end;
+
 function turbconv_normal_boundary_flux_second_order!(
     nf,
     bc::EDMFTopBC,
