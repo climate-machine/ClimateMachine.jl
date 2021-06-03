@@ -1,3 +1,20 @@
+@inline function total_flux_first_order!(
+    bl::BalanceLaw,
+    flux::Grad{S},
+    state,
+    aux,
+    t,
+    direction,
+) where {S}
+
+    flux_first_order!(bl, flux, state, aux, t, direction)
+
+    flux = parent(flux)
+    flux2 = similar(flux)
+    fill!(flux2, -zero(eltype(flux)))
+    two_point_flux_first_order!(bl, Grad{S}(flux2), state, aux, state, aux, t)
+    flux .+= flux2
+end
 
 """
     flux_first_order!(
@@ -44,6 +61,29 @@ are defined for each type that `eq_tends` returns.
     map(prognostic_vars(bl)) do prog
         var, name = get_prog_state(flux, prog)
         val = Σfluxes(prog, eq_tends(prog, bl, tend), bl, args)
+        setproperty!(var, name, val)
+    end
+    nothing
+end
+
+@inline function two_point_flux_first_order!(
+    bl::BalanceLaw,
+    flux,
+    state1,
+    aux1,
+    state2,
+    aux2,
+    t,
+)
+    tend = FluxDifferencing{FirstOrder}()
+    _args = (; state1, aux1, state2, aux2, t)
+    #args = merge(_args, (precomputed = precompute(bl, _args, tend),))
+    # TODO: handle precompute
+    args = _args
+
+    map(prognostic_vars(bl)) do prog
+        var, name = get_prog_state(flux, prog)
+        val = Σtwo_point_fluxes(prog, eq_tends(prog, bl, tend), bl, args)
         setproperty!(var, name, val)
     end
     nothing

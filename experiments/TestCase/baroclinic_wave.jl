@@ -192,6 +192,7 @@ function config_baroclinic_wave(FT, poly_order, resolution, with_moisture)
         physics;
         init_state_prognostic = init_baroclinic_wave!,
         source = source,
+        equations_form = KennedyGruberSplitForm(),
     )
 
     config = ClimateMachine.AtmosGCMConfiguration(
@@ -225,10 +226,10 @@ function main()
 
     # Driver configuration parameters
     FT = Float64                             # floating type precision
-    poly_order = (5, 6)                      # discontinuous Galerkin polynomial order
-    n_horz = 8                               # horizontal element number
-    n_vert = 3                               # vertical element number
-    n_days::FT = 1
+    poly_order = (3, 3)                      # discontinuous Galerkin polynomial order
+    n_horz = 10                               # horizontal element number
+    n_vert = 5                               # vertical element number
+    n_days::FT = 100
     timestart::FT = 0                        # start time (s)
     timeend::FT = n_days * day(param_set)    # end time (s)
 
@@ -241,11 +242,11 @@ function main()
         implicit_model = AtmosAcousticGravityLinearModel,
         implicit_solver = ManyColumnLU,
         solver_method = ARK2GiraldoKellyConstantinescu,
-        split_explicit_implicit = true,
-        discrete_splitting = false,
+        split_explicit_implicit = false,
+        discrete_splitting = true,
     )
 
-    CFL = FT(0.1) # target acoustic CFL number
+    CFL = FT(3.0) # target acoustic CFL number
 
     # time step is computed such that the horizontal acoustic Courant number is CFL
     solver_config = ClimateMachine.SolverConfiguration(
@@ -254,7 +255,7 @@ function main()
         driver_config,
         Courant_number = CFL,
         ode_solver_type = ode_solver_type,
-        CFL_direction = HorizontalDirection(),
+        CFL_direction = VerticalDirection(),
         diffdir = HorizontalDirection(),
     )
 
@@ -289,7 +290,7 @@ function main()
     result = ClimateMachine.invoke!(
         solver_config;
         diagnostics_config = dgn_config,
-        user_callbacks = (cbfilter,),
+        #user_callbacks = (cbfilter,),
         #user_callbacks = (cbtmarfilter, cbfilter),
         check_euclidean_distance = true,
     )

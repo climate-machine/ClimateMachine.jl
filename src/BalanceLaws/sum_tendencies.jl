@@ -11,6 +11,14 @@ See [`BalanceLaw`](@ref) for more info.
 function flux end
 
 """
+    two_point_flux
+
+An individual two point flux.
+See [`BalanceLaw`](@ref) for more info.
+"""
+function two_point_flux end
+
+"""
     source
 
 An individual source.
@@ -74,6 +82,43 @@ function Σfluxes(
     args...,
 ) where {O, N, PV <: AbstractTracersVariable{N}}
     return SArray{Tuple{3, N}}(ntuple(i -> 0, 3 * N))
+end
+
+"""
+    Σtwo_point_fluxes(fluxes::NTuple, bl, args)
+
+Sum of the fluxes where
+ - `fluxes` is an `NTuple{N, TendencyDef{Flux{O}}} where {N, O}`
+ - `bl` is the balance law
+ - `args` are the arguments passed to the individual `flux` functions
+"""
+function Σtwo_point_fluxes(
+    pv::PV,
+    fluxes::NTuple{N, TendencyDef{<:AbstractFluxTendency{O}}},
+    bl,
+    args,
+) where {N, O, PV}
+    return ntuple_sum(
+        ntuple(Val(N)) do i
+            projection(
+                pv,
+                bl,
+                fluxes[i],
+                args,
+                two_point_flux(pv, fluxes[i], bl, args),
+            )
+        end,
+    )
+end
+
+# Empty case is the same as Σfluxes
+function Σtwo_point_fluxes(
+    pv::PV,
+    fluxes::NTuple{0, TendencyDef{<:AbstractFluxTendency{O}}},
+    bl,
+    args,
+) where {O, PV}
+    return Σfluxes(pv, fluxes, args...)
 end
 
 """

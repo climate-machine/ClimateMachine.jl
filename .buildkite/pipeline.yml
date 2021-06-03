@@ -336,6 +336,15 @@ steps:
       queue: central
       slurm_ntasks: 3
 
+  - label: "cpu_isentropicvortex_split_form"
+    key: "cpu_isentropicvortex_split_form"
+    command:
+      - "mpiexec julia --color=yes --project test/Numerics/DGMethods/Euler/isentropicvortex_split_form.jl "
+    agents:
+      config: cpu
+      queue: central
+      slurm_ntasks: 3
+
   - label: "cpu_acousticwave_1d_imex"
     key: "cpu_acousticwave_1d_imex"
     command:
@@ -875,6 +884,16 @@ steps:
     key: "gpu_isentropicvortex_mrigark_implicit"
     command:
       - "mpiexec julia --color=yes --project test/Numerics/DGMethods/Euler/isentropicvortex_mrigark_implicit.jl "
+    agents:
+      config: gpu
+      queue: central
+      slurm_ntasks: 3
+      slurm_gres: "gpu:1"
+
+  - label: "gpu_isentropicvortex_split_form"
+    key: "gpu_isentropicvortex_split_form"
+    command:
+      - "mpiexec julia --color=yes --project test/Numerics/DGMethods/Euler/isentropicvortex_split_form.jl "
     agents:
       config: gpu
       queue: central

@@ -128,6 +128,7 @@ end
 Sets the first-order (hyperbolic) `flux` terms for a [`BalanceLaw`](@ref) subtype `BL`.
 """
 function flux_first_order! end
+function two_point_flux_first_order! end
 
 """
     flux_second_order!(

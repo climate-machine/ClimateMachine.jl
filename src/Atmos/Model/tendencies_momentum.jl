@@ -14,6 +14,24 @@ function flux(::Momentum, ::Advect, atmos, args)
     @unpack state = args
     return state.ρu .* (state.ρu / state.ρ)'
 end
+function two_point_flux(
+    ::AbstractKennedyGruberSplitForm,
+    ::Momentum,
+    ::Advect,
+    atmos,
+    args,
+)
+    @unpack state1, state2 = args
+    ρ1 = state1.ρ
+    u1 = state1.ρu / ρ1
+
+    ρ2 = state2.ρ
+    u2 = state2.ρu / ρ2
+
+    ρ_ave = (ρ1 + ρ2) / 2
+    u_ave = (u1 + u2) / 2
+    return ρ_ave * u_ave .* u_ave'
+end
 
 function flux(::Momentum, ::PressureGradient, atmos, args)
     @unpack state, aux = args
@@ -26,6 +44,33 @@ function flux(::Momentum, ::PressureGradient, atmos, args)
     else
         return pad + air_pressure(ts) * I
     end
+end
+
+function two_point_flux(
+    ::AbstractKennedyGruberSplitForm,
+    ::Momentum,
+    ::GravityFluctuation,
+    atmos,
+    args,
+)
+    @unpack state1, aux1, state2, aux2 = args
+    FT = eltype(state1)
+
+    ρ1 = state1.ρ
+    Φ1 = aux1.orientation.Φ
+
+    ρ2 = state2.ρ
+    Φ2 = aux2.orientation.Φ
+
+    ref_state = reference_state(atmos)
+    if ref_state isa HydrostaticState && ref_state.subtract_off
+        ρ1 -= aux1.ref_state.ρ
+        ρ2 -= aux2.ref_state.ρ
+    end
+
+    ρ_ave = (ρ1 + ρ2) / 2
+    Φ_diff = (Φ1 - Φ2) / 2
+    return -ρ_ave * Φ_diff * SMatrix{3, 3, FT}(I)
 end
 
 #####

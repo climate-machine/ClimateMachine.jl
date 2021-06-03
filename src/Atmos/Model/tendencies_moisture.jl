@@ -12,6 +12,28 @@ function flux(::TotalMoisture, ::Advect, atmos, args)
     return u * state.moisture.ρq_tot
 end
 
+function two_point_flux(
+    ::AbstractKennedyGruberSplitForm,
+    ::TotalMoisture,
+    ::Advect,
+    atmos,
+    args,
+)
+    @unpack state1, state2 = args
+    ρ1 = state1.ρ
+    u1 = state1.ρu / ρ1
+    q1 = state1.moisture.ρq_tot / ρ1
+
+    ρ2 = state2.ρ
+    u2 = state2.ρu / ρ2
+    q2 = state2.moisture.ρq_tot / ρ2
+
+    ρ_ave = (ρ1 + ρ2) / 2
+    u_ave = (u1 + u2) / 2
+    q_ave = (q1 + q2) / 2
+    return ρ_ave * u_ave * q_ave
+end
+
 function flux(::LiquidMoisture, ::Advect, atmos, args)
     @unpack state = args
     u = state.ρu / state.ρ

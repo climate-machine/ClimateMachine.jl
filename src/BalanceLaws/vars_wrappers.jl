@@ -57,6 +57,46 @@ function flux_first_order_arr!(
     )
 end
 
+function total_flux_first_order_arr!(
+    balance_law,
+    flux::AbstractArray,
+    state::AbstractArray,
+    aux::AbstractArray,
+    t::Real,
+    direction,
+)
+    FT = eltype(state)
+    total_flux_first_order!(
+        balance_law,
+        Grad{vars_state(balance_law, Prognostic(), FT)}(flux),
+        Vars{vars_state(balance_law, Prognostic(), FT)}(state),
+        Vars{vars_state(balance_law, Auxiliary(), FT)}(aux),
+        t,
+        direction,
+    )
+end
+
+function two_point_flux_first_order_arr!(
+    balance_law,
+    flux::AbstractArray,
+    state1::AbstractArray,
+    aux1::AbstractArray,
+    state2::AbstractArray,
+    aux2::AbstractArray,
+    t::Real,
+)
+    FT = eltype(state1)
+    two_point_flux_first_order!(
+        balance_law,
+        Grad{vars_state(balance_law, Prognostic(), FT)}(flux),
+        Vars{vars_state(balance_law, Prognostic(), FT)}(state1),
+        Vars{vars_state(balance_law, Auxiliary(), FT)}(aux1),
+        Vars{vars_state(balance_law, Prognostic(), FT)}(state2),
+        Vars{vars_state(balance_law, Auxiliary(), FT)}(aux2),
+        t,
+    )
+end
+
 function flux_second_order_arr!(
     balance_law,
     flux::AbstractArray,

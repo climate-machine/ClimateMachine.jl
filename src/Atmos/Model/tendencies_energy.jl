@@ -8,6 +8,27 @@ function flux(::Energy, ::Advect, atmos, args)
     @unpack state = args
     return (state.ρu / state.ρ) * state.energy.ρe
 end
+function two_point_flux(
+    ::AbstractKennedyGruberSplitForm,
+    ::Energy,
+    ::Advect,
+    atmos,
+    args,
+)
+    @unpack state1, state2 = args
+    ρ1 = state1.ρ
+    u1 = state1.ρu / ρ1
+    e1 = state1.energy.ρe / ρ1
+
+    ρ2 = state2.ρ
+    u2 = state2.ρu / ρ2
+    e2 = state2.energy.ρe / ρ2
+
+    ρ_ave = (ρ1 + ρ2) / 2
+    u_ave = (u1 + u2) / 2
+    e_ave = (e1 + e2) / 2
+    return ρ_ave * u_ave * e_ave
+end
 
 function flux(::ρθ_liq_ice, ::Advect, atmos, args)
     @unpack state = args
@@ -18,6 +39,28 @@ function flux(::Energy, ::Pressure, atmos, args)
     @unpack state = args
     @unpack ts = args.precomputed
     return state.ρu / state.ρ * air_pressure(ts)
+end
+function two_point_flux(
+    ::AbstractKennedyGruberSplitForm,
+    ::Energy,
+    ::Pressure,
+    atmos,
+    args,
+)
+    @unpack state1, state2, aux1, aux2 = args
+    ρ1 = state1.ρ
+    u1 = state1.ρu / ρ1
+    ts1 = new_thermo_state(atmos, state1, aux1)
+    p1 = air_pressure(ts1)
+
+    ρ2 = state2.ρ
+    u2 = state2.ρu / ρ2
+    ts2 = new_thermo_state(atmos, state2, aux2)
+    p2 = air_pressure(ts2)
+
+    u_ave = (u1 + u2) / 2
+    p_ave = (p1 + p2) / 2
+    return u_ave * p_ave
 end
 
 #####

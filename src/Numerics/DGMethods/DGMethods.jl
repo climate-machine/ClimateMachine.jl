@@ -30,6 +30,8 @@ import ..BalanceLaws:
     init_state_prognostic_arr!,
     init_state_auxiliary!,
     flux_first_order_arr!,
+    total_flux_first_order_arr!,
+    two_point_flux_first_order_arr!,
     flux_second_order_arr!,
     compute_gradient_flux_arr!,
     compute_gradient_argument_arr!,

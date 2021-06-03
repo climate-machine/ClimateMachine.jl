@@ -67,7 +67,6 @@ end
 # Include the remainder model for composing DG models and balance laws
 include("remainder.jl")
 
-
 """
     (dg::DGModel)(tendency, state_prognostic, _, t, α, β)
 
@@ -323,6 +322,16 @@ function (dg::DGModel)(tendency, state_prognostic, _, t, α, β)
         dependencies = (comp_stream,),
     )
 
+    comp_stream = launch_fluxdiff_volume_tendency!(
+        dg,
+        tendency,
+        state_prognostic,
+        t,
+        α,
+        β;
+        dependencies = (comp_stream,),
+    )
+
     comp_stream = launch_interface_tendency!(
         dg,
         tendency,
@@ -525,4 +534,104 @@ function reverse_indefinite_stack_integral!(
         dependencies = (event,),
     )
     checked_wait(device, event, nothing, dg.check_for_crashes)
+end
+
+"""
+    launch_fluxdiff_volume_tendency!(spacedisc, state_prognostic, t; dependencies)
+
+Launches horizontal and vertical volume kernels for computing tendencies using flux differencing.
+"""
+function launch_fluxdiff_volume_tendency!(
+    spacedisc,
+    tendency,
+    state_prognostic,
+    t,
+    α,
+    β;
+    dependencies,
+)
+    # Workgroup is determined by the number of quadrature points
+    # in the horizontal direction. For each horizontal quadrature
+    # point, we operate on a stack of quadrature in the vertical
+    # direction. (Iteration space is in the horizontal)
+    info = basic_launch_info(spacedisc)
+
+    # We assume (in 3-D) that both x and y directions
+    # are discretized using the same polynomial order, Nq[1] == Nq[2].
+    workgroup = (info.Nq[1], info.Nq[2], info.Nqk)
+    ndrange = (info.Nq[1] * info.nrealelem, info.Nq[2], info.Nqk)
+    comp_stream = dependencies
+
+    # If the model direction is EveryDirection, we need to perform
+    # both horizontal AND vertical kernel calls; otherwise, we only
+    # call the kernel corresponding to the model direction
+    # `spacedisc.diffusion_direction`
+    if spacedisc.direction isa EveryDirection ||
+       spacedisc.direction isa HorizontalDirection
+
+        # Horizontal polynomial degree
+        horizontal_polyorder = info.N[1]
+        # Horizontal quadrature weights and differentiation matrix
+        horizontal_ω = spacedisc.grid.ω[1]
+        horizontal_D = spacedisc.grid.D[1]
+
+        comp_stream = fluxdiff_volume_tendency!(info.device, workgroup)(
+            spacedisc.balance_law,
+            Val(1), # ξ1
+            Val(info),
+            tendency.data,
+            state_prognostic.data,
+            spacedisc.state_auxiliary.data,
+            spacedisc.grid.vgeo,
+            horizontal_D,
+            t,
+            α,
+            ndrange = ndrange,
+            dependencies = comp_stream,
+        )
+
+        comp_stream = fluxdiff_volume_tendency!(info.device, workgroup)(
+            spacedisc.balance_law,
+            Val(2), # ξ2
+            Val(info),
+            tendency.data,
+            state_prognostic.data,
+            spacedisc.state_auxiliary.data,
+            spacedisc.grid.vgeo,
+            horizontal_D,
+            t,
+            α,
+            ndrange = ndrange,
+            dependencies = comp_stream,
+        )
+    end
+
+    # Vertical kernel
+    if spacedisc isa DGModel && (
+        spacedisc.direction isa EveryDirection ||
+        spacedisc.direction isa VerticalDirection
+    )
+
+        # Vertical polynomial degree
+        vertical_polyorder = info.N[info.dim]
+        # Vertical differentiation matrix
+        vertical_D = spacedisc.grid.D[info.dim]
+
+        comp_stream = fluxdiff_volume_tendency!(info.device, workgroup)(
+            spacedisc.balance_law,
+            Val(3), # ξ3
+            Val(info),
+            tendency.data,
+            state_prognostic.data,
+            spacedisc.state_auxiliary.data,
+            spacedisc.grid.vgeo,
+            vertical_D,
+            t,
+            α,
+            ndrange = ndrange,
+            dependencies = comp_stream,
+        )
+    end
+
+    return comp_stream
 end

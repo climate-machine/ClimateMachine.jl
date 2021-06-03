@@ -23,7 +23,7 @@ import ...BalanceLaws:
     vars_state,
     boundary_state!,
     wavespeed,
-    flux_first_order!,
+    total_flux_first_order!,
     flux_second_order!,
     compute_gradient_flux!,
     compute_gradient_argument!,
@@ -316,7 +316,7 @@ function numerical_flux_first_order!(
 
     flux⁻ = similar(fluxᵀn, Size(3, num_state_prognostic))
     fill!(flux⁻, -zero(FT))
-    flux_first_order!(
+    total_flux_first_order!(
         balance_law,
         Grad{S}(flux⁻),
         state_prognostic⁻,
@@ -327,7 +327,7 @@ function numerical_flux_first_order!(
 
     flux⁺ = similar(fluxᵀn, Size(3, num_state_prognostic))
     fill!(flux⁺, -zero(FT))
-    flux_first_order!(
+    total_flux_first_order!(
         balance_law,
         Grad{S}(flux⁺),
         state_prognostic⁺,

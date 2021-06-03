@@ -19,6 +19,7 @@ FirstOrder
 SecondOrder
 AbstractTendencyType
 Flux
+FluxDifferencing
 Source
 TendencyDef
 eq_tends

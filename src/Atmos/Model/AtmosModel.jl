@@ -75,10 +75,12 @@ import ..BalanceLaws:
     get_prog_state,
     get_specific_state,
     flux_first_order!,
+    total_flux_first_order!,
     flux_second_order!,
     source!,
     eq_tends,
     flux,
+    two_point_flux,
     precompute,
     parameter_set,
     source,
@@ -238,7 +240,7 @@ default values for each field.
 # Fields
 $(DocStringExtensions.FIELDS)
 """
-struct AtmosModel{FT, PH, PR, O, S, DC} <: BalanceLaw
+struct AtmosModel{FT, PH, PR, O, S, DC, EF} <: BalanceLaw
     "Atmospheric physics"
     physics::PH
     "Problem (initial and boundary conditions)"
@@ -249,6 +251,8 @@ struct AtmosModel{FT, PH, PR, O, S, DC} <: BalanceLaw
     source::S
     "Data Configuration (Helper field for experiment configuration)"
     data_config::DC
+    "Form of equations: (Unsplit, split form, or entropy stable)"
+    equations_form::EF
 end
 
 parameter_set(atmos::AtmosModel) = parameter_set(atmos.physics)
@@ -330,7 +334,15 @@ function AtmosModel{FT}(
         turbconv_sources(turbconv_model(physics))...,
     ),
     data_config = nothing,
+    equations_form = Unsplit(),
 ) where {FT <: AbstractFloat}
+
+    # hack, with Kennedy Gruber split form gravity is treated
+    # in fluctation form, not as a source
+    if equations_form isa KennedyGruberSplitForm && any(s -> s isa Gravity, source)
+        source = filter(s -> !(s isa Gravity), source)
+        equations_form = KennedyGruberGravitySplitForm()
+    end
 
     atmos = (
         physics,
@@ -338,6 +350,7 @@ function AtmosModel{FT}(
         orientation,
         prognostic_var_source_map(source),
         data_config,
+        equations_form,
     )
 
     return AtmosModel{FT, typeof.(atmos)...}(atmos...)
@@ -574,6 +587,7 @@ pressure(::Compressible, ts, aux) = air_pressure(ts)
 pressure(::Anelastic1D, ts, aux) = aux.ref_state.p
 
 include("declare_prognostic_vars.jl") # declare prognostic variables
+include("equations_form.jl")           # types for split forms, etc.
 include("multiphysics_types.jl")      # types for multi-physics tendencies
 include("tendencies_mass.jl")         # specify mass tendencies
 include("tendencies_momentum.jl")     # specify momentum tendencies
@@ -1120,7 +1134,7 @@ function numerical_flux_first_order!(
     # interior facets
     flux⁻ = similar(parent(fluxᵀn), Size(3, num_state_prognostic))
     fill!(flux⁻, -zero(FT))
-    flux_first_order!(
+    total_flux_first_order!(
         balance_law,
         Grad{S}(flux⁻),
         state_prognostic⁻,
@@ -1132,7 +1146,7 @@ function numerical_flux_first_order!(
 
     flux⁺ = similar(flux⁻)
     fill!(flux⁺, -zero(FT))
-    flux_first_order!(
+    total_flux_first_order!(
         balance_law,
         Grad{S}(flux⁺),
         state_prognostic⁺,

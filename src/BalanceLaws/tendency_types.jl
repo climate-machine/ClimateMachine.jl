@@ -25,7 +25,7 @@ export AbstractPrognosticVariable,
     AbstractTracersVariable
 
 export FirstOrder, SecondOrder
-export AbstractTendencyType, Flux, Source
+export AbstractTendencyType, Flux, FluxDifferencing, Source
 export TendencyDef
 export prognostic_var_source_map
 export eq_tends, prognostic_vars
@@ -75,6 +75,7 @@ tuple of tendencies to be accumulated.
 """
 abstract type AbstractTendencyType end
 
+abstract type AbstractFluxTendency{O} <: AbstractTendencyType end
 """
     Flux{O <: AbstractOrder}
 
@@ -82,7 +83,16 @@ A type for dispatching on flux tendency types
 where `O` is an abstract order ([`FirstOrder`](@ref)
 or [`SecondOrder`](@ref)).
 """
-struct Flux{O <: AbstractOrder} <: AbstractTendencyType end
+struct Flux{O <: AbstractOrder} <: AbstractFluxTendency{O} end
+
+"""
+    FluxDifferencing{O <: AbstractOrder}
+
+A type for dispatching on flux differencing tendency types
+where `O` is order. Currently only ([`FirstOrder`](@ref) is
+supported.
+"""
+struct FluxDifferencing{O <: FirstOrder} <: AbstractFluxTendency{O} end
 
 """
     Source
@@ -114,6 +124,13 @@ prognostic variable in:
     `∂_t Yᵢ + (∇•F₁(Y))ᵢ + (∇•F₂(Y,G)))ᵢ = (S(Y,G))ᵢ`
 """
 function eq_tends end
+
+# no flux differencing by default
+eq_tends(
+    ::AbstractPrognosticVariable,
+    ::BalanceLaw,
+    ::FluxDifferencing{FirstOrder},
+) = ()
 
 """
     prognostic_vars(::BalanceLaw)

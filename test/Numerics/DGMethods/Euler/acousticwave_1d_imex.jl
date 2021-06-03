@@ -3,7 +3,7 @@ using ClimateMachine.ConfigTypes
 using ClimateMachine.Mesh.Topologies:
     StackedCubedSphereTopology, equiangular_cubed_sphere_warp, grid1d
 using ClimateMachine.Mesh.Grids:
-    DiscontinuousSpectralElementGrid, VerticalDirection
+    DiscontinuousSpectralElementGrid, VerticalDirection, min_node_distance
 using ClimateMachine.Mesh.Filters
 using ClimateMachine.DGMethods: DGModel, init_ode_state, remainder_DGModel
 using ClimateMachine.DGMethods.NumericalFluxes:
@@ -21,6 +21,7 @@ using ClimateMachine.TemperatureProfiles: IsothermalProfile
 using ClimateMachine.Atmos:
     AtmosPhysics,
     AtmosModel,
+    KennedyGruberSplitForm,
     DryModel,
     NoPrecipitation,
     NoRadiation,
@@ -56,7 +57,7 @@ function main()
     numelem_horz = 10
     numelem_vert = 5
 
-    timeend = 60 * 60
+    timeend = 33 * 60 * 60
     # timeend = 33 * 60 * 60 # Full simulation
     outputtime = 60 * 60
 
@@ -117,16 +118,17 @@ function test_run(
 
     physics = AtmosPhysics{FT}(
         param_set;
-        ref_state = HydrostaticState(T_profile),
+        ref_state = HydrostaticState(T_profile; subtract_off = false),
         turbulence = ConstantDynamicViscosity(FT(0)),
         moisture = DryModel(),
-        tracers = NTracers{length(δ_χ), FT}(δ_χ),
+        #tracers = NTracers{length(δ_χ), FT}(δ_χ),
     )
     model = AtmosModel{FT}(
         AtmosGCMConfigType,
         physics;
         init_state_prognostic = setup,
-        source = (Gravity(),),
+        source = (),
+        equations_form = KennedyGruberSplitForm(),
     )
     linearmodel = AtmosAcousticGravityLinearModel(model)
 
@@ -151,10 +153,11 @@ function test_run(
     # determine the time step
     element_size = (setup.domain_height / numelem_vert)
     acoustic_speed = soundspeed_air(param_set, FT(setup.T_ref))
-    dt_factor = 445
+    dt_factor = 50
     dt = dt_factor * element_size / acoustic_speed / polynomialorder^2
     # Adjust the time step so we exactly hit 1 hour for VTK output
     dt = 60 * 60 / ceil(60 * 60 / dt)
+    dt = 3 * min_node_distance(grid) / 330
     nsteps = ceil(Int, timeend / dt)
 
     Q = init_ode_state(dg, FT(0))
@@ -230,7 +233,7 @@ function test_run(
                               """ gettime(odesolver) runtime energy
         end
     end
-    callbacks = (cbinfo, cbfilter)
+    callbacks = (cbinfo,)# cbfilter)
 
     if output_vtk
         # create vtk dir
@@ -305,7 +308,7 @@ function (setup::AcousticWaveSetup)(problem, bl, state, aux, localgeo, t)
     state.ρu = SVector{3, FT}(0, 0, 0)
     state.energy.ρe = state.ρ * (e_int + e_pot)
 
-    state.tracers.ρχ = @SVector [FT(ii) for ii in 1:ntracers]
+    #state.tracers.ρχ = @SVector [FT(ii) for ii in 1:ntracers]
     nothing
 end
 

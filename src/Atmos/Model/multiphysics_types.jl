@@ -25,6 +25,7 @@ subsidence_velocity(subsidence::Subsidence{FT}, z::FT) where {FT} =
 struct PressureGradient <: TendencyDef{Flux{FirstOrder}} end
 struct Pressure <: TendencyDef{Flux{FirstOrder}} end
 struct Advect <: TendencyDef{Flux{FirstOrder}} end
+struct GravityFluctuation <: TendencyDef{Flux{FirstOrder}} end
 struct Diffusion <: TendencyDef{Flux{SecondOrder}} end
 struct MoistureDiffusion <: TendencyDef{Flux{SecondOrder}} end
 

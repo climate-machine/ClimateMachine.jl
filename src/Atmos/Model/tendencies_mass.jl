@@ -7,6 +7,22 @@
 function flux(::Mass, ::Advect, atmos, args)
     return args.state.ρu
 end
+function two_point_flux(
+    ::AbstractKennedyGruberSplitForm,
+    ::Mass,
+    ::Advect,
+    atmos,
+    args,
+)
+    @unpack state1, state2 = args
+    ρ1 = state1.ρ
+    u1 = state1.ρu / ρ1
+    ρ2 = state2.ρ
+    u2 = state2.ρu / ρ2
+    ρ_ave = (ρ1 + ρ2) / 2
+    u_ave = (u1 + u2) / 2
+    return ρ_ave * u_ave
+end
 
 #####
 ##### Second order fluxes
