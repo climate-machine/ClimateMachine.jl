@@ -1,5 +1,14 @@
 ##### Sum wrapper
 
+"""
+    TENDENCIES_NANS_TRAP()
+
+Set `TENDENCIES_NANS_TRAP() = true`
+to throw errors if any tendencies are
+not finite.
+"""
+TENDENCIES_NANS_TRAP() = false
+
 export Σfluxes, Σsources
 
 """
@@ -42,11 +51,20 @@ function Σfluxes(
     bl,
     args,
 ) where {N, O, PV}
-    return ntuple_sum(
-        ntuple(Val(N)) do i
-            projection(pv, bl, fluxes[i], args, flux(pv, fluxes[i], bl, args))
-        end,
-    )
+    vals = ntuple(Val(N)) do i
+        projection(pv, bl, fluxes[i], args, flux(pv, fluxes[i], bl, args))
+    end
+    if TENDENCIES_NANS_TRAP()
+        if !all(isfinite.(vals))
+            nt = (; zip(fluxes, vals)...)
+            println("--------- Non-finite flux found!")
+            for (k, v) in nt
+                println("Flux: $(string(k)), value = $v")
+            end
+            error("Non-finite flux found, sorry :(")
+        end
+    end
+    return ntuple_sum(vals)
 end
 
 # Emptry scalar case:
@@ -90,17 +108,20 @@ function Σsources(
     bl,
     args,
 ) where {N, PV}
-    return ntuple_sum(
-        ntuple(Val(N)) do i
-            projection(
-                pv,
-                bl,
-                sources[i],
-                args,
-                source(pv, sources[i], bl, args),
-            )
-        end,
-    )
+    vals = ntuple(Val(N)) do i
+        projection(pv, bl, sources[i], args, source(pv, sources[i], bl, args))
+    end
+    if TENDENCIES_NANS_TRAP()
+        if !all(isfinite.(vals))
+            nt = (; zip(sources, vals)...)
+            println("--------- Non-finite source found!")
+            for (k, v) in nt
+                println("Source: $(string(k)), value = $v")
+            end
+            error("Non-finite source found, sorry :(")
+        end
+    end
+    return ntuple_sum(vals)
 end
 
 # Emptry scalar case:
