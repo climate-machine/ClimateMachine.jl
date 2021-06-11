@@ -19,7 +19,7 @@
 #       walls.
 #    Lateral boundaries
 #    - Laterally periodic
-# 3) Domain - 2500m (horizontal) x 2500m (horizontal) x 2500m (vertical)
+# 3) Domain - 10000m (horizontal) x 500m (horizontal) x 10000m (vertical)
 # 4) Resolution - 50m effective resolution
 # 5) Total simulation time - 1000s
 # 6) Mesh Aspect Ratio (Effective resolution) 1:1
