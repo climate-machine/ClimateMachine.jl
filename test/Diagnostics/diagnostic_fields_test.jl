@@ -136,7 +136,7 @@ function run_brick_diagostics_fields_test()
     npr = MPI.Comm_size(mpicomm)
     toler = Dict(Float64 => 1e-8, Float32 => 1e-4)
     # Working precision
-    for FT in (Float32, Float64)
+    for FT in (Float64,)#(Float32, Float64)
         # DG polynomial order
         N = (4, 5)
         # Domain resolution and size
@@ -180,6 +180,7 @@ function run_brick_diagostics_fields_test()
         grid = dg.grid
         vgeo = grid.vgeo
         Nel = size(Q.realdata, 3)
+        @show Nel
         Npl = size(Q.realdata, 1)
 
         ind = [

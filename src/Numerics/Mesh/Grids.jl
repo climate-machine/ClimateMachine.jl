@@ -7,12 +7,14 @@ using ClimateMachine.MPIStateArrays
 using MPI
 using LinearAlgebra
 using KernelAbstractions
+using StaticArrays
 using DocStringExtensions
 
-export DiscontinuousSpectralElementGrid, AbstractGrid
+export DiscontinuousSpectralElementGrid, QuadratureGrid, AbstractGrid
 export dofs_per_element, arraytype, dimensionality, polynomialorders
 export referencepoints, min_node_distance, get_z, computegeometry
 export EveryDirection, HorizontalDirection, VerticalDirection, Direction
+export tpxv!
 
 abstract type Direction end
 struct EveryDirection <: Direction end
@@ -40,6 +42,9 @@ abstract type AbstractGrid{
     numberofDOFs,
     DeviceArray,
 } end
+
+include("TensorProduct.jl")
+include("FastTensorProduct.jl")
 
 dofs_per_element(::AbstractGrid{T, D, N, Np}) where {T, D, N, Np} = Np
 
@@ -229,6 +234,9 @@ struct DiscontinuousSpectralElementGrid{
     "1-D derivative operator on the device (one for each dimension)"
     D::DAT2
 
+    "Transpose of 1-D derivative operator on the device (one for each dimension)"
+    Dᵀ::DAT2
+
     "1-D indefinite integral operator on the device (one for each dimension)"
     Imat::DAT2
 
@@ -263,6 +271,11 @@ struct DiscontinuousSpectralElementGrid{
     """
     facemap::Union{DAI3, Nothing}
 
+    "Temporary Storage on the spectral element mesh"
+    scratch::DAT3
+
+    "Temporary Storage for fast tensor product"
+    scratch_ftp::DAT3
     # Constructor for a tuple of polynomial orders
     function DiscontinuousSpectralElementGrid(
         topology::AbstractTopology{dim};
@@ -320,6 +333,7 @@ struct DiscontinuousSpectralElementGrid{
             dim,
         )
         D = ntuple(j -> Elements.spectralderivative(ξ[j]), dim)
+        Dᵀ = ntuple(j -> Array(transpose(D[j])), dim)
 
         (vgeo, sgeo, x_vtk) =
             computegeometry(topology.elemtocoord, D, ξ, ω, meshwarp)
@@ -343,6 +357,7 @@ struct DiscontinuousSpectralElementGrid{
         activedofs = DeviceArray(activedofs)
         ω = DeviceArray.(ω)
         D = DeviceArray.(D)
+        Dᵀ = DeviceArray.(Dᵀ)
         Imat = DeviceArray.(Imat)
 
         # FIXME: There has got to be a better way!
@@ -370,6 +385,20 @@ struct DiscontinuousSpectralElementGrid{
             min_node_distance(vgeo, topology, N, FT, VerticalDirection()),
         )
         MINΔ = typeof(minΔ)
+
+        scratch = DeviceArray(Array{FloatType}(
+            undef,
+            Np,
+            9,
+            length(topology.realelems),
+        ))
+
+        scratch_ftp = DeviceArray(Array{FloatType}(
+            undef,
+            Np,
+            3,
+            length(topology.realelems),
+        ))
 
         new{
             FloatType,
@@ -403,12 +432,15 @@ struct DiscontinuousSpectralElementGrid{
             activedofs,
             ω,
             D,
+            Dᵀ,
             Imat,
             x_vtk,
             minΔ,
             vertmap,
             edgemap,
             facemap,
+            scratch,
+            scratch_ftp,
         )
     end
 end
@@ -1208,7 +1240,6 @@ end
 
 using KernelAbstractions.Extras: @unroll
 
-using StaticArrays
 
 const _x1 = Grids._x1
 const _x2 = Grids._x2
@@ -1331,6 +1362,158 @@ neighbors.
     end
 
     min_neighbor_distance[ijk, e] = md
+end
+
+struct QuadratureGrid{T, dim, N, Np, DA, DAT1, DAT2, DAT3} <:
+       AbstractGrid{T, dim, N, Np, DA}
+
+    "volume metric terms"
+    vgeo::DAT3
+
+    "1-D lgl weights on the device (one for each dimension)"
+    ω::DAT1
+
+    "1-D basis function matrix on the device (one for each dimension)"
+    B::DAT2
+
+    "Transpose 1-D basis function matrix on the device (one for each dimension)"
+    Bᵀ::DAT2
+
+    "1-D derivative operator on the device (one for each dimension)"
+    D::DAT2
+
+    "Transpose of 1-D derivative operator on the device (one for each dimension)"
+    Dᵀ::DAT2
+
+    "Temporary Storage on spectral element mesh"
+    scratch::DAT3
+
+    "Temporary Storage for fast tensor product"
+    scratch_ftp::DAT3
+
+end
+
+function QuadratureGrid(
+    grd::DiscontinuousSpectralElementGrid{T, dim, N, Np, DA},
+    fac::T,
+) where {T, dim, N, Np, DA}
+    N_q = Int.(ceil.(N .* fac)) # quadrature degree
+    Np_q = prod(N_q .+ 1)       # # of quadrature points
+    # quadrature grid and weights
+    ξωq = ntuple(
+        j ->
+            N_q[j] == 0 ? Elements.glpoints(T, N_q[j]) :
+            Elements.lglpoints(T, N_q[j]),
+        dim,
+    )
+    ξq, ωq = ntuple(j -> map(x -> x[j], ξωq), 2)
+    # DG/CG p-grid and points
+    ξω = ntuple(
+        j ->
+            N[j] == 0 ? Elements.glpoints(T, N[j]) :
+            Elements.lglpoints(T, N[j]),
+        dim,
+    )
+    ξ, ω = ntuple(j -> map(x -> x[j], ξω), 2)
+    wb = Elements.baryweights.(ξ)
+
+    B = ntuple(j -> Elements.interpolationmatrix(ξ[j], ξq[j], wb[j]), dim)
+    Bᵀ = ntuple(j -> Array(transpose(B[j])), dim)
+    D = ntuple(j -> B[j] * grd.D[j], dim)
+    Dᵀ = ntuple(j -> Array(transpose(D[j])), dim)
+
+    ωq = DA.(ωq)
+    B = DA.(B)
+    Bᵀ = DA.(Bᵀ)
+    D = DA.(D)
+    Dᵀ = DA.(Dᵀ)
+    scratch = DA(Array{T}(undef, Np_q, 9, size(grd.scratch, 3)))
+    scratch_ftp = DA(Array{T}(undef, Np_q, 3, size(grd.scratch, 3)))
+    vgeo = DA(Array{T}(undef, Np_q, size(grd.vgeo, 2), size(grd.vgeo, 3)))
+
+    computegeometry_quadmesh!(grd.vgeo, vgeo, B, ωq, DA)
+
+    QuadratureGrid{T, dim, N, Np, DA, typeof(ωq), typeof(B), typeof(scratch)}(
+        vgeo,
+        ωq,
+        B,
+        Bᵀ,
+        D,
+        Dᵀ,
+        scratch,
+        scratch_ftp,
+    )
+end
+
+function computegeometry_quadmesh!(
+    vgeo::FTA3D,
+    vgeo_q::FTA3D,
+    B_q::Tuple{FTA2D, FTA2D, FTA2D},
+    ω_q::Tuple{FTA1D, FTA1D, FTA1D},
+    ::Type{DA},
+) where {
+    FT <: AbstractFloat,
+    FTA1D <: AbstractArray{FT, 1},
+    FTA2D <: AbstractArray{FT, 2},
+    FTA3D <: AbstractArray{FT, 3},
+    DA,
+}
+    si, sj, sk = size(B_q[1], 2), size(B_q[2], 2), size(B_q[3], 2)
+    sr, ss, st = size(B_q[1], 1), size(B_q[2], 1), size(B_q[3], 1)
+    dims = (si, sj, sk, sr, ss, st)
+    Nel = size(vgeo, 3)
+    max_threads = 256
+    for i in (
+        _ξ1x1,
+        _ξ2x1,
+        _ξ3x1,
+        _ξ1x2,
+        _ξ2x2,
+        _ξ3x2,
+        _ξ1x3,
+        _ξ2x3,
+        _ξ3x3,
+        _x1,
+        _x2,
+        _x3,
+    )
+        tpxv!(
+            view(vgeo, :, i, :),
+            nothing,
+            view(vgeo_q, :, i, :),
+            B_q[1],
+            B_q[2],
+            B_q[3],
+            Val(dims),
+            max_threads,
+        )
+    end
+    # computing wt * jac on over-integration grid
+    ξ1x1 = view(vgeo_q, :, _ξ1x1, :)
+    ξ2x1 = view(vgeo_q, :, _ξ2x1, :)
+    ξ3x1 = view(vgeo_q, :, _ξ3x1, :)
+    ξ1x2 = view(vgeo_q, :, _ξ1x2, :)
+    ξ2x2 = view(vgeo_q, :, _ξ2x2, :)
+    ξ3x2 = view(vgeo_q, :, _ξ3x2, :)
+    ξ1x3 = view(vgeo_q, :, _ξ1x3, :)
+    ξ2x3 = view(vgeo_q, :, _ξ2x3, :)
+    ξ3x3 = view(vgeo_q, :, _ξ3x3, :)
+    wjac = view(vgeo_q, :, _M, :)
+
+    wjac .=
+        FT(1) ./ (
+            ξ1x1 .* (ξ2x2 .* ξ3x3 .- ξ2x3 .* ξ3x2) .-
+            ξ1x2 .* (ξ2x1 .* ξ3x3 .- ξ2x3 .* ξ3x1) .+
+            ξ1x3 .* (ξ2x1 .* ξ3x2 .- ξ2x2 .* ξ3x1)
+        )
+
+    wq = DA(kron(1, reverse(Array.(ω_q))...))
+
+    for i in 1:Nel
+        wjac[:, i] .*= wq
+    end
+
+    return nothing
 end
 
 end # module

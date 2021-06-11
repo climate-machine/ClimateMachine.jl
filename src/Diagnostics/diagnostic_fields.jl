@@ -1,11 +1,12 @@
 using DocStringExtensions
 using KernelAbstractions
+using Adapt
 
 using ..Mesh.Geometry
 using ..VariableTemplates
 
 import ..Mesh.Grids:
-    _ξ1x1, _ξ2x1, _ξ3x1, _ξ1x2, _ξ2x2, _ξ3x2, _ξ1x3, _ξ2x3, _ξ3x3
+    _ξ1x1, _ξ2x1, _ξ3x1, _ξ1x2, _ξ2x2, _ξ3x2, _ξ1x3, _ξ2x3, _ξ3x3, tpxv!, ftpxv!
 import ..MPIStateArrays: array_device
 
 """
@@ -14,77 +15,55 @@ import ..MPIStateArrays: array_device
         FTA2D <: AbstractArray{FT, 2},
         FTA3D <: AbstractArray{FT, 3},
     }
-
 This data structure stores the spatial gradients of a velocity field.
-
 # Fields
-
 $(DocStringExtensions.FIELDS)
-
-# Usage
-
-    VectorGradients(data)
-
-# Arguments for the inner constructor
- - `data`: 3-dimensional device array containing the spatial gradients
-   (the second dimension must be 9)
 """
-struct VectorGradients{
-    FT <: AbstractFloat,
-    FTA2D <: AbstractArray{FT, 2},
-    FTA3D <: AbstractArray{FT, 3},
-}
-    "Device array storing the spatial gradient data"
-    data::FTA3D
-    "View of ∂u₁/∂x₁"
+struct VectorGradients{FT <: AbstractFloat, FTA2D <: AbstractArray{FT, 2}}
+    "∂u₁/∂x₁"
     ∂₁u₁::FTA2D
-    "View of ∂u₁/∂x₂"
+    "∂u₁/∂x₂"
     ∂₂u₁::FTA2D
-    "View of ∂u₁/∂x₃"
+    "∂u₁/∂x₃"
     ∂₃u₁::FTA2D
-    "View of ∂u₂/∂x₁"
+    "∂u₂/∂x₁"
     ∂₁u₂::FTA2D
-    "View of ∂u₂/∂x₂"
+    "∂u₂/∂x₂"
     ∂₂u₂::FTA2D
-    "View of ∂u₂/∂x₃"
+    "∂u₂/∂x₃"
     ∂₃u₂::FTA2D
-    "View of ∂u₃/∂x₁"
+    "∂u₃/∂x₁"
     ∂₁u₃::FTA2D
-    "View of ∂u₃/∂x₂"
+    "∂u₃/∂x₂"
     ∂₂u₃::FTA2D
-    "View of ∂u₃/∂x₃"
+    "∂u₃/∂x₃"
     ∂₃u₃::FTA2D
+end
+Adapt.@adapt_structure VectorGradients
 
-    function VectorGradients(
-        data::AbstractArray{FT, 3},
-    ) where {FT <: AbstractFloat}
-        ∂₁u₁, ∂₂u₁, ∂₃u₁ =
-            view(data, :, 1, :), view(data, :, 2, :), view(data, :, 3, :)
-        ∂₁u₂, ∂₂u₂, ∂₃u₂ =
-            view(data, :, 4, :), view(data, :, 5, :), view(data, :, 6, :)
-        ∂₁u₃, ∂₂u₃, ∂₃u₃ =
-            view(data, :, 7, :), view(data, :, 8, :), view(data, :, 9, :)
+function VectorGradients(
+    npts::Int,
+    nel::Int,
+    ::Type{FT},
+    ::Type{DA},
+) where {FT <: AbstractFloat, DA}
 
-        return new{FT, typeof(∂₁u₁), typeof(data)}(
-            data,
-            ∂₁u₁,
-            ∂₂u₁,
-            ∂₃u₁,
-            ∂₁u₂,
-            ∂₂u₂,
-            ∂₃u₂,
-            ∂₁u₃,
-            ∂₂u₃,
-            ∂₃u₃,
-        )
-    end
+    return VectorGradients{FT, DA{FT, 2}}(
+        DA{FT, 2}(undef, npts, nel),
+        DA{FT, 2}(undef, npts, nel),
+        DA{FT, 2}(undef, npts, nel),
+        DA{FT, 2}(undef, npts, nel),
+        DA{FT, 2}(undef, npts, nel),
+        DA{FT, 2}(undef, npts, nel),
+        DA{FT, 2}(undef, npts, nel),
+        DA{FT, 2}(undef, npts, nel),
+        DA{FT, 2}(undef, npts, nel),
+    )
 end
 
 """
     VectorGradients(dg::SpaceDiscretization, Q::MPIStateArray)
-
 This constructor computes the spatial gradients of the velocity field.
-
 # Arguments
  - `dg`: SpaceDiscretization
  - `Q`: MPIStateArray containing the prognostic state variables
@@ -95,208 +74,106 @@ function VectorGradients(dg::SpaceDiscretization, Q::MPIStateArray)
     Nq = polynomialorders(dg.grid) .+ 1 #N + 1
     Nqmax = maximum(Nq)
     npoints = prod(Nq)
-    nrealelem = length(dg.grid.topology.realelems)
+    realelems = dg.grid.topology.realelems
+    nrealelem = length(realelems)
 
-    g = similar(Q.realdata, npoints, nrealelem, 3, 3)
-    data = similar(Q.realdata, npoints, 9, nrealelem)
-
+    DA = (typeof(parent(Q.data)) <: Array) ? Array : CuArray
+    device = DA == Array ? CPU() : CUDADevice()
+    vgrad = VectorGradients(npoints, nrealelem, FT, DA)
     ind = varsindices(vars_state(bl, Prognostic(), FT), ("ρ", "ρu"))
     _ρ, _ρu, _ρv, _ρw = ind[1], ind[2], ind[3], ind[4]
-    device = array_device(Q)
-    comp_stream = Event(device)
-    workgroup = (Nqmax, Nqmax)
-    ndrange = (nrealelem * Nqmax, Nqmax)
-    comp_stream = vector_gradients_kernel!(device, workgroup)(
-        Q.realdata,
-        dg.grid.D,
-        dg.grid.vgeo,
-        g,
-        data,
-        _ρ,
-        _ρu,
-        _ρv,
-        _ρw,
-        Val(Nq),
-        Val(Nqmax),
-        ndrange = ndrange,
-        dependencies = (comp_stream,),
-    )
-    wait(comp_stream)
 
-    return VectorGradients(data)
+    ρ = view(Q.data, :, _ρ, realelems)
+    ρu = view(Q.data, :, _ρu, realelems)
+    ρv = view(Q.data, :, _ρv, realelems)
+    ρw = view(Q.data, :, _ρw, realelems)
+
+    ξ1x1 = view(dg.grid.vgeo, :, _ξ1x1, :)
+    ξ1x2 = view(dg.grid.vgeo, :, _ξ1x2, :)
+    ξ1x3 = view(dg.grid.vgeo, :, _ξ1x3, :)
+    ξ2x1 = view(dg.grid.vgeo, :, _ξ2x1, :)
+    ξ2x2 = view(dg.grid.vgeo, :, _ξ2x2, :)
+    ξ2x3 = view(dg.grid.vgeo, :, _ξ2x3, :)
+    ξ3x1 = view(dg.grid.vgeo, :, _ξ3x1, :)
+    ξ3x2 = view(dg.grid.vgeo, :, _ξ3x2, :)
+    ξ3x3 = view(dg.grid.vgeo, :, _ξ3x3, :)
+
+    ∂f1∂ξ₁ = view(dg.grid.scratch, :, 1, :)
+    ∂f1∂ξ₂ = view(dg.grid.scratch, :, 2, :)
+    ∂f1∂ξ₃ = view(dg.grid.scratch, :, 3, :)
+
+    ∂f2∂ξ₁ = view(dg.grid.scratch, :, 4, :)
+    ∂f2∂ξ₂ = view(dg.grid.scratch, :, 5, :)
+    ∂f2∂ξ₃ = view(dg.grid.scratch, :, 6, :)
+
+    ∂f3∂ξ₁ = view(dg.grid.scratch, :, 7, :)
+    ∂f3∂ξ₂ = view(dg.grid.scratch, :, 8, :)
+    ∂f3∂ξ₃ = view(dg.grid.scratch, :, 9, :)
+
+    @show "timing tpxv! kernels"
+    for i in 1:10
+        @time begin
+            tpxv!(dg.grid, :∂ξ₁, false, ρu, ∂f1∂ξ₁, vin_den = ρ) # ∂u₁/∂ξ₁
+            tpxv!(dg.grid, :∂ξ₂, false, ρu, ∂f1∂ξ₂, vin_den = ρ) # ∂u₁/∂ξ₂
+            tpxv!(dg.grid, :∂ξ₃, false, ρu, ∂f1∂ξ₃, vin_den = ρ) # ∂u₁/∂ξ₃
+        end
+        println("-------------")
+    end
+    vgrad.∂₁u₁ .= ∂f1∂ξ₁ .* ξ1x1 .+ ∂f1∂ξ₂ .* ξ2x1 .+ ∂f1∂ξ₃ .* ξ3x1 # ∂u₁/∂x₁
+    vgrad.∂₂u₁ .= ∂f1∂ξ₁ .* ξ1x2 .+ ∂f1∂ξ₂ .* ξ2x2 .+ ∂f1∂ξ₃ .* ξ3x2 # ∂u₁/∂x₂
+    vgrad.∂₃u₁ .= ∂f1∂ξ₁ .* ξ1x3 .+ ∂f1∂ξ₂ .* ξ2x3 .+ ∂f1∂ξ₃ .* ξ3x3 # ∂u₁/∂x₃
+
+    tpxv!(dg.grid, :∂ξ₁, false, ρv, ∂f2∂ξ₁, vin_den = ρ) # ∂u₂/∂ξ₁
+    tpxv!(dg.grid, :∂ξ₂, false, ρv, ∂f2∂ξ₂, vin_den = ρ) # ∂u₂/∂ξ₂
+    tpxv!(dg.grid, :∂ξ₃, false, ρv, ∂f2∂ξ₃, vin_den = ρ) # ∂u₂/∂ξ₃
+
+    vgrad.∂₁u₂ .= ∂f2∂ξ₁ .* ξ1x1 .+ ∂f2∂ξ₂ .* ξ2x1 .+ ∂f2∂ξ₃ .* ξ3x1 # ∂u₂/∂x₁
+    vgrad.∂₂u₂ .= ∂f2∂ξ₁ .* ξ1x2 .+ ∂f2∂ξ₂ .* ξ2x2 .+ ∂f2∂ξ₃ .* ξ3x2 # ∂u₂/∂x₂
+    vgrad.∂₃u₂ .= ∂f2∂ξ₁ .* ξ1x3 .+ ∂f2∂ξ₂ .* ξ2x3 .+ ∂f2∂ξ₃ .* ξ3x3 # ∂u₂/∂x₃
+
+    tpxv!(dg.grid, :∂ξ₁, false, ρw, ∂f3∂ξ₁, vin_den = ρ) # ∂u₃/∂ξ₁
+    tpxv!(dg.grid, :∂ξ₂, false, ρw, ∂f3∂ξ₂, vin_den = ρ) # ∂u₃/∂ξ₂
+    tpxv!(dg.grid, :∂ξ₃, false, ρw, ∂f3∂ξ₃, vin_den = ρ) # ∂u₃/∂ξ₃
+
+    vgrad.∂₁u₃ .= ∂f3∂ξ₁ .* ξ1x1 .+ ∂f3∂ξ₂ .* ξ2x1 .+ ∂f3∂ξ₃ .* ξ3x1 # ∂u₃/∂x₁
+    vgrad.∂₂u₃ .= ∂f3∂ξ₁ .* ξ1x2 .+ ∂f3∂ξ₂ .* ξ2x2 .+ ∂f3∂ξ₃ .* ξ3x2 # ∂u₃/∂x₂
+    vgrad.∂₃u₃ .= ∂f3∂ξ₁ .* ξ1x3 .+ ∂f3∂ξ₂ .* ξ2x3 .+ ∂f3∂ξ₃ .* ξ3x3 # ∂u₃/∂x₃
+    #        end
+    #    end
+
+    @show "timing ftpxv! kernels"
+    for i in 1:10
+        @time begin
+            ftpxv!(dg.grid, :∂ξ₁, false, ρu, ∂f1∂ξ₁, vin_den = ρ) # ∂u₁/∂ξ₁
+            ftpxv!(dg.grid, :∂ξ₂, false, ρu, ∂f1∂ξ₂, vin_den = ρ) # ∂u₁/∂ξ₂
+            ftpxv!(dg.grid, :∂ξ₃, false, ρu, ∂f1∂ξ₃, vin_den = ρ) # ∂u₁/∂ξ₃
+        end
+        println("-------------")
+    end
+    vgrad.∂₁u₁ .= ∂f1∂ξ₁ .* ξ1x1 .+ ∂f1∂ξ₂ .* ξ2x1 .+ ∂f1∂ξ₃ .* ξ3x1 # ∂u₁/∂x₁
+    vgrad.∂₂u₁ .= ∂f1∂ξ₁ .* ξ1x2 .+ ∂f1∂ξ₂ .* ξ2x2 .+ ∂f1∂ξ₃ .* ξ3x2 # ∂u₁/∂x₂
+    vgrad.∂₃u₁ .= ∂f1∂ξ₁ .* ξ1x3 .+ ∂f1∂ξ₂ .* ξ2x3 .+ ∂f1∂ξ₃ .* ξ3x3 # ∂u₁/∂x₃
+
+    ftpxv!(dg.grid, :∂ξ₁, false, ρv, ∂f2∂ξ₁, vin_den = ρ) # ∂u₂/∂ξ₁
+    ftpxv!(dg.grid, :∂ξ₂, false, ρv, ∂f2∂ξ₂, vin_den = ρ) # ∂u₂/∂ξ₂
+    ftpxv!(dg.grid, :∂ξ₃, false, ρv, ∂f2∂ξ₃, vin_den = ρ) # ∂u₂/∂ξ₃
+
+    vgrad.∂₁u₂ .= ∂f2∂ξ₁ .* ξ1x1 .+ ∂f2∂ξ₂ .* ξ2x1 .+ ∂f2∂ξ₃ .* ξ3x1 # ∂u₂/∂x₁
+    vgrad.∂₂u₂ .= ∂f2∂ξ₁ .* ξ1x2 .+ ∂f2∂ξ₂ .* ξ2x2 .+ ∂f2∂ξ₃ .* ξ3x2 # ∂u₂/∂x₂
+    vgrad.∂₃u₂ .= ∂f2∂ξ₁ .* ξ1x3 .+ ∂f2∂ξ₂ .* ξ2x3 .+ ∂f2∂ξ₃ .* ξ3x3 # ∂u₂/∂x₃
+
+    ftpxv!(dg.grid, :∂ξ₁, false, ρw, ∂f3∂ξ₁, vin_den = ρ) # ∂u₃/∂ξ₁
+    ftpxv!(dg.grid, :∂ξ₂, false, ρw, ∂f3∂ξ₂, vin_den = ρ) # ∂u₃/∂ξ₂
+    ftpxv!(dg.grid, :∂ξ₃, false, ρw, ∂f3∂ξ₃, vin_den = ρ) # ∂u₃/∂ξ₃
+
+    vgrad.∂₁u₃ .= ∂f3∂ξ₁ .* ξ1x1 .+ ∂f3∂ξ₂ .* ξ2x1 .+ ∂f3∂ξ₃ .* ξ3x1 # ∂u₃/∂x₁
+    vgrad.∂₂u₃ .= ∂f3∂ξ₁ .* ξ1x2 .+ ∂f3∂ξ₂ .* ξ2x2 .+ ∂f3∂ξ₃ .* ξ3x2 # ∂u₃/∂x₂
+    vgrad.∂₃u₃ .= ∂f3∂ξ₁ .* ξ1x3 .+ ∂f3∂ξ₂ .* ξ2x3 .+ ∂f3∂ξ₃ .* ξ3x3 # ∂u₃/∂x₃
+    #        end
+    #    end
+
+    return vgrad
 end
-
-@kernel function vector_gradients_kernel!(
-    sv::AbstractArray{FT},
-    D::Tuple{AbstractArray{FT, 2}, AbstractArray{FT, 2}, AbstractArray{FT, 2}},
-    vgeo::AbstractArray{FT},
-    g::AbstractArray{FT, 4},
-    vgrad_data::AbstractArray{FT, 3},
-    _ρ::Int,
-    _ρu::Int,
-    _ρv::Int,
-    _ρw::Int,
-    ::Val{qm},
-    ::Val{qmax},
-) where {qm, qmax, FT <: AbstractFloat}
-
-    e = @index(Group, Linear)
-    i, j = @index(Local, NTuple)
-
-    s_D = @localmem FT (qmax, qmax)
-    s_U = @localmem FT (qmax, qmax)
-    s_V = @localmem FT (qmax, qmax)
-    s_W = @localmem FT (qmax, qmax)
-
-    # computing derivatives with respect to ξ1
-    if i ≤ qm[1] && j ≤ qm[1]
-        s_D[i, j] = D[1][i, j]
-    end
-    @synchronize
-
-    for t in 1:qm[3], s in 1:qm[2]
-        if i ≤ qm[1] && j ≤ qm[1]
-            ijk = j + ((s - 1) + (t - 1) * qm[2]) * qm[1]
-            s_U[i, j] = s_D[i, j] * (sv[ijk, _ρu, e] / sv[ijk, _ρ, e])
-            s_V[i, j] = s_D[i, j] * (sv[ijk, _ρv, e] / sv[ijk, _ρ, e])
-            s_W[i, j] = s_D[i, j] * (sv[ijk, _ρw, e] / sv[ijk, _ρ, e])
-        end
-        @synchronize
-        if j == 1
-            for r in 2:qm[1]
-                s_U[i, 1] += s_U[i, r]
-                s_V[i, 1] += s_V[i, r]
-                s_W[i, 1] += s_W[i, r]
-            end
-        end
-        @synchronize
-        if j == 1 && i ≤ qm[1]
-            g[i + ((s - 1) + (t - 1) * qm[2]) * qm[1], e, 1, 1] = s_U[i, 1] # ∂u₁∂ξ₁
-            g[i + ((s - 1) + (t - 1) * qm[2]) * qm[1], e, 2, 1] = s_V[i, 1] # ∂u₂∂ξ₁
-            g[i + ((s - 1) + (t - 1) * qm[2]) * qm[1], e, 3, 1] = s_W[i, 1] # ∂u₃∂ξ₁
-        end
-    end
-    @synchronize
-    # computing derivatives with respect to ξ2
-    if i ≤ qm[2] && j ≤ qm[2]
-        s_D[i, j] = D[2][i, j]
-    end
-    @synchronize
-
-    for t in 1:qm[3], r in 1:qm[1]
-        if i ≤ qm[2] && j ≤ qm[2]
-            ijk = r + ((j - 1) + (t - 1) * qm[2]) * qm[1]
-            s_U[i, j] = s_D[i, j] * (sv[ijk, _ρu, e] / sv[ijk, _ρ, e])
-            s_V[i, j] = s_D[i, j] * (sv[ijk, _ρv, e] / sv[ijk, _ρ, e])
-            s_W[i, j] = s_D[i, j] * (sv[ijk, _ρw, e] / sv[ijk, _ρ, e])
-        end
-        @synchronize
-        if j == 1
-            for s in 2:qm[2]
-                s_U[i, 1] += s_U[i, s]
-                s_V[i, 1] += s_V[i, s]
-                s_W[i, 1] += s_W[i, s]
-            end
-        end
-        @synchronize
-        if j == 1 && i ≤ qm[2]
-            g[r + ((i - 1) + (t - 1) * qm[2]) * qm[1], e, 1, 2] = s_U[i, 1] # ∂u₁∂ξ₂
-            g[r + ((i - 1) + (t - 1) * qm[2]) * qm[1], e, 2, 2] = s_V[i, 1] # ∂u₂∂ξ₂
-            g[r + ((i - 1) + (t - 1) * qm[2]) * qm[1], e, 3, 2] = s_W[i, 1] # ∂u₃∂ξ₂
-        end
-    end
-    @synchronize
-    # computing derivatives with respect to ξ3
-    if i ≤ qm[3] && j ≤ qm[3]
-        s_D[i, j] = D[3][i, j]
-    end
-    @synchronize
-
-
-    for s in 1:qm[2], r in 1:qm[1]
-        if i ≤ qm[3] && j ≤ qm[3]
-            ijk = r + ((s - 1) + (j - 1) * qm[2]) * qm[1]
-            s_U[i, j] = s_D[i, j] * (sv[ijk, _ρu, e] / sv[ijk, _ρ, e])
-            s_V[i, j] = s_D[i, j] * (sv[ijk, _ρv, e] / sv[ijk, _ρ, e])
-            s_W[i, j] = s_D[i, j] * (sv[ijk, _ρw, e] / sv[ijk, _ρ, e])
-        end
-        @synchronize
-        if j == 1
-            for t in 2:qm[3]
-                s_U[i, 1] += s_U[i, t]
-                s_V[i, 1] += s_V[i, t]
-                s_W[i, 1] += s_W[i, t]
-            end
-        end
-        @synchronize
-        if j == 1 && i ≤ qm[3]
-            g[r + ((s - 1) + (i - 1) * qm[2]) * qm[1], e, 1, 3] = s_U[i, 1] # ∂u₁∂ξ₃
-            g[r + ((s - 1) + (i - 1) * qm[2]) * qm[1], e, 2, 3] = s_V[i, 1] # ∂u₂∂ξ₃
-            g[r + ((s - 1) + (i - 1) * qm[2]) * qm[1], e, 3, 3] = s_W[i, 1] # ∂u₃∂ξ₃
-        end
-    end
-    @synchronize
-
-    ∂₁u₁, ∂₂u₁, ∂₃u₁ = 1, 2, 3
-    ∂₁u₂, ∂₂u₂, ∂₃u₂ = 4, 5, 6
-    ∂₁u₃, ∂₂u₃, ∂₃u₃ = 7, 8, 9
-
-    if i ≤ qm[1] && j ≤ qm[2]
-        for k in 1:qm[3]
-            ijk = i + ((j - 1) + (k - 1) * qm[2]) * qm[1]
-
-            ξ1x1 = vgeo[ijk, _ξ1x1, e]
-            ξ1x2 = vgeo[ijk, _ξ1x2, e]
-            ξ1x3 = vgeo[ijk, _ξ1x3, e]
-            ξ2x1 = vgeo[ijk, _ξ2x1, e]
-            ξ2x2 = vgeo[ijk, _ξ2x2, e]
-            ξ2x3 = vgeo[ijk, _ξ2x3, e]
-            ξ3x1 = vgeo[ijk, _ξ3x1, e]
-            ξ3x2 = vgeo[ijk, _ξ3x2, e]
-            ξ3x3 = vgeo[ijk, _ξ3x3, e]
-
-            vgrad_data[ijk, ∂₁u₁, e] =
-                g[ijk, e, 1, 1] * ξ1x1 +
-                g[ijk, e, 1, 2] * ξ2x1 +
-                g[ijk, e, 1, 3] * ξ3x1
-            vgrad_data[ijk, ∂₂u₁, e] =
-                g[ijk, e, 1, 1] * ξ1x2 +
-                g[ijk, e, 1, 2] * ξ2x2 +
-                g[ijk, e, 1, 3] * ξ3x2
-            vgrad_data[ijk, ∂₃u₁, e] =
-                g[ijk, e, 1, 1] * ξ1x3 +
-                g[ijk, e, 1, 2] * ξ2x3 +
-                g[ijk, e, 1, 3] * ξ3x3
-
-            vgrad_data[ijk, ∂₁u₂, e] =
-                g[ijk, e, 2, 1] * ξ1x1 +
-                g[ijk, e, 2, 2] * ξ2x1 +
-                g[ijk, e, 2, 3] * ξ3x1
-            vgrad_data[ijk, ∂₂u₂, e] =
-                g[ijk, e, 2, 1] * ξ1x2 +
-                g[ijk, e, 2, 2] * ξ2x2 +
-                g[ijk, e, 2, 3] * ξ3x2
-            vgrad_data[ijk, ∂₃u₂, e] =
-                g[ijk, e, 2, 1] * ξ1x3 +
-                g[ijk, e, 2, 2] * ξ2x3 +
-                g[ijk, e, 2, 3] * ξ3x3
-
-            vgrad_data[ijk, ∂₁u₃, e] =
-                g[ijk, e, 3, 1] * ξ1x1 +
-                g[ijk, e, 3, 2] * ξ2x1 +
-                g[ijk, e, 3, 3] * ξ3x1
-            vgrad_data[ijk, ∂₂u₃, e] =
-                g[ijk, e, 3, 1] * ξ1x2 +
-                g[ijk, e, 3, 2] * ξ2x2 +
-                g[ijk, e, 3, 3] * ξ3x2
-            vgrad_data[ijk, ∂₃u₃, e] =
-                g[ijk, e, 3, 1] * ξ1x3 +
-                g[ijk, e, 3, 2] * ξ2x3 +
-                g[ijk, e, 3, 3] * ξ3x3
-        end
-    end
-end
-
 #--------------------------------------------------------------------------------------------------
 
 """
@@ -305,40 +182,31 @@ end
         FTA2D <: AbstractArray{FT, 2},
         FTA3D <: AbstractArray{FT, 3},
     }
-
 This data structure stores the vorticity of a velocity field.
-
 # Fields
-
 $(DocStringExtensions.FIELDS)
-
-# Usage
-
-    Vorticity(data)
-
-# Arguments for the inner constructor
- - `data`: 3-dimensional device array containing the vorticity data
-   (the second dimension must be 3)
 """
-struct Vorticity{
-    FT <: AbstractFloat,
-    FTA2D <: AbstractArray{FT, 2},
-    FTA3D <: AbstractArray{FT, 3},
-}
-    "Device array storing the vorticity data"
-    data::FTA3D
-    "View of x1 component of vorticity"
+struct Vorticity{FT <: AbstractFloat, FTA2D <: AbstractArray{FT, 2}}
+    "x1 component of vorticity"
     Ω₁::FTA2D
-    "View of x2 component of vorticity"
+    "x2 component of vorticity"
     Ω₂::FTA2D
-    "View of x3 component of vorticity"
+    "x3 component of vorticity"
     Ω₃::FTA2D
-    function Vorticity(data::AbstractArray{FT, 3}) where {FT <: AbstractFloat}
-        Ω₁ = view(data, :, 1, :)
-        Ω₂ = view(data, :, 2, :)
-        Ω₃ = view(data, :, 3, :)
-        return new{FT, typeof(Ω₁), typeof(data)}(data, Ω₁, Ω₂, Ω₃)
-    end
+end
+Adapt.@adapt_structure Vorticity
+
+function Vorticity(
+    npoints::Int,
+    nel::Int,
+    ::Type{FT},
+    ::Type{DA},
+) where {FT <: AbstractFloat, DA}
+    return Vorticity{FT, DA{FT, 2}}(
+        DA{FT, 2}(undef, npoints, nel),
+        DA{FT, 2}(undef, npoints, nel),
+        DA{FT, 2}(undef, npoints, nel),
+    )
 end
 
 """
@@ -346,9 +214,7 @@ end
         dg::SpaceDiscretization,
         vgrad::VectorGradients,
     )
-
 This function computes the vorticity of the velocity field.
-
 # Arguments
  - `dg`: SpaceDiscretization
  - `vgrad`: vector gradients
@@ -356,41 +222,17 @@ This function computes the vorticity of the velocity field.
 function Vorticity(dg::SpaceDiscretization, vgrad::VectorGradients)
     bl = dg.balance_law
     FT = eltype(dg.grid)
+    DA = (typeof(vgrad.∂₁u₁) <: Array) ? Array : CuArray
     npoints = prod(polynomialorders(dg.grid) .+ 1)
     nrealelem = length(dg.grid.topology.realelems)
 
-    data = similar(vgrad.data, npoints, 3, nrealelem)
+    vort = Vorticity(npoints, nrealelem, FT, DA)
 
-    device = array_device(data)
-    comp_stream = Event(device)
-    thr_max = 256
-    thr_x = min(thr_max, npoints)
-    workgroup = (thr_x, 1)
-    ndrange = (npoints, nrealelem)
-
-    comp_stream = vorticity_kernel!(device, workgroup)(
-        vgrad.data,
-        data,
-        ndrange = ndrange,
-        dependencies = (comp_stream,),
-    )
-    wait(comp_stream)
-
-    return Vorticity(data)
-end
-
-@kernel function vorticity_kernel!(
-    vgrad_data::AbstractArray{FT, 3},
-    vort_data::AbstractArray{FT, 3},
-) where {FT <: AbstractFloat}
-    ijk, e = @index(Global, NTuple)
-
-    ∂₁u₁, ∂₂u₁, ∂₃u₁ = 1, 2, 3
-    ∂₁u₂, ∂₂u₂, ∂₃u₂ = 4, 5, 6
-    ∂₁u₃, ∂₂u₃, ∂₃u₃ = 7, 8, 9
     Ω₁, Ω₂, Ω₃ = 1, 2, 3
 
-    vort_data[ijk, Ω₁, e] = vgrad_data[ijk, ∂₂u₃, e] - vgrad_data[ijk, ∂₃u₂, e]
-    vort_data[ijk, Ω₂, e] = vgrad_data[ijk, ∂₃u₁, e] - vgrad_data[ijk, ∂₁u₃, e]
-    vort_data[ijk, Ω₃, e] = vgrad_data[ijk, ∂₁u₂, e] - vgrad_data[ijk, ∂₂u₁, e]
+    vort.Ω₁ .= vgrad.∂₂u₃ .- vgrad.∂₃u₂
+    vort.Ω₂ .= vgrad.∂₃u₁ .- vgrad.∂₁u₃
+    vort.Ω₃ .= vgrad.∂₁u₂ .- vgrad.∂₂u₁
+
+    return vort
 end
