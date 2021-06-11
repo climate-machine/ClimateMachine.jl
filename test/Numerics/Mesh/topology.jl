@@ -152,6 +152,58 @@ end
     end
 end
 
+@testset "Conformal cubed_sphere_warp tests" begin
+    import ClimateMachine.Mesh.Topologies: conformal_cubed_sphere_warp
+
+    # Create function alias for shorter formatting
+    ccsw = conformal_cubed_sphere_warp
+
+    @testset "check radius" begin
+        @test hypot(ccsw(3.0, -2.2, 1.3)...) ≈ 3.0 rtol = eps()
+        @test hypot(ccsw(-3.0, -2.2, 1.3)...) ≈ 3.0 rtol = eps()
+        @test hypot(ccsw(1.1, -2.2, 3.0)...) ≈ 3.0 rtol = eps()
+        @test hypot(ccsw(1.1, -2.2, -3.0)...) ≈ 3.0 rtol = eps()
+        @test hypot(ccsw(1.1, 3.0, 0.0)...) ≈ 3.0 rtol = eps()
+        @test hypot(ccsw(1.1, -3.0, 0.0)...) ≈ 3.0 rtol = eps()
+    end
+
+    @testset "check sign" begin
+        @test sign.(ccsw(3.0, -2.2, 1.3)) == sign.((3.0, -2.2, 1.3))
+        @test sign.(ccsw(-3.0, -2.2, 1.3)) == sign.((-3.0, -2.2, 1.3))
+        @test sign.(ccsw(1.1, -2.2, 3.0)) == sign.((1.1, -2.2, 3.0))
+        @test sign.(ccsw(1.1, -2.2, -3.0)) == sign.((1.1, -2.2, -3.0))
+        @test sign.(ccsw(1.1, 3.0, -2.2)) == sign.((1.1, 3.0, -2.2))
+        @test sign.(ccsw(1.1, -3.0, -2.2)) == sign.((1.1, -3.0, -2.2))
+    end
+
+    @testset "check continuity" begin
+        for (u, v) in zip(
+            permutations([3.0, 2.999999999, 1.3]),
+            permutations([2.999999999, 3.0, 1.3]),
+        )
+            @test all(ccsw(u...) .≈ ccsw(v...))
+        end
+        for (u, v) in zip(
+            permutations([3.0, -2.999999999, 1.3]),
+            permutations([2.999999999, -3.0, 1.3]),
+        )
+            @test all(ccsw(u...) .≈ ccsw(v...))
+        end
+        for (u, v) in zip(
+            permutations([-3.0, 2.999999999, 1.3]),
+            permutations([-2.999999999, 3.0, 1.3]),
+        )
+            @test all(ccsw(u...) .≈ ccsw(v...))
+        end
+        for (u, v) in zip(
+            permutations([-3.0, -2.999999999, 1.3]),
+            permutations([-2.999999999, -3.0, 1.3]),
+        )
+            @test all(ccsw(u...) .≈ ccsw(v...))
+        end
+    end
+end
+
 @testset "grid1d" begin
     g = grid1d(0, 10, nelem = 10)
     @test eltype(g) == Float64
