@@ -37,6 +37,8 @@ include("show_tendencies.jl")
 include("sum_tendencies.jl")
 include("prog_prim_conversion.jl")
 include("vars_wrappers.jl")
+include("bc_types.jl")
+include("show_bcs.jl")
 include("kernels.jl")
 
 end

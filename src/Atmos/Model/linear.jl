@@ -186,6 +186,15 @@ function boundary_state!(
 
     args = (; aux⁺, state⁻, aux⁻, t, n, state_int⁻, aux_int⁻)
 
+    set_boundary_values!(
+        state⁺,
+        atmoslm.atmos,
+        nf,
+        bc,
+        args,
+        prognostic_vars(atmoslm),
+    )
+
     atmos_boundary_state!(nf, bc, atmoslm, state⁺, args)
 end
 function boundary_state!(
