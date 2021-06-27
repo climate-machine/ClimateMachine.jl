@@ -585,12 +585,21 @@ function LinearAlgebra.norm(
     p::Real = 2,
     weighted::Bool = true;
     dims = :,
+    realdata = Q.realdata,
 )
     if weighted && ~isempty(Q.weights) && isfinite(p)
         W = @view Q.weights[:, :, Q.realelems]
-        locnorm = weighted_norm_impl(Q.realdata, W, Val(p), dims)
+
+        # Check that the arrays are the right dimensionality
+        @assert ndims(realdata) == 3
+
+        # Check that these are broadcastable
+        @assert size(realdata, 1) == size(W, 1)
+        @assert size(realdata, 3) == size(W, 3)
+
+        locnorm = weighted_norm_impl(realdata, W, Val(p), dims)
     else
-        locnorm = norm_impl(Q.realdata, Val(p), dims)
+        locnorm = norm_impl(realdata, Val(p), dims)
     end
 
     mpiop = isfinite(p) ? (+) : max
@@ -602,8 +611,12 @@ function LinearAlgebra.norm(
     @toc mpi_norm
     isfinite(p) ? r .^ (1 // p) : r
 end
-LinearAlgebra.norm(Q::MPIStateArray, weighted::Bool; dims = :) =
-    norm(Q, 2, weighted; dims = dims)
+LinearAlgebra.norm(
+    Q::MPIStateArray,
+    weighted::Bool;
+    dims = :,
+    realdata = Q.realdata,
+) = norm(Q, 2, weighted; dims = dims, realdata = realdata)
 
 function LinearAlgebra.dot(
     Q1::MPIStateArray,
@@ -625,10 +638,24 @@ function LinearAlgebra.dot(
     return r
 end
 
-function euclidean_distance(A::MPIStateArray, B::MPIStateArray)
+function euclidean_distance(
+    A::MPIStateArray,
+    B::MPIStateArray;
+    ArealQ = A.realdata,
+    BrealQ = B.realdata,
+)
+    # Check the the arrays are the right dimensionality
+    @assert ndims(ArealQ) == 3
+    @assert ndims(BrealQ) == 3
+
+    # Check that these are broadcastable
+    @assert size(ArealQ, 1) == size(BrealQ, 1)
+    @assert size(ArealQ, 3) == size(BrealQ, 3)
+    @assert size(ArealQ, 2) == 1 ||
+            size(BrealQ, 2) == 1 ||
+            size(ArealQ, 2) == size(BrealQ, 2)
+
     # work around https://github.com/JuliaArrays/LazyArrays.jl/issues/66
-    ArealQ = A.realdata
-    BrealQ = B.realdata
     E = @~ (ArealQ .- BrealQ) .^ 2
 
     if ~isempty(A.weights)

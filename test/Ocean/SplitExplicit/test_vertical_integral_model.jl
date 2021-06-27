@@ -15,6 +15,7 @@ using ClimateMachine.Ocean.OceanProblems
 using ClimateMachine.Mesh.Topologies
 using ClimateMachine.Mesh.Grids
 using ClimateMachine.BalanceLaws
+using ClimateMachine.BalanceLaws: number_state_auxiliary
 using ClimateMachine.DGMethods
 using ClimateMachine.DGMethods.NumericalFluxes
 using ClimateMachine.MPIStateArrays
