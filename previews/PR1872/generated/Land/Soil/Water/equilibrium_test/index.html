@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Richards Equation · ClimateMachine</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../../../assets/documenter.js"></script><script src="../../../../../siteinfo.js"></script><script src="../../../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../../../../"><img src="../../../../../assets/logo.svg" alt="ClimateMachine logo"/></a><div class="docs-package-name"><span class="docs-autofit">ClimateMachine</span></div><form class="docs-search" action="../../../../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../../../../">Home</a></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">Getting started</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../GettingStarted/Installation/">Installation</a></li><li><a class="tocitem" href="../../../../../GettingStarted/Terminology/">Terminology</a></li><li><a class="tocitem" href="../../../../../GettingStarted/RunningClimateMachine/">Running</a></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox"/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Defaults</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../GettingStarted/Atmos/">Atmosphere model configurations</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Tutorials</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../TutorialList/">Home</a></li><li><a class="tocitem" href="../../../../how_to_make_a_balance_law/">Balance Law</a></li><li><input class="collapse-toggle" id="menuitem-3-3" type="checkbox"/><label class="tocitem" for="menuitem-3-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Atmos/heldsuarez/">Dry Idealized GCM (Held-Suarez)</a></li><li><a class="tocitem" href="../../../../Atmos/burgers_single_stack/">Single Element Stack Experiment (Burgers Equation)</a></li><li><a class="tocitem" href="../../../../Atmos/densitycurrent/">LES Experiment (Density Current)</a></li><li><a class="tocitem" href="../../../../Atmos/risingbubble/">LES Experiment (Rising Thermal Bubble)</a></li><li><a class="tocitem" href="../../../../Atmos/agnesi_hs_lin/">Linear Hydrostatic Mountain (Topography)</a></li><li><a class="tocitem" href="../../../../Atmos/agnesi_nh_lin/">Linear Non-Hydrostatic Mountain (Topography)</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-4" type="checkbox" checked/><label class="tocitem" for="menuitem-3-4"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-4-1" type="checkbox"/><label class="tocitem" for="menuitem-3-4-1"><span class="docs-label">Heat</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Heat/heat_equation/">Heat Equation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-4-2" type="checkbox" checked/><label class="tocitem" for="menuitem-3-4-2"><span class="docs-label">Soil</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../hydraulic_functions/">Hydraulic Functions</a></li><li><a class="tocitem" href="../../Heat/bonan_heat_tutorial/">Soil Heat Equation</a></li><li class="is-active"><a class="tocitem" href>Richards Equation</a><ul class="internal"><li class="toplevel"><a class="tocitem" href="#Preliminary-setup"><span>Preliminary setup</span></a></li><li class="toplevel"><a class="tocitem" href="#Set-up-the-soil-model"><span>Set up the soil model</span></a></li><li class="toplevel"><a class="tocitem" href="#Specify-the-numerical-configuration-and-output-data."><span>Specify the numerical configuration and output data.</span></a></li><li class="toplevel"><a class="tocitem" href="#Run-the-integration"><span>Run the integration</span></a></li><li class="toplevel"><a class="tocitem" href="#Create-some-plots"><span>Create some plots</span></a></li><li class="toplevel"><a class="tocitem" href="#References"><span>References</span></a></li></ul></li><li><a class="tocitem" href="../../Coupled/equilibrium_test/">Coupled Water and Heat</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-5" type="checkbox"/><label class="tocitem" for="menuitem-3-5"><span class="docs-label">Ocean</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Ocean/geostrophic_adjustment/">One-dimensional geostrophic adjustment</a></li><li><a class="tocitem" href="../../../../Ocean/internal_wave/">Propagating mode-1 internal wave</a></li><li><a class="tocitem" href="../../../../Ocean/shear_instability/">Shear instability</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6" type="checkbox"/><label class="tocitem" for="menuitem-3-6"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-6-1" type="checkbox"/><label class="tocitem" for="menuitem-3-6-1"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Numerics/SystemSolvers/cg/">Conjugate Gradient</a></li><li><a class="tocitem" href="../../../../Numerics/SystemSolvers/bgmres/">Batched Generalized Minimal Residual</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-2" type="checkbox"/><label class="tocitem" for="menuitem-3-6-2"><span class="docs-label">DG Methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Numerics/DGMethods/showcase_filters/">Filters</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-7" type="checkbox"/><label class="tocitem" for="menuitem-3-7"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-7-1" type="checkbox"/><label class="tocitem" for="menuitem-3-7-1"><span class="docs-label">Debug</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Diagnostics/Debug/StateCheck/">State Statistics Regression</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">How-to-guides</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-4-1" type="checkbox"/><label class="tocitem" for="menuitem-4-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../HowToGuides/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../../../HowToGuides/Common/UniversalFunctions/">Universal Functions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../HowToGuides/Atmos/TemperatureProfiles/">Temperature profiles</a></li><li><a class="tocitem" href="../../../../../HowToGuides/Atmos/AtmosReferenceState/">Reference profiles</a></li><li><a class="tocitem" href="../../../../../HowToGuides/Atmos/MoistureModelChoices/">Moisture model</a></li><li><a class="tocitem" href="../../../../../HowToGuides/Atmos/PrecipitationModelChoices/">Precipitation model</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><span class="tocitem">Meshes</span></li><li><input class="collapse-toggle" id="menuitem-4-5-2" type="checkbox"/><label class="tocitem" for="menuitem-4-5-2"><span class="docs-label">DG methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../HowToGuides/Numerics/DGMethods/how_to_make_a_balance_law/">How to make a balance law</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-3" type="checkbox"/><label class="tocitem" for="menuitem-4-5-3"><span class="docs-label">ODE Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../HowToGuides/Numerics/ODESolvers/Timestepping/">Time-integration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-4" type="checkbox"/><label class="tocitem" for="menuitem-4-5-4"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../HowToGuides/Numerics/SystemSolvers/IterativeSolvers/">Iterative Solvers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-6" type="checkbox"/><label class="tocitem" for="menuitem-4-6"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../HowToGuides/Diagnostics/UsingDiagnostics/">Using Diagnostics</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">APIs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../APIs/">Home</a></li><li><input class="collapse-toggle" id="menuitem-5-2" type="checkbox"/><label class="tocitem" for="menuitem-5-2"><span class="docs-label">Driver</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../APIs/Driver/">Top level interface</a></li><li><a class="tocitem" href="../../../../../APIs/Driver/Checkpoint/">Checkpoint</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-3" type="checkbox"/><label class="tocitem" for="menuitem-5-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../APIs/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../../../APIs/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../../../APIs/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../../../APIs/Atmos/TemperatureProfiles/">Temperature Profiles</a></li></ul></li><li><a class="tocitem" href="../../../../../APIs/Ocean/Ocean/">Ocean</a></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../APIs/Land/LandModel/">Land Model</a></li><li><a class="tocitem" href="../../../../../APIs/Land/Runoff/">Runoff Parameterizations</a></li><li><a class="tocitem" href="../../../../../APIs/Land/SoilWaterParameterizations/">Soil Water Parameterizations</a></li><li><a class="tocitem" href="../../../../../APIs/Land/SoilHeatParameterizations/">Soil Heat Parameterizations</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-6" type="checkbox"/><label class="tocitem" for="menuitem-5-6"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../APIs/Common/Orientations/">Orientations</a></li><li><a class="tocitem" href="../../../../../APIs/Common/Spectra/">Spectra</a></li><li><a class="tocitem" href="../../../../../APIs/Common/SurfaceFluxes/">Surface Fluxes</a></li><li><a class="tocitem" href="../../../../../APIs/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../../../APIs/Common/TurbulenceClosures/">Turbulence Closures</a></li><li><a class="tocitem" href="../../../../../APIs/Common/TurbulenceConvection/">Turbulence Convection</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-7" type="checkbox"/><label class="tocitem" for="menuitem-5-7"><span class="docs-label">Balance Laws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../APIs/BalanceLaws/BalanceLaws/">Balance Laws</a></li><li><a class="tocitem" href="../../../../../APIs/BalanceLaws/Problems/">Problems</a></li></ul></li><li><a class="tocitem" href="../../../../../APIs/Arrays/Arrays/">Arrays</a></li><li><input class="collapse-toggle" id="menuitem-5-9" type="checkbox"/><label class="tocitem" for="menuitem-5-9"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../APIs/Diagnostics/Diagnostics/">Diagnostics groups</a></li><li><a class="tocitem" href="../../../../../APIs/Diagnostics/StateCheck/">State Check</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-10" type="checkbox"/><label class="tocitem" for="menuitem-5-10"><span class="docs-label">Input/Output</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../APIs/InputOutput/">Input/Output</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-11" type="checkbox"/><label class="tocitem" for="menuitem-5-11"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../APIs/Numerics/Meshes/Mesh/">Meshes</a></li><li><a class="tocitem" href="../../../../../APIs/Numerics/SystemSolvers/SystemSolvers/">SystemSolvers</a></li><li><a class="tocitem" href="../../../../../APIs/Numerics/ODESolvers/ODESolvers/">ODESolvers</a></li><li><a class="tocitem" href="../../../../../APIs/Numerics/DGMethods/DGMethods/">DG Methods</a></li><li><a class="tocitem" href="../../../../../APIs/Numerics/DGMethods/Courant/">Courant</a></li><li><a class="tocitem" href="../../../../../APIs/Numerics/DGMethods/NumericalFluxes/">Numerical Fluxes</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-12" type="checkbox"/><label class="tocitem" for="menuitem-5-12"><span class="docs-label">Utilities</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../APIs/Utilities/VariableTemplates/">Variable Templates</a></li><li><a class="tocitem" href="../../../../../APIs/Utilities/SingleStackUtils/">Single Stack Utilities</a></li><li><a class="tocitem" href="../../../../../APIs/Utilities/TicToc/">Tic Toc</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../../../Contributing/">Contribution guide</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Theory</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-7-1" type="checkbox"/><label class="tocitem" for="menuitem-7-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../Theory/Common/SurfaceFluxes/">SurfaceFluxes</a></li><li><a class="tocitem" href="../../../../../Theory/Common/Turbulence/">Turbulence Closures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7-2" type="checkbox"/><label class="tocitem" for="menuitem-7-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../Theory/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../../../Theory/Atmos/EDMF_plots/">EDMF Model</a></li><li><a class="tocitem" href="../../../../../Theory/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../../../Theory/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../../../Theory/Atmos/EDMFEquations/">EDMF equations</a></li><li><a class="tocitem" href="../../../../../Theory/Atmos/Model/tracers/">Tracers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Developer docs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../../DevDocs/CodeStyle/">Coding style</a></li><li><a class="tocitem" href="../../../../../DevDocs/AcceptableUnicode/">Acceptable Unicode</a></li><li><a class="tocitem" href="../../../../../DevDocs/ModelVariableList/">Model variable list</a></li><li><a class="tocitem" href="../../../../../DevDocs/ModelOutput/">Model output</a></li><li><a class="tocitem" href="../../../../../DevDocs/DiagnosticVariableList/">Diagnostic variable list</a></li><li><a class="tocitem" href="../../../../../DevDocs/SystemImage/">Custom System Image</a></li></ul></li><li><a class="tocitem" href="../../../../../References/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li><a class="is-disabled">Land</a></li><li><a class="is-disabled">Soil</a></li><li class="is-active"><a href>Richards Equation</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Richards Equation</a></li></ul></nav><div class="docs-right"><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Hydrostatic-Equilibrium-test-for-Richards-Equation"><a class="docs-heading-anchor" href="#Hydrostatic-Equilibrium-test-for-Richards-Equation">Hydrostatic Equilibrium test for Richards Equation</a><a id="Hydrostatic-Equilibrium-test-for-Richards-Equation-1"></a><a class="docs-heading-anchor-permalink" href="#Hydrostatic-Equilibrium-test-for-Richards-Equation" title="Permalink"></a></h1><p>This tutorial shows how to use <code>ClimateMachine</code> code to solve Richards equation in a column of soil. We choose boundary conditions of zero flux at the top and bottom of the column, and then run the simulation long enough to see that the system is approaching hydrostatic equilibrium, where the gradient of the pressure head is equal and opposite the gradient of the gravitational head. Note that the <a href="../../../../../APIs/Land/LandModel/#ClimateMachine.Land.SoilWaterModel"><code>SoilWaterModel</code></a> includes a prognostic equation for the volumetric ice fraction, as ice is a form of water that must be accounted for to ensure water mass conservation. If freezing and thawing are not turned on (the default), the amount of ice in the model is zero for all space and time (again by default).</p><p>The equations are:</p><p><span>$\frac{ ∂ ϑ_l}{∂ t} = ∇ ⋅ K (T, ϑ_l, θ_i; ν, ...) ∇h( ϑ_l, z; ν, ...).$</span></p><p><span>$\frac{ ∂ θ_i}{∂ t} = 0$</span></p><p>Here</p><p><span>$t$</span> is the time (s),</p><p><span>$z$</span> is the location in the vertical (m),</p><p><span>$T$</span> is the temperature of the soil (K),</p><p><span>$K$</span> is the hydraulic conductivity (m/s),</p><p><span>$h$</span> is the hydraulic head (m),</p><p><span>$ϑ_l$</span> is the augmented volumetric liquid water fraction,</p><p><span>$θ_i$</span> is the volumetric ice fraction, and</p><p><span>$ν, ...$</span> denotes parameters relating to soil type, such as porosity.</p><p>We will solve this equation in an effectively 1-d domain with <span>$z ∈ [-10,0]$</span>, and with the following boundary and initial conditions:</p><p><span>$- K ∇h(t, z = 0) = 0 ẑ$</span></p><p><span>$-K ∇h(t, z = -10) = 0 ẑ$</span></p><p><span>$ϑ(t = 0, z) = ν-0.001$</span></p><p><span>$θ_i(t = 0, z) = 0.0.$</span></p><p>where <span>$\nu$</span> is the porosity.</p><p>A word about the hydraulic conductivity: please see the <a href="../hydraulic_functions/"><code>hydraulic functions</code></a> tutorial for options regarding this function. The user can choose to make it depend on the temperature and the amount of ice in the soil; the default, which we use here, is that <code>K</code> only depends on the liquid moisture content.</p><p>Lastly, our formulation of this equation allows for a continuous solution in both saturated and unsaturated areas, following [1].</p><h1 id="Preliminary-setup"><a class="docs-heading-anchor" href="#Preliminary-setup">Preliminary setup</a><a id="Preliminary-setup-1"></a><a class="docs-heading-anchor-permalink" href="#Preliminary-setup" title="Permalink"></a></h1><ul><li>Load external packages</li></ul><pre><code class="language-julia">using MPI
+using OrderedCollections
+using StaticArrays
+using Statistics</code></pre><ul><li>Load CLIMAParameters and ClimateMachine modules</li></ul><pre><code class="language-julia">using CLIMAParameters
+struct EarthParameterSet &lt;: AbstractEarthParameterSet end
+const param_set = EarthParameterSet()
+
+using ClimateMachine
+using ClimateMachine.Land
+using ClimateMachine.Land.SoilWaterParameterizations
+using ClimateMachine.Mesh.Topologies
+using ClimateMachine.Mesh.Grids
+using ClimateMachine.DGMethods
+using ClimateMachine.DGMethods.NumericalFluxes
+using ClimateMachine.DGMethods: BalanceLaw, LocalGeometry
+using ClimateMachine.MPIStateArrays
+using ClimateMachine.GenericCallbacks
+using ClimateMachine.ODESolvers
+using ClimateMachine.VariableTemplates
+using ClimateMachine.SingleStackUtils
+using ClimateMachine.BalanceLaws:
+    BalanceLaw, Prognostic, Auxiliary, Gradient, GradientFlux, vars_state</code></pre><ul><li>Define the float type desired (<code>Float64</code> or <code>Float32</code>)</li></ul><pre><code class="language-julia">const FT = Float64;</code></pre><ul><li>Initialize ClimateMachine for CPU</li></ul><pre><code class="language-julia">ClimateMachine.init(; disable_gpu = true);</code></pre><p>Load plot helpers:</p><pre><code class="language-julia">const clima_dir = dirname(dirname(pathof(ClimateMachine)));
+include(joinpath(clima_dir, &quot;docs&quot;, &quot;plothelpers.jl&quot;));</code></pre><h1 id="Set-up-the-soil-model"><a class="docs-heading-anchor" href="#Set-up-the-soil-model">Set up the soil model</a><a id="Set-up-the-soil-model-1"></a><a class="docs-heading-anchor-permalink" href="#Set-up-the-soil-model" title="Permalink"></a></h1><p>We want to solve Richards equation alone, without simultaneously solving the heat equation. Because of that, we choose a <a href="../../../../../APIs/Land/LandModel/#ClimateMachine.Land.PrescribedTemperatureModel"><code>PrescribedTemperatureModel</code></a>. The user can supply a function for temperature, depending on time and space; if this option is desired, one could also choose to model the temperature dependence of viscosity, or to drive a freeze/thaw cycle, for example. If the user simply wants to model Richards equation for liquid water, the defaults will allow for that. Here we ignore the effects of temperature and freezing and thawing, using the defaults.</p><pre><code class="language-julia">soil_heat_model = PrescribedTemperatureModel();</code></pre><p>Define the porosity, Ksat, and specific storage values for the soil. Note that all values must be given in mks units. The soil parameters chosen roughly correspond to Yolo light clay.</p><pre><code class="language-julia">soil_param_functions = SoilParamFunctions{FT}(
+    porosity = 0.495,
+    Ksat = 0.0443 / (3600 * 100),
+    S_s = 1e-3,
+);</code></pre><p>Define the boundary conditions. The user can specify two conditions, either at the top or at the bottom, and they can either be Dirichlet (on <code>ϑ_l</code>) or Neumann (on <code>-K∇h</code>). Note that fluxes are supplied as scalars, inside the code they are multiplied by ẑ. The two conditions not supplied must be set to <code>nothing</code>.</p><pre><code class="language-julia">surface_flux = (aux, t) -&gt; eltype(aux)(0.0)
+bottom_flux = (aux, t) -&gt; eltype(aux)(0.0)
+surface_state = nothing
+bottom_state = nothing
+bc = GeneralBoundaryConditions(
+    Dirichlet(surface_state = surface_state, bottom_state = bottom_state),
+    Neumann(surface_flux = surface_flux, bottom_flux = bottom_flux),
+)</code></pre><pre class="documenter-example-output">ClimateMachine.Land.GeneralBoundaryConditions{ClimateMachine.Land.Dirichlet{Nothing,Nothing},ClimateMachine.Land.Neumann{Main.ex-equilibrium_test.var&quot;#11#12&quot;,Main.ex-equilibrium_test.var&quot;#13#14&quot;}}(ClimateMachine.Land.Dirichlet{Nothing,Nothing}(nothing, nothing), ClimateMachine.Land.Neumann{Main.ex-equilibrium_test.var&quot;#11#12&quot;,Main.ex-equilibrium_test.var&quot;#13#14&quot;}(Main.ex-equilibrium_test.var&quot;#11#12&quot;(), Main.ex-equilibrium_test.var&quot;#13#14&quot;()))</pre><p>Define the initial state function. The default for <code>θ_i</code> is zero.</p><pre><code class="language-julia">ϑ_l0 = (aux) -&gt; eltype(aux)(0.494);</code></pre><p>Create the SoilWaterModel. The defaults are a temperature independent viscosity, and no impedance factor due to ice. We choose to make the hydraulic conductivity a function of the moisture content <code>ϑ_l</code>, and employ the vanGenuchten hydraulic model with <code>n</code> = 2.0. The van Genuchten parameter <code>m</code> is calculated from <code>n</code>, and we use the default value for <code>α</code>.</p><pre><code class="language-julia">soil_water_model = SoilWaterModel(
+    FT;
+    moisture_factor = MoistureDependent{FT}(),
+    hydraulics = vanGenuchten{FT}(n = 2.0),
+    initialϑ_l = ϑ_l0,
+    boundaries = bc,
+);</code></pre><p>Create the soil model - the coupled soil water and soil heat models.</p><pre><code class="language-julia">m_soil = SoilModel(soil_param_functions, soil_water_model, soil_heat_model);</code></pre><p>We are ignoring sources and sinks here, like runoff or freezing and thawing.</p><pre><code class="language-julia">sources = ();</code></pre><p>Define the function that initializes the prognostic variables. This in turn calls the functions supplied to <code>soil_water_model</code>.</p><pre><code class="language-julia">function init_soil_water!(land, state, aux, localgeo, time)
+    state.soil.water.ϑ_l = eltype(state)(land.soil.water.initialϑ_l(aux))
+    state.soil.water.θ_i = eltype(state)(land.soil.water.initialθ_i(aux))
+end</code></pre><pre class="documenter-example-output">init_soil_water! (generic function with 1 method)</pre><p>Create the land model - in this tutorial, it only includes the soil.</p><pre><code class="language-julia">m = LandModel(
+    param_set,
+    m_soil;
+    source = sources,
+    init_state_prognostic = init_soil_water!,
+);</code></pre><h1 id="Specify-the-numerical-configuration-and-output-data."><a class="docs-heading-anchor" href="#Specify-the-numerical-configuration-and-output-data.">Specify the numerical configuration and output data.</a><a id="Specify-the-numerical-configuration-and-output-data.-1"></a><a class="docs-heading-anchor-permalink" href="#Specify-the-numerical-configuration-and-output-data." title="Permalink"></a></h1><p>Specify the polynomial order and vertical resolution.</p><pre><code class="language-julia">N_poly = 5;
+nelem_vert = 20;</code></pre><p>Specify the domain boundaries.</p><pre><code class="language-julia">zmax = FT(0);
+zmin = FT(-10);</code></pre><p>Create the driver configuration.</p><pre><code class="language-julia">driver_config = ClimateMachine.SingleStackConfiguration(
+    &quot;LandModel&quot;,
+    N_poly,
+    nelem_vert,
+    zmax,
+    param_set,
+    m;
+    zmin = zmin,
+    numerical_flux_first_order = CentralNumericalFluxFirstOrder(),
+);</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-equilibrium_test.EarthParameterSet()
+│     soil = ClimateMachine.Land.SoilModel{ClimateMachine.Land.SoilParamFunctions{Float64},ClimateMachine.Land.SoilWaterModel{Float64,ClimateMachine.Land.SoilWaterParameterizations.NoImpedance{Float64},ClimateMachine.Land.SoilWaterParameterizations.ConstantViscosity{Float64},ClimateMachine.Land.SoilWaterParameterizations.MoistureDependent{Float64},ClimateMachine.Land.SoilWaterParameterizations.vanGenuchten{Float64},Main.ex-equilibrium_test.var&quot;#15#16&quot;,ClimateMachine.Land.var&quot;#23#27&quot;,ClimateMachine.Land.GeneralBoundaryConditions{ClimateMachine.Land.Dirichlet{Nothing,Nothing},ClimateMachine.Land.Neumann{Main.ex-equilibrium_test.var&quot;#11#12&quot;,Main.ex-equilibrium_test.var&quot;#13#14&quot;}}},ClimateMachine.Land.PrescribedTemperatureModel{ClimateMachine.Land.var&quot;#28#29&quot;}}(ClimateMachine.Land.SoilParamFunctions{Float64}(0.495, 1.2305555555555556e-7, 0.001, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, 0.24, 18.1, 0.053), ClimateMachine.Land.SoilWaterModel{Float64,ClimateMachine.Land.SoilWaterParameterizations.NoImpedance{Float64},ClimateMachine.Land.SoilWaterParameterizations.ConstantViscosity{Float64},ClimateMachine.Land.SoilWaterParameterizations.MoistureDependent{Float64},ClimateMachine.Land.SoilWaterParameterizations.vanGenuchten{Float64},Main.ex-equilibrium_test.var&quot;#15#16&quot;,ClimateMachine.Land.var&quot;#23#27&quot;,ClimateMachine.Land.GeneralBoundaryConditions{ClimateMachine.Land.Dirichlet{Nothing,Nothing},ClimateMachine.Land.Neumann{Main.ex-equilibrium_test.var&quot;#11#12&quot;,Main.ex-equilibrium_test.var&quot;#13#14&quot;}}}(ClimateMachine.Land.SoilWaterParameterizations.NoImpedance{Float64}(), ClimateMachine.Land.SoilWaterParameterizations.ConstantViscosity{Float64}(), ClimateMachine.Land.SoilWaterParameterizations.MoistureDependent{Float64}(), ClimateMachine.Land.SoilWaterParameterizations.vanGenuchten{Float64}(2.0, 2.6, 0.5), Main.ex-equilibrium_test.var&quot;#15#16&quot;(), ClimateMachine.Land.var&quot;#23#27&quot;(), ClimateMachine.Land.GeneralBoundaryConditions{ClimateMachine.Land.Dirichlet{Nothing,Nothing},ClimateMachine.Land.Neumann{Main.ex-equilibrium_test.var&quot;#11#12&quot;,Main.ex-equilibrium_test.var&quot;#13#14&quot;}}(ClimateMachine.Land.Dirichlet{Nothing,Nothing}(nothing, nothing), ClimateMachine.Land.Neumann{Main.ex-equilibrium_test.var&quot;#11#12&quot;,Main.ex-equilibrium_test.var&quot;#13#14&quot;}(Main.ex-equilibrium_test.var&quot;#11#12&quot;(), Main.ex-equilibrium_test.var&quot;#13#14&quot;()))), ClimateMachine.Land.PrescribedTemperatureModel{ClimateMachine.Land.var&quot;#28#29&quot;}(ClimateMachine.Land.var&quot;#28#29&quot;()))
+│     source = ()
+└     init_state_prognostic = init_soil_water!
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for LandModel will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for LandModel
+│     precision              = Float64
+│     horiz polynomial order = 5
+│     vert polynomial order  = 5
+│     domain_min             = 0.00 m x0.00 m x-10.00 m
+│     domain_max             = 1.00 m x1.00 m x0.00 m
+│     # vert elems           = 20
+│     MPI ranks              = 1
+│     min(Δ_horz)            = 0.12 m
+└     min(Δ_vert)            = 0.06 m</pre><p>Choose the initial and final times, as well as a timestep.</p><pre><code class="language-julia">t0 = FT(0)
+timeend = FT(60 * 60 * 24 * 4)
+dt = FT(5);</code></pre><p>Create the solver configuration.</p><pre><code class="language-julia">solver_config =
+    ClimateMachine.SolverConfiguration(t0, timeend, driver_config, ode_dt = dt);</code></pre><pre class="documenter-example-output">[ Info: Initializing LandModel</pre><p>Determine how often you want output.</p><pre><code class="language-julia">const n_outputs = 5;
+
+const every_x_simulation_time = ceil(Int, timeend / n_outputs);</code></pre><p>Create a place to store this output.</p><pre><code class="language-julia">state_types = (Prognostic(), Auxiliary(), GradientFlux())
+dons_arr = Dict[dict_of_nodal_states(solver_config, state_types; interp = true)]
+time_data = FT[0] # store time data
+
+callback = GenericCallbacks.EveryXSimulationTime(every_x_simulation_time) do
+    dons = dict_of_nodal_states(solver_config, state_types; interp = true)
+    push!(dons_arr, dons)
+    push!(time_data, gettime(solver_config.solver))
+    nothing
+end;</code></pre><h1 id="Run-the-integration"><a class="docs-heading-anchor" href="#Run-the-integration">Run the integration</a><a id="Run-the-integration-1"></a><a class="docs-heading-anchor-permalink" href="#Run-the-integration" title="Permalink"></a></h1><pre><code class="language-julia">ClimateMachine.invoke!(solver_config; user_callbacks = (callback,));</code></pre><pre class="documenter-example-output">┌ Info: Starting LandModel
+│     dt              = 5.00000e+00
+│     timeend         = 345600.00
+│     number of steps = 69120
+└     norm(Q)         = 1.5621651641231775e+00
+┌ Info: Update
+│     simtime = 12575.00 / 345600.00
+│     wallclock = 00:01:00
+│     efficiency (simtime / wallclock) = 208.5579
+│     wallclock end (estimated) = 00:27:37
+└     norm(Q) = 1.5621697536822572e+00
+┌ Info: Update
+│     simtime = 29660.00 / 345600.00
+│     wallclock = 00:01:59
+│     efficiency (simtime / wallclock) = 247.1728
+│     wallclock end (estimated) = 00:23:18
+└     norm(Q) = 1.5621815621853898e+00
+┌ Info: Update
+│     simtime = 47480.00 / 345600.00
+│     wallclock = 00:03:00
+│     efficiency (simtime / wallclock) = 263.7646
+│     wallclock end (estimated) = 00:21:50
+└     norm(Q) = 1.5621981324943215e+00
+┌ Info: Update
+│     simtime = 65745.00 / 345600.00
+│     wallclock = 00:04:00
+│     efficiency (simtime / wallclock) = 273.9238
+│     wallclock end (estimated) = 00:21:01
+└     norm(Q) = 1.5622184330683662e+00
+┌ Info: Update
+│     simtime = 85960.00 / 345600.00
+│     wallclock = 00:05:00
+│     efficiency (simtime / wallclock) = 286.5133
+│     wallclock end (estimated) = 00:20:06
+└     norm(Q) = 1.5622440040859016e+00
+┌ Info: Update
+│     simtime = 107730.00 / 345600.00
+│     wallclock = 00:06:00
+│     efficiency (simtime / wallclock) = 299.2292
+│     wallclock end (estimated) = 00:19:14
+└     norm(Q) = 1.5622745475067101e+00
+┌ Info: Update
+│     simtime = 131640.00 / 345600.00
+│     wallclock = 00:07:00
+│     efficiency (simtime / wallclock) = 313.4054
+│     wallclock end (estimated) = 00:18:22
+└     norm(Q) = 1.5623111029110961e+00
+┌ Info: Update
+│     simtime = 158200.00 / 345600.00
+│     wallclock = 00:08:00
+│     efficiency (simtime / wallclock) = 329.5559
+│     wallclock end (estimated) = 00:17:28
+└     norm(Q) = 1.5623548550213811e+00
+┌ Info: Update
+│     simtime = 188630.00 / 345600.00
+│     wallclock = 00:09:00
+│     efficiency (simtime / wallclock) = 349.2851
+│     wallclock end (estimated) = 00:16:29
+└     norm(Q) = 1.5624084523113224e+00
+┌ Info: Update
+│     simtime = 223365.00 / 345600.00
+│     wallclock = 00:10:00
+│     efficiency (simtime / wallclock) = 372.2446
+│     wallclock end (estimated) = 00:15:28
+└     norm(Q) = 1.5624733872153762e+00
+┌ Info: Update
+│     simtime = 262880.00 / 345600.00
+│     wallclock = 00:11:00
+│     efficiency (simtime / wallclock) = 398.2717
+│     wallclock end (estimated) = 00:14:27
+└     norm(Q) = 1.5625508398164085e+00
+┌ Info: Update
+│     simtime = 304995.00 / 345600.00
+│     wallclock = 00:12:00
+│     efficiency (simtime / wallclock) = 423.5706
+│     wallclock end (estimated) = 00:13:35
+└     norm(Q) = 1.5626360870156208e+00
+┌ Info: Finished
+│     norm(Q)            = 1.5627196524958247e+00
+│     norm(Q) / norm(Q₀) = 1.0003549486221954e+00
+└     norm(Q) - norm(Q₀) = 5.5448837264715500e-04</pre><p>Get the final state and create plots:</p><pre><code class="language-julia">dons = dict_of_nodal_states(solver_config, state_types; interp = true)
+push!(dons_arr, dons)
+push!(time_data, gettime(solver_config.solver));</code></pre><p>Get z-coordinate</p><pre><code class="language-julia">z = get_z(solver_config.dg.grid; rm_dupes = true);</code></pre><h1 id="Create-some-plots"><a class="docs-heading-anchor" href="#Create-some-plots">Create some plots</a><a id="Create-some-plots-1"></a><a class="docs-heading-anchor-permalink" href="#Create-some-plots" title="Permalink"></a></h1><p>We&#39;ll plot the moisture content vs depth in the soil, as well as the expected slope of <code>ϑ_l</code> in hydrostatic equilibrium when the soil is saturated. For <code>ϑ_l</code> values above porosity, the soil is saturated, and the pressure head changes from being equal to the matric potential to the pressure generated by compression of water and the soil matrix. The pressure head is continuous at porosity, but the derivative is not.</p><pre><code class="language-julia">slope = -1e-3
+
+output_dir = @__DIR__;
+
+t = time_data ./ (60 * 60 * 24);
+
+plot(
+    dons_arr[1][&quot;soil.water.ϑ_l&quot;],
+    dons_arr[1][&quot;z&quot;],
+    label = string(&quot;t = &quot;, string(t[1]), &quot;days&quot;),
+    xlim = [0.47, 0.501],
+    ylabel = &quot;z&quot;,
+    xlabel = &quot;ϑ_l&quot;,
+    legend = :bottomleft,
+    title = &quot;Equilibrium test&quot;,
+);
+plot!(
+    dons_arr[4][&quot;soil.water.ϑ_l&quot;],
+    dons_arr[4][&quot;z&quot;],
+    label = string(&quot;t = &quot;, string(t[4]), &quot;days&quot;),
+);
+plot!(
+    dons_arr[6][&quot;soil.water.ϑ_l&quot;],
+    dons_arr[6][&quot;z&quot;],
+    label = string(&quot;t = &quot;, string(t[6]), &quot;days&quot;),
+);
+plot!(
+    (dons_arr[1][&quot;z&quot;] .+ 10.0) .* slope .+ dons_arr[6][&quot;soil.water.ϑ_l&quot;][1],
+    dons_arr[1][&quot;z&quot;],
+    label = &quot;expected&quot;,
+);
+
+plot!(
+    1e-3 .+ dons_arr[1][&quot;soil.water.ϑ_l&quot;],
+    dons_arr[1][&quot;z&quot;],
+    label = &quot;porosity&quot;,
+);</code></pre><p>save the output.</p><pre><code class="language-julia">savefig(joinpath(output_dir, &quot;equilibrium_test_ϑ_l_vG.png&quot;))</code></pre><p><img src="../equilibrium_test_ϑ_l_vG.png" alt/></p><h1 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h1><p>[1] Woodward, C. S., and C. N. Dawson (2000), Analysis of expanded mixed finite element methods for a nonlinear parabolic equation modeling flow into variably saturated porous media, SIAM J. Numer. Anal., 37, 701–724</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../Heat/bonan_heat_tutorial/">« Soil Heat Equation</a><a class="docs-footer-nextpage" href="../../Coupled/equilibrium_test/">Coupled Water and Heat »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 17 December 2020 09:22">Thursday 17 December 2020</span>. Using Julia version 1.5.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

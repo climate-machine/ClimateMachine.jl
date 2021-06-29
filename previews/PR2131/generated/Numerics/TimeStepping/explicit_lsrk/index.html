@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Single-rate Explicit Timestepping · ClimateMachine</title><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-191640394-1', 'auto');
+ga('send', 'pageview', {'page': location.pathname + location.search + location.hash});
+</script><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../../assets/documenter.js"></script><script src="../../../../siteinfo.js"></script><script src="../../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../../../"><img src="../../../../assets/logo.svg" alt="ClimateMachine logo"/></a><div class="docs-package-name"><span class="docs-autofit">ClimateMachine</span></div><form class="docs-search" action="../../../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../../../">Home</a></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">Getting started</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../GettingStarted/Installation/">Installation</a></li><li><a class="tocitem" href="../../../../GettingStarted/Terminology/">Terminology</a></li><li><a class="tocitem" href="../../../../GettingStarted/RunningClimateMachine/">Running</a></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox"/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Defaults</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../GettingStarted/Atmos/">Atmosphere model configurations</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Tutorials</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../TutorialList/">Home</a></li><li><input class="collapse-toggle" id="menuitem-3-2" type="checkbox"/><label class="tocitem" for="menuitem-3-2"><span class="docs-label">BalanceLaws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../BalanceLaws/tendency_specification_layer/">Tendency specification</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-3" type="checkbox"/><label class="tocitem" for="menuitem-3-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Atmos/heldsuarez/">Dry Idealized GCM (Held-Suarez)</a></li><li><a class="tocitem" href="../../../Atmos/burgers_single_stack/">Single Element Stack Experiment (Burgers Equation)</a></li><li><a class="tocitem" href="../../../Atmos/burgers_single_stack_fvm/">Finite Volume Single Element Stack Experiment (Burgers Equation)</a></li><li><a class="tocitem" href="../../../Atmos/burgers_single_stack_bjfnk/">HEVI Single Element Stack Experiment (Burgers Equation)</a></li><li><a class="tocitem" href="../../../Atmos/densitycurrent/">LES Experiment (Density Current)</a></li><li><a class="tocitem" href="../../../Atmos/risingbubble/">LES Experiment (Rising Thermal Bubble)</a></li><li><a class="tocitem" href="../../../Atmos/agnesi_hs_lin/">Linear Hydrostatic Mountain (Topography)</a></li><li><a class="tocitem" href="../../../Atmos/agnesi_nh_lin/">Linear Non-Hydrostatic Mountain (Topography)</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-4" type="checkbox"/><label class="tocitem" for="menuitem-3-4"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-4-1" type="checkbox"/><label class="tocitem" for="menuitem-3-4-1"><span class="docs-label">Heat</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Land/Heat/heat_equation/">Heat Equation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-4-2" type="checkbox"/><label class="tocitem" for="menuitem-3-4-2"><span class="docs-label">Soil</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Land/Soil/Water/hydraulic_functions/">Hydraulic Functions</a></li><li><a class="tocitem" href="../../../Land/Soil/Heat/bonan_heat_tutorial/">Soil Heat Equation</a></li><li><a class="tocitem" href="../../../Land/Soil/Water/equilibrium_test/">Richards Equation</a></li><li><a class="tocitem" href="../../../Land/Soil/Coupled/equilibrium_test/">Coupled Water and Heat</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-5" type="checkbox"/><label class="tocitem" for="menuitem-3-5"><span class="docs-label">Ocean</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Ocean/geostrophic_adjustment/">One-dimensional geostrophic adjustment</a></li><li><a class="tocitem" href="../../../Ocean/internal_wave/">Propagating mode-1 internal wave</a></li><li><a class="tocitem" href="../../../Ocean/shear_instability/">Shear instability</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6" type="checkbox" checked/><label class="tocitem" for="menuitem-3-6"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-6-1" type="checkbox"/><label class="tocitem" for="menuitem-3-6-1"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../SystemSolvers/cg/">Conjugate Gradient</a></li><li><a class="tocitem" href="../../SystemSolvers/bgmres/">Batched Generalized Minimal Residual</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-2" type="checkbox"/><label class="tocitem" for="menuitem-3-6-2"><span class="docs-label">DG Methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../DGMethods/showcase_filters/">Filters</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3-6-3"><span class="docs-label">Time-Stepping</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../ts_intro/">Introduction</a></li><li><input class="collapse-toggle" id="menuitem-3-6-3-2" type="checkbox" checked/><label class="tocitem" for="menuitem-3-6-3-2"><span class="docs-label">Explicit Runge-Kutta methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li class="is-active"><a class="tocitem" href>Single-rate Explicit Timestepping</a><ul class="internal"><li><a class="tocitem" href="#Runge-Kutta-methods"><span>Runge-Kutta methods</span></a></li><li><a class="tocitem" href="#References"><span>References</span></a></li></ul></li><li><a class="tocitem" href="../tutorial_risingbubble_config/">Rising Thermal Bubble Configuration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-3-3" type="checkbox"/><label class="tocitem" for="menuitem-3-6-3-3"><span class="docs-label">Implicit-Explicit (IMEX) Additive Runge-Kutta methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../imex_ark/">Implicit-Explicit (IMEX) Additively-Partitioned Runge-Kutta Timestepping</a></li><li><a class="tocitem" href="../tutorial_acousticwave_config/">Acoustic Wave Configuration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-3-4" type="checkbox"/><label class="tocitem" for="menuitem-3-6-3-4"><span class="docs-label">Multirate Runge-Kutta methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../multirate_rk/">Multirate Runge-Kutta Timestepping</a></li><li><a class="tocitem" href="../tutorial_risingbubble_config/">Rising Thermal Bubble Configuration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-3-5" type="checkbox"/><label class="tocitem" for="menuitem-3-6-3-5"><span class="docs-label">MIS methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../mis/">Multirate Infinitesimal Step (MIS) Timestepping</a></li><li><a class="tocitem" href="../tutorial_acousticwave_config/">Acoustic Wave Configuration</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-7" type="checkbox"/><label class="tocitem" for="menuitem-3-7"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-7-1" type="checkbox"/><label class="tocitem" for="menuitem-3-7-1"><span class="docs-label">Debug</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Diagnostics/Debug/StateCheck/">State Statistics Regression</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">How-to-guides</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-4-1" type="checkbox"/><label class="tocitem" for="menuitem-4-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../../HowToGuides/Common/UniversalFunctions/">Universal Functions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Balance Laws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/BalanceLaws/how_to_make_a_balance_law/">How to make a balance law</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-3" type="checkbox"/><label class="tocitem" for="menuitem-4-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Atmos/TemperatureProfiles/">Temperature profiles</a></li><li><a class="tocitem" href="../../../../HowToGuides/Atmos/AtmosReferenceState/">Reference profiles</a></li><li><a class="tocitem" href="../../../../HowToGuides/Atmos/MoistureModelChoices/">Moisture model</a></li><li><a class="tocitem" href="../../../../HowToGuides/Atmos/PrecipitationModelChoices/">Precipitation model</a></li><li><a class="tocitem" href="../../../../HowToGuides/Atmos/MoistureAndPrecip/">How to create an experiment with moisture and precipitation</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-4-6" type="checkbox"/><label class="tocitem" for="menuitem-4-6"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><span class="tocitem">Meshes</span></li><li><input class="collapse-toggle" id="menuitem-4-6-2" type="checkbox"/><label class="tocitem" for="menuitem-4-6-2"><span class="docs-label">ODE Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Numerics/ODESolvers/Timestepping/">Time-integration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-6-3" type="checkbox"/><label class="tocitem" for="menuitem-4-6-3"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Numerics/SystemSolvers/IterativeSolvers/">Iterative Solvers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-7" type="checkbox"/><label class="tocitem" for="menuitem-4-7"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Diagnostics/UsingDiagnostics/">Using Diagnostics</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">APIs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/">Home</a></li><li><input class="collapse-toggle" id="menuitem-5-2" type="checkbox"/><label class="tocitem" for="menuitem-5-2"><span class="docs-label">Driver</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Driver/">Top level interface</a></li><li><a class="tocitem" href="../../../../APIs/Driver/Checkpoint/">Checkpoint</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-3" type="checkbox"/><label class="tocitem" for="menuitem-5-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../../APIs/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../../APIs/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../../APIs/Atmos/TemperatureProfiles/">Temperature Profiles</a></li></ul></li><li><a class="tocitem" href="../../../../APIs/Ocean/Ocean/">Ocean</a></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Land/LandModel/">Land Model</a></li><li><a class="tocitem" href="../../../../APIs/Land/Runoff/">Runoff Parameterizations</a></li><li><a class="tocitem" href="../../../../APIs/Land/SoilWaterParameterizations/">Soil Water Parameterizations</a></li><li><a class="tocitem" href="../../../../APIs/Land/SoilHeatParameterizations/">Soil Heat Parameterizations</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-6" type="checkbox"/><label class="tocitem" for="menuitem-5-6"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Common/Orientations/">Orientations</a></li><li><a class="tocitem" href="../../../../APIs/Common/Spectra/">Spectra</a></li><li><a class="tocitem" href="../../../../APIs/Common/SurfaceFluxes/">Surface Fluxes</a></li><li><a class="tocitem" href="../../../../APIs/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../../APIs/Common/TurbulenceClosures/">Turbulence Closures</a></li><li><a class="tocitem" href="../../../../APIs/Common/TurbulenceConvection/">Turbulence Convection</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-7" type="checkbox"/><label class="tocitem" for="menuitem-5-7"><span class="docs-label">Balance Laws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/BalanceLaws/BalanceLaws/">Balance Laws</a></li><li><a class="tocitem" href="../../../../APIs/BalanceLaws/Problems/">Problems</a></li></ul></li><li><a class="tocitem" href="../../../../APIs/Arrays/Arrays/">Arrays</a></li><li><input class="collapse-toggle" id="menuitem-5-9" type="checkbox"/><label class="tocitem" for="menuitem-5-9"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Diagnostics/Diagnostics/">Diagnostics groups</a></li><li><a class="tocitem" href="../../../../APIs/Diagnostics/DiagnosticsMachine/">DiagnosticsMachine</a></li><li><a class="tocitem" href="../../../../APIs/Diagnostics/StdDiagnostics/">StdDiagnostics</a></li><li><a class="tocitem" href="../../../../APIs/Diagnostics/StateCheck/">State Check</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-10" type="checkbox"/><label class="tocitem" for="menuitem-5-10"><span class="docs-label">Input/Output</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/InputOutput/">Input/Output</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-11" type="checkbox"/><label class="tocitem" for="menuitem-5-11"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Numerics/Meshes/Mesh/">Meshes</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/SystemSolvers/SystemSolvers/">SystemSolvers</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/ODESolvers/ODESolvers/">ODESolvers</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/DGMethods/">DG Methods</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/Courant/">Courant</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/NumericalFluxes/">Numerical Fluxes</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/FVReconstructions/">Finite Volume Reconstructions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-12" type="checkbox"/><label class="tocitem" for="menuitem-5-12"><span class="docs-label">Utilities</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Utilities/VariableTemplates/">Variable Templates</a></li><li><a class="tocitem" href="../../../../APIs/Utilities/SingleStackUtils/">Single Stack Utilities</a></li><li><a class="tocitem" href="../../../../APIs/Utilities/TicToc/">Tic Toc</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../../Contributing/">Contribution guide</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Theory</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-7-1" type="checkbox"/><label class="tocitem" for="menuitem-7-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Theory/Common/SurfaceFluxes/">SurfaceFluxes</a></li><li><a class="tocitem" href="../../../../Theory/Common/Turbulence/">Turbulence Closures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7-2" type="checkbox"/><label class="tocitem" for="menuitem-7-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Theory/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/EDMF_plots/">EDMF Model</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/EDMFEquations/">EDMF equations</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/Model/tracers/">Tracers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Developer docs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../DevDocs/CodeStyle/">Coding style</a></li><li><a class="tocitem" href="../../../../DevDocs/AcceptableUnicode/">Acceptable Unicode</a></li><li><a class="tocitem" href="../../../../DevDocs/ModelVariableList/">Model variable list</a></li><li><a class="tocitem" href="../../../../DevDocs/ModelOutput/">Model output</a></li><li><a class="tocitem" href="../../../../DevDocs/DiagnosticVariableList/">Diagnostic variable list</a></li><li><a class="tocitem" href="../../../../DevDocs/SystemImage/">Custom System Image</a></li></ul></li><li><a class="tocitem" href="../../../../References/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li><a class="is-disabled">Numerics</a></li><li><a class="is-disabled">Time-Stepping</a></li><li><a class="is-disabled">Explicit Runge-Kutta methods</a></li><li class="is-active"><a href>Single-rate Explicit Timestepping</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Single-rate Explicit Timestepping</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/ClimateMachine.jl/../../../../.." title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Single-rate-Explicit-Timestepping"><a class="docs-heading-anchor" href="#Single-rate-Explicit-Timestepping">Single-rate Explicit Timestepping</a><a id="Single-rate-Explicit-Timestepping-1"></a><a class="docs-heading-anchor-permalink" href="#Single-rate-Explicit-Timestepping" title="Permalink"></a></h1><p>In this tutorial, we shall explore the use of explicit Runge-Kutta methods for the solution of nonautonomous (or non time-invariant) equations. For our model problem, we shall reuse the rising thermal bubble tutorial. See its <a href="../tutorial_risingbubble_config/#Rising-Thermal-Bubble-Configuration">tutorial page</a> for details on the model and parameters. For the purposes of this tutorial, we will only run the experiment for a total of 100 simulation seconds.</p><pre><code class="language-julia">using ClimateMachine
+const clima_dir = dirname(dirname(pathof(ClimateMachine)));
+include(joinpath(
+    clima_dir,
+    &quot;tutorials&quot;,
+    &quot;Numerics&quot;,
+    &quot;TimeStepping&quot;,
+    &quot;tutorial_risingbubble_config.jl&quot;,
+))
+
+FT = Float64;</code></pre><p>After discretizing the spatial terms in the equation, the semi-discretization of the governing equations have the form:</p><p><span>$\begin{aligned}     \frac{\mathrm{d} \boldsymbol{q}}{ \mathrm{d} t} &amp;= M^{-1}\left(M S +     D^{T} M (F^{adv} + F^{visc}) + \sum_{f=1}^{N_f} L^T M_f(\widehat{F}^{adv} + \widehat{F}^{visc})     \right) \equiv \mathcal{T}(\boldsymbol{q}). \end{aligned}$</span></p><p>Referencing the canonical form introduced in <a href="../ts_intro/#Time-integration">Time integration</a> we have that in any explicit formulation <span>$\mathcal{F}(t, \boldsymbol{q}) \equiv 0$</span> and, in this particular forumlation, <span>$\mathcal{T}(t, \boldsymbol{q}) \equiv \mathcal{G}(t, \boldsymbol{q})$</span>.</p><p>The time step restriction for an explicit method must satisfy the stable <a href="https://en.wikipedia.org/wiki/Courant%E2%80%93Friedrichs%E2%80%93Lewy_condition">Courant number</a> for the specific time-integrator and must be selected from the following constraints</p><p><span>$\Delta t_{\mathrm{explicit}} = min \left( \frac{C \Delta x_i}{u_i + a}, \frac{C \Delta x_i^2}{\nu} \right)$</span></p><p>where <span>$C$</span> is the stable Courant number, <span>$u_i$</span> denotes the velocity components, <span>$a$</span> the speed of sound, <span>$\Delta x_i$</span> the grid spacing (non-uniform in case of spectral element methods) along the direction <span>$(x_1,x_2,x_3)$</span>, and <span>$\nu$</span> the kinematic viscosity. The first term on the right is the time step condition due to the non-dissipative components, while the second term to the dissipation. For explicit time-integrators, we have to find the minimum time step that satisfies this condition along all three spatial directions.</p><h2 id="Runge-Kutta-methods"><a class="docs-heading-anchor" href="#Runge-Kutta-methods">Runge-Kutta methods</a><a id="Runge-Kutta-methods-1"></a><a class="docs-heading-anchor-permalink" href="#Runge-Kutta-methods" title="Permalink"></a></h2><p>A single step of an <span>$s$</span>-stage Runge-Kutta (RK) method for solving the resulting ODE problem presented above and can be expressed as the following:</p><p class="math-container">\[\begin{align}
+	\boldsymbol{q}^{n+1} = \boldsymbol{q}^n + \Delta t \sum_{i=1}^{s} b_i \mathcal{T}(\boldsymbol{Q}^i),
+\end{align}\]</p><p>where <span>$\boldsymbol{\mathcal{T}}(\boldsymbol{Q}^i)$</span> is the evaluation of the right-hand side tendency at the stage value <span>$\boldsymbol{Q}^i$</span>, defined at each stage of the RK method:</p><p class="math-container">\[\begin{align}
+	\boldsymbol{Q}^i = \boldsymbol{q}^{n} +
+    \Delta t \sum_{j=1}^{s} a_{i,j}
+    \mathcal{T}(\boldsymbol{Q}^j).
+\end{align}\]</p><p>The first stage is initialized using the field at the previous time step: <span>$\boldsymbol{Q}^{1} \leftarrow \boldsymbol{q}^n$</span>.</p><p>In the above expressions, we define <span>$\boldsymbol{A} = \lbrace a_{i,j} \rbrace \in \mathbb{R}^{s\times s}$</span>, <span>$\boldsymbol{b} = \lbrace b_i \rbrace \in \mathbb{R}^s$</span>, and <span>$\boldsymbol{c} = \lbrace c_i \rbrace \in \mathbb{R}^s$</span> as the characteristic coefficients of a given RK method. This means we can associate any RK method with its so-called <em>Butcher tableau</em>:</p><p class="math-container">\[\begin{align}
+    \begin{array}{c|c}
+        \boldsymbol{c} &amp;\boldsymbol{A}\\
+        \hline
+        &amp; \boldsymbol{b}^T
+        \end{array} =
+        \begin{array}{c|c c c c}
+        c_1 &amp; a_{1,1} &amp; a_{1,2} &amp; \cdots &amp; a_{1,s}\\
+        c_2 &amp; a_{2,1} &amp; a_{2,2} &amp; \cdots &amp; a_{2,s}\\
+        \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+        c_s &amp; a_{s,1} &amp; a_{s,2} &amp; \cdots &amp; a_{s,s}\\
+        \hline
+        &amp; b_1 &amp; b_2 &amp; \cdots &amp; b_s
+    \end{array}.
+\end{align}\]</p><p>The vector <span>$\boldsymbol{c}$</span> is often called the <em>consistency vector</em>, and is typically subjected to the row-sum condition:</p><p><span>$c_i = \sum_{j=1}^{s} a_{i,j}, \quad \forall i = 1, \cdots, s.$</span></p><p>This simplifies the order conditions for higher-order RK methods. For more information on general RK methods, we refer the interested reader to Ch. 5.2 of <a href="../../../../References/#Atkinson2011">Kendall Atkinson , Weimin Han , David E Stewart  (2011)</a>.</p><h3 id="lsrk"><a class="docs-heading-anchor" href="#lsrk">Low-storage Runge-Kutta (LSRK) methods</a><a id="lsrk-1"></a><a class="docs-heading-anchor-permalink" href="#lsrk" title="Permalink"></a></h3><p><code>ClimateMachine.jl</code> contains the following low-storage methods:</p><ul><li>Forward Euler <a href="../../../../APIs/Numerics/ODESolvers/ODESolvers/#ClimateMachine.ODESolvers.LowStorageRungeKutta2N"><code>LowStorageRungeKutta2N</code></a>,</li><li>A 5-stage 4th-order Runge-Kutta method of Carpenter and Kennedy <a href="../../../../APIs/Numerics/ODESolvers/ODESolvers/#ClimateMachine.ODESolvers.LSRK54CarpenterKennedy"><code>LSRK54CarpenterKennedy</code></a></li><li>A 14-stage 4th-order Runge-Kutta method developed by Niegemann, Diehl, and Busch <a href="../../../../APIs/Numerics/ODESolvers/ODESolvers/#ClimateMachine.ODESolvers.LSRK144NiegemannDiehlBusch"><code>LSRK144NiegemannDiehlBusch</code></a>.</li></ul><p>To start, let&#39;s try using the 5-stage method: <code>LSRK54CarpenterKennedy</code>.</p><p>As is the case for all explicit methods, we are limited by the fastest propogating waves described by our governing equations. In our case, these are the acoustic waves (with approximate wave speed given by the speed of sound of 343 m/s). For the rising bubble example used here, we use 4th order polynomials in a discontinuous Galerkin approximation, with a domain resolution of 125 meters in each spatial direction. This gives an effective minimanl nodal distance (distance between LGL nodes) of 86 meters over the entire mesh. Using the equation for the explcit time-step above, we can determine the <span>$\Delta t$</span> by specifying the desired Courant number <span>$C$</span> (denoted <code>CFL</code> in the code below). In our case, a heuristically determined value of 0.4 is used.</p><pre><code class="language-julia">timeend = FT(100)
+ode_solver =
+    ClimateMachine.ExplicitSolverType(solver_method = LSRK54CarpenterKennedy)
+CFL = FT(0.4)
+run_simulation(ode_solver, CFL, timeend);</code></pre><pre><code class="language-none">ClimateMachine.array_type() = Array
+┌ Info: Model composition
+│     physics = ClimateMachine.Atmos.AtmosPhysics{Float64,Main.##415.EarthParameterSet}(Main.##415.EarthParameterSet())
+│     problem = ClimateMachine.Atmos.AtmosProblem{Tuple{ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC},ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC}},typeof(Main.##415.init_risingbubble!),typeof(ClimateMachine.Atmos.atmos_problem_init_state_auxiliary)}((ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC}(ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip}(ClimateMachine.Atmos.FreeSlip()), ClimateMachine.Atmos.Insulating(), ClimateMachine.Atmos.Impermeable(), ClimateMachine.Atmos.OutflowPrecipitation(), ClimateMachine.Atmos.ImpermeableTracer(), ClimateMachine.TurbulenceConvection.NoTurbConvBC()), ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC}(ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip}(ClimateMachine.Atmos.FreeSlip()), ClimateMachine.Atmos.Insulating(), ClimateMachine.Atmos.Impermeable(), ClimateMachine.Atmos.OutflowPrecipitation(), ClimateMachine.Atmos.ImpermeableTracer(), ClimateMachine.TurbulenceConvection.NoTurbConvBC())), Main.##415.init_risingbubble!, ClimateMachine.Atmos.atmos_problem_init_state_auxiliary)
+│     orientation = ClimateMachine.Orientations.FlatOrientation()
+│     energy = ClimateMachine.Atmos.EnergyModel()
+│     ref_state = ClimateMachine.Atmos.HydrostaticState{ClimateMachine.TemperatureProfiles.DryAdiabaticProfile{Float64},Float64}(ClimateMachine.TemperatureProfiles.DryAdiabaticProfile{Float64}(300.0, 0.0), 0.0, true)
+│     turbulence = ClimateMachine.TurbulenceClosures.SmagorinskyLilly{Float64}(0.21)
+│     turbconv = ClimateMachine.TurbulenceConvection.NoTurbConv()
+│     hyperdiffusion = ClimateMachine.TurbulenceClosures.NoHyperDiffusion()
+│     viscoussponge = ClimateMachine.TurbulenceClosures.NoViscousSponge()
+│     moisture = ClimateMachine.Atmos.DryModel()
+│     precipitation = ClimateMachine.Atmos.NoPrecipitation()
+│     radiation = ClimateMachine.Atmos.NoRadiation()
+│     source = DispatchedTuples.DispatchedTuple{Tuple{Tuple{ClimateMachine.Atmos.Momentum,ClimateMachine.Atmos.Gravity}},DispatchedTuples.NoDefaults} with 1 entries:
+│   ClimateMachine.Atmos.Momentum() =&gt; ClimateMachine.Atmos.Gravity()
+│   default =&gt; ()
+│ 
+│     tracers = ClimateMachine.Atmos.NTracers{4,Float64}([1.0, 2.0, 3.0, 4.0])
+│     lsforcing = ClimateMachine.Atmos.NoLSForcing()
+│     compressibility = ClimateMachine.Atmos.Compressible()
+│     data_config = nothing
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/driver_configs.jl:182
+
+PDE: ∂_t Y_i + (∇•F_1(Y))_i + (∇•F_2(Y,G)))_i = (S(Y,G))_i
+┌────────────┬────────────────────────────┬─────────────────────────────────┬───────────┐
+│   Equation │           Flux{FirstOrder} │               Flux{SecondOrder} │    Source │
+│      (Y_i) │                      (F_1) │                           (F_2) │       (S) │
+├────────────┼────────────────────────────┼─────────────────────────────────┼───────────┤
+│       Mass │                   (Advect) │                              () │        () │
+│   Momentum │ (Advect, PressureGradient) │                 (ViscousStress) │ (Gravity) │
+│     Energy │         (Advect, Pressure) │ (ViscousFlux, DiffEnthalpyFlux) │        () │
+│ Tracers{4} │                   (Advect) │                     (Diffusion) │        () │
+└────────────┴────────────────────────────┴─────────────────────────────────┴───────────┘
+
+┌ Info: Establishing Atmos LES configuration for DryRisingBubble
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     horiz cutoff order      = nothing
+│     vert cutoff order       = nothing
+│     domain_min              = 0.00 m, 0.00 m, 0.00 m
+│     domain_max              = 10000.00 m, 500.00 m, 10000.00 m
+│     resolution              = 125x125x125
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 86.34 m
+│     min(Δ_vert)             = 86.34 m
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/driver_configs.jl:288
+┌ Info: Initializing DryRisingBubble
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/solver_configs.jl:169
+solver_config.ode_solver_type = ExplicitSolverType(ClimateMachine.ODESolvers.LSRK54CarpenterKennedy)
+┌ Info: Starting DryRisingBubble
+│     dt              = 9.94036e-02
+│     timeend         =   100.00
+│     number of steps = 1006
+│     norm(Q)         = 5.3834517091451416e+09
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Driver.jl:783
+┌ Info: Update
+│     simtime =     0.10 /   100.00
+│     wallclock = 00:01:03
+│     efficiency (simtime / wallclock) =   0.0016
+│     wallclock end (estimated) = 17:47:56
+│     norm(Q) = 5.3834516837474117e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    12.62 /   100.00
+│     wallclock = 00:02:03
+│     efficiency (simtime / wallclock) =   0.1020
+│     wallclock end (estimated) = 00:16:20
+│     norm(Q) = 5.3834585254734411e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    25.15 /   100.00
+│     wallclock = 00:03:04
+│     efficiency (simtime / wallclock) =   0.1365
+│     wallclock end (estimated) = 00:12:12
+│     norm(Q) = 5.3833364842418604e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    37.48 /   100.00
+│     wallclock = 00:04:04
+│     efficiency (simtime / wallclock) =   0.1533
+│     wallclock end (estimated) = 00:10:52
+│     norm(Q) = 5.3833225336134644e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    49.90 /   100.00
+│     wallclock = 00:05:04
+│     efficiency (simtime / wallclock) =   0.1637
+│     wallclock end (estimated) = 00:10:10
+│     norm(Q) = 5.3834666620914040e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    62.33 /   100.00
+│     wallclock = 00:06:04
+│     efficiency (simtime / wallclock) =   0.1708
+│     wallclock end (estimated) = 00:09:45
+│     norm(Q) = 5.3834354647937927e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    74.95 /   100.00
+│     wallclock = 00:07:05
+│     efficiency (simtime / wallclock) =   0.1763
+│     wallclock end (estimated) = 00:09:27
+│     norm(Q) = 5.3834592091793308e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    88.27 /   100.00
+│     wallclock = 00:08:05
+│     efficiency (simtime / wallclock) =   0.1819
+│     wallclock end (estimated) = 00:09:09
+│     norm(Q) = 5.3833457753866596e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Finished
+│     norm(Q)            = 5.3833346937421455e+09
+│     norm(Q) / norm(Q₀) = 9.9997826387059485e-01
+│     norm(Q) - norm(Q₀) = -1.1701540299606323e+05
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Driver.jl:834
+┌ Info: Euclidean distance
+│     norm(Q - Qe)            = 7.6157180010283887e+06
+│     norm(Q - Qe) / norm(Qe) = 1.4146533511373723e-03
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Driver.jl:850
+</code></pre><p>What if we wish to take a larger timestep size?  We could try to increase the target Courant number, say <span>$C = 1.7$</span>, and re-run the simulation. But this would break! In fact, in this case the numerical scheme would fall outside of the stability region and the simulation would crash. This occurs when the time step <em>exceeds</em> the maximal stable time-step size of the method. For the 5-stage method, one can typically get away with using time-step sizes corresponding to a Courant number of <span>$C \approx 0.4$</span> but typically not much larger. In contrast, we can use an LSRK method with a larger stability region. Let&#39;s illustrate this by using the 14-stage method with a <span>$C = 1.7$</span> instead.</p><pre><code class="language-julia">ode_solver = ClimateMachine.ExplicitSolverType(
+    solver_method = LSRK144NiegemannDiehlBusch,
+)
+CFL = FT(1.7)
+run_simulation(ode_solver, CFL, timeend);</code></pre><pre><code class="language-none">ClimateMachine.array_type() = Array
+┌ Info: Model composition
+│     physics = ClimateMachine.Atmos.AtmosPhysics{Float64,Main.##415.EarthParameterSet}(Main.##415.EarthParameterSet())
+│     problem = ClimateMachine.Atmos.AtmosProblem{Tuple{ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC},ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC}},typeof(Main.##415.init_risingbubble!),typeof(ClimateMachine.Atmos.atmos_problem_init_state_auxiliary)}((ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC}(ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip}(ClimateMachine.Atmos.FreeSlip()), ClimateMachine.Atmos.Insulating(), ClimateMachine.Atmos.Impermeable(), ClimateMachine.Atmos.OutflowPrecipitation(), ClimateMachine.Atmos.ImpermeableTracer(), ClimateMachine.TurbulenceConvection.NoTurbConvBC()), ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC}(ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip}(ClimateMachine.Atmos.FreeSlip()), ClimateMachine.Atmos.Insulating(), ClimateMachine.Atmos.Impermeable(), ClimateMachine.Atmos.OutflowPrecipitation(), ClimateMachine.Atmos.ImpermeableTracer(), ClimateMachine.TurbulenceConvection.NoTurbConvBC())), Main.##415.init_risingbubble!, ClimateMachine.Atmos.atmos_problem_init_state_auxiliary)
+│     orientation = ClimateMachine.Orientations.FlatOrientation()
+│     energy = ClimateMachine.Atmos.EnergyModel()
+│     ref_state = ClimateMachine.Atmos.HydrostaticState{ClimateMachine.TemperatureProfiles.DryAdiabaticProfile{Float64},Float64}(ClimateMachine.TemperatureProfiles.DryAdiabaticProfile{Float64}(300.0, 0.0), 0.0, true)
+│     turbulence = ClimateMachine.TurbulenceClosures.SmagorinskyLilly{Float64}(0.21)
+│     turbconv = ClimateMachine.TurbulenceConvection.NoTurbConv()
+│     hyperdiffusion = ClimateMachine.TurbulenceClosures.NoHyperDiffusion()
+│     viscoussponge = ClimateMachine.TurbulenceClosures.NoViscousSponge()
+│     moisture = ClimateMachine.Atmos.DryModel()
+│     precipitation = ClimateMachine.Atmos.NoPrecipitation()
+│     radiation = ClimateMachine.Atmos.NoRadiation()
+│     source = DispatchedTuples.DispatchedTuple{Tuple{Tuple{ClimateMachine.Atmos.Momentum,ClimateMachine.Atmos.Gravity}},DispatchedTuples.NoDefaults} with 1 entries:
+│   ClimateMachine.Atmos.Momentum() =&gt; ClimateMachine.Atmos.Gravity()
+│   default =&gt; ()
+│ 
+│     tracers = ClimateMachine.Atmos.NTracers{4,Float64}([1.0, 2.0, 3.0, 4.0])
+│     lsforcing = ClimateMachine.Atmos.NoLSForcing()
+│     compressibility = ClimateMachine.Atmos.Compressible()
+│     data_config = nothing
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/driver_configs.jl:182
+
+PDE: ∂_t Y_i + (∇•F_1(Y))_i + (∇•F_2(Y,G)))_i = (S(Y,G))_i
+┌────────────┬────────────────────────────┬─────────────────────────────────┬───────────┐
+│   Equation │           Flux{FirstOrder} │               Flux{SecondOrder} │    Source │
+│      (Y_i) │                      (F_1) │                           (F_2) │       (S) │
+├────────────┼────────────────────────────┼─────────────────────────────────┼───────────┤
+│       Mass │                   (Advect) │                              () │        () │
+│   Momentum │ (Advect, PressureGradient) │                 (ViscousStress) │ (Gravity) │
+│     Energy │         (Advect, Pressure) │ (ViscousFlux, DiffEnthalpyFlux) │        () │
+│ Tracers{4} │                   (Advect) │                     (Diffusion) │        () │
+└────────────┴────────────────────────────┴─────────────────────────────────┴───────────┘
+
+┌ Info: Establishing Atmos LES configuration for DryRisingBubble
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     horiz cutoff order      = nothing
+│     vert cutoff order       = nothing
+│     domain_min              = 0.00 m, 0.00 m, 0.00 m
+│     domain_max              = 10000.00 m, 500.00 m, 10000.00 m
+│     resolution              = 125x125x125
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 86.34 m
+│     min(Δ_vert)             = 86.34 m
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/driver_configs.jl:288
+┌ Info: Initializing DryRisingBubble
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/solver_configs.jl:169
+solver_config.ode_solver_type = ExplicitSolverType(ClimateMachine.ODESolvers.LSRK144NiegemannDiehlBusch)
+┌ Info: Starting DryRisingBubble
+│     dt              = 4.21941e-01
+│     timeend         =   100.00
+│     number of steps = 237
+│     norm(Q)         = 5.3834517091451416e+09
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Driver.jl:783
+┌ Info: Update
+│     simtime =    19.83 /   100.00
+│     wallclock = 00:01:00
+│     efficiency (simtime / wallclock) =   0.3274
+│     wallclock end (estimated) = 00:05:05
+│     norm(Q) = 5.3834016160110683e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    39.66 /   100.00
+│     wallclock = 00:02:00
+│     efficiency (simtime / wallclock) =   0.3281
+│     wallclock end (estimated) = 00:05:04
+│     norm(Q) = 5.3833516923011189e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    60.34 /   100.00
+│     wallclock = 00:03:01
+│     efficiency (simtime / wallclock) =   0.3317
+│     wallclock end (estimated) = 00:05:01
+│     norm(Q) = 5.3834411401125412e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    81.01 /   100.00
+│     wallclock = 00:04:02
+│     efficiency (simtime / wallclock) =   0.3342
+│     wallclock end (estimated) = 00:04:59
+│     norm(Q) = 5.3834383130700493e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Finished
+│     norm(Q)            = 5.3833337636289988e+09
+│     norm(Q) / norm(Q₀) = 9.9997809109795810e-01
+│     norm(Q) - norm(Q₀) = -1.1794551614284515e+05
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Driver.jl:834
+┌ Info: Euclidean distance
+│     norm(Q - Qe)            = 7.6257985218708757e+06
+│     norm(Q - Qe) / norm(Qe) = 1.4165258525337093e-03
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Driver.jl:850
+</code></pre><p>And it successfully completes. Currently, the 14-stage LSRK method <code>LSRK144NiegemannDiehlBusch</code> contains the largest stability region of the low-storage methods available in <code>ClimateMachine.jl</code>.</p><h3 id="ssprk"><a class="docs-heading-anchor" href="#ssprk">Strong Stability Preserving Runge–Kutta (SSPRK) methods</a><a id="ssprk-1"></a><a class="docs-heading-anchor-permalink" href="#ssprk" title="Permalink"></a></h3><p>Just as with the LSRK methods, the SSPRK methods are self-starting, with <span>$\boldsymbol{Q}^{1} = \boldsymbol{q}^n$</span>, and stage-values are of the form</p><p class="math-container">\[\begin{align}
+    \boldsymbol{Q}^{i+1} = a_{i,1} \boldsymbol{q}^n
+    + a_{i,2} \boldsymbol{Q}^{i}
+    + \Delta t b_i\mathcal{T}(\boldsymbol{Q}^{i})
+\end{align}\]</p><p>with the value at the next step being the <span>$(N+1)$</span>-th stage value <span>$\boldsymbol{q}^{n+1} = \boldsymbol{Q}^{(N+1)}$</span>. This allows the updates to be performed with only three copies of the state vector (storing <span>$\boldsymbol{q}^n$</span>, <span>$\boldsymbol{Q}^{i}$</span> and <span>$\mathcal{T}(\boldsymbol{Q}^{i})$</span>). We illustrate here the use of a <a href="../../../../APIs/Numerics/ODESolvers/ODESolvers/#ClimateMachine.ODESolvers.SSPRK33ShuOsher"><code>SSPRK33ShuOsher</code></a> method.</p><pre><code class="language-julia">ode_solver = ClimateMachine.ExplicitSolverType(solver_method = SSPRK33ShuOsher)
+CFL = FT(0.2)
+run_simulation(ode_solver, CFL, timeend);</code></pre><pre><code class="language-none">ClimateMachine.array_type() = Array
+┌ Info: Model composition
+│     physics = ClimateMachine.Atmos.AtmosPhysics{Float64,Main.##415.EarthParameterSet}(Main.##415.EarthParameterSet())
+│     problem = ClimateMachine.Atmos.AtmosProblem{Tuple{ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC},ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC}},typeof(Main.##415.init_risingbubble!),typeof(ClimateMachine.Atmos.atmos_problem_init_state_auxiliary)}((ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC}(ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip}(ClimateMachine.Atmos.FreeSlip()), ClimateMachine.Atmos.Insulating(), ClimateMachine.Atmos.Impermeable(), ClimateMachine.Atmos.OutflowPrecipitation(), ClimateMachine.Atmos.ImpermeableTracer(), ClimateMachine.TurbulenceConvection.NoTurbConvBC()), ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.OutflowPrecipitation,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC}(ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip}(ClimateMachine.Atmos.FreeSlip()), ClimateMachine.Atmos.Insulating(), ClimateMachine.Atmos.Impermeable(), ClimateMachine.Atmos.OutflowPrecipitation(), ClimateMachine.Atmos.ImpermeableTracer(), ClimateMachine.TurbulenceConvection.NoTurbConvBC())), Main.##415.init_risingbubble!, ClimateMachine.Atmos.atmos_problem_init_state_auxiliary)
+│     orientation = ClimateMachine.Orientations.FlatOrientation()
+│     energy = ClimateMachine.Atmos.EnergyModel()
+│     ref_state = ClimateMachine.Atmos.HydrostaticState{ClimateMachine.TemperatureProfiles.DryAdiabaticProfile{Float64},Float64}(ClimateMachine.TemperatureProfiles.DryAdiabaticProfile{Float64}(300.0, 0.0), 0.0, true)
+│     turbulence = ClimateMachine.TurbulenceClosures.SmagorinskyLilly{Float64}(0.21)
+│     turbconv = ClimateMachine.TurbulenceConvection.NoTurbConv()
+│     hyperdiffusion = ClimateMachine.TurbulenceClosures.NoHyperDiffusion()
+│     viscoussponge = ClimateMachine.TurbulenceClosures.NoViscousSponge()
+│     moisture = ClimateMachine.Atmos.DryModel()
+│     precipitation = ClimateMachine.Atmos.NoPrecipitation()
+│     radiation = ClimateMachine.Atmos.NoRadiation()
+│     source = DispatchedTuples.DispatchedTuple{Tuple{Tuple{ClimateMachine.Atmos.Momentum,ClimateMachine.Atmos.Gravity}},DispatchedTuples.NoDefaults} with 1 entries:
+│   ClimateMachine.Atmos.Momentum() =&gt; ClimateMachine.Atmos.Gravity()
+│   default =&gt; ()
+│ 
+│     tracers = ClimateMachine.Atmos.NTracers{4,Float64}([1.0, 2.0, 3.0, 4.0])
+│     lsforcing = ClimateMachine.Atmos.NoLSForcing()
+│     compressibility = ClimateMachine.Atmos.Compressible()
+│     data_config = nothing
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/driver_configs.jl:182
+
+PDE: ∂_t Y_i + (∇•F_1(Y))_i + (∇•F_2(Y,G)))_i = (S(Y,G))_i
+┌────────────┬────────────────────────────┬─────────────────────────────────┬───────────┐
+│   Equation │           Flux{FirstOrder} │               Flux{SecondOrder} │    Source │
+│      (Y_i) │                      (F_1) │                           (F_2) │       (S) │
+├────────────┼────────────────────────────┼─────────────────────────────────┼───────────┤
+│       Mass │                   (Advect) │                              () │        () │
+│   Momentum │ (Advect, PressureGradient) │                 (ViscousStress) │ (Gravity) │
+│     Energy │         (Advect, Pressure) │ (ViscousFlux, DiffEnthalpyFlux) │        () │
+│ Tracers{4} │                   (Advect) │                     (Diffusion) │        () │
+└────────────┴────────────────────────────┴─────────────────────────────────┴───────────┘
+
+┌ Info: Establishing Atmos LES configuration for DryRisingBubble
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     horiz cutoff order      = nothing
+│     vert cutoff order       = nothing
+│     domain_min              = 0.00 m, 0.00 m, 0.00 m
+│     domain_max              = 10000.00 m, 500.00 m, 10000.00 m
+│     resolution              = 125x125x125
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 86.34 m
+│     min(Δ_vert)             = 86.34 m
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/driver_configs.jl:288
+┌ Info: Initializing DryRisingBubble
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/solver_configs.jl:169
+solver_config.ode_solver_type = ExplicitSolverType(ClimateMachine.ODESolvers.SSPRK33ShuOsher)
+┌ Info: Starting DryRisingBubble
+│     dt              = 4.97265e-02
+│     timeend         =   100.00
+│     number of steps = 2011
+│     norm(Q)         = 5.3834517091451416e+09
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Driver.jl:783
+┌ Info: Update
+│     simtime =    11.19 /   100.00
+│     wallclock = 00:01:00
+│     efficiency (simtime / wallclock) =   0.1852
+│     wallclock end (estimated) = 00:08:59
+│     norm(Q) = 5.3834558814481659e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    22.23 /   100.00
+│     wallclock = 00:02:00
+│     efficiency (simtime / wallclock) =   0.1847
+│     wallclock end (estimated) = 00:09:01
+│     norm(Q) = 5.3833694863297691e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    33.32 /   100.00
+│     wallclock = 00:03:00
+│     efficiency (simtime / wallclock) =   0.1845
+│     wallclock end (estimated) = 00:09:02
+│     norm(Q) = 5.3833025899855261e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    44.36 /   100.00
+│     wallclock = 00:04:00
+│     efficiency (simtime / wallclock) =   0.1842
+│     wallclock end (estimated) = 00:09:02
+│     norm(Q) = 5.3834235375365677e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    55.89 /   100.00
+│     wallclock = 00:05:01
+│     efficiency (simtime / wallclock) =   0.1857
+│     wallclock end (estimated) = 00:08:58
+│     norm(Q) = 5.3834471415071020e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    67.88 /   100.00
+│     wallclock = 00:06:01
+│     efficiency (simtime / wallclock) =   0.1880
+│     wallclock end (estimated) = 00:08:51
+│     norm(Q) = 5.3834297320681543e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    79.91 /   100.00
+│     wallclock = 00:07:01
+│     efficiency (simtime / wallclock) =   0.1897
+│     wallclock end (estimated) = 00:08:47
+│     norm(Q) = 5.3834478651226368e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Update
+│     simtime =    91.70 /   100.00
+│     wallclock = 00:08:01
+│     efficiency (simtime / wallclock) =   0.1906
+│     wallclock end (estimated) = 00:08:44
+│     norm(Q) = 5.3833139408642273e+09
+└ @ ClimateMachine.Callbacks /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Callbacks/Callbacks.jl:75
+┌ Info: Finished
+│     norm(Q)            = 5.3833337634147615e+09
+│     norm(Q) / norm(Q₀) = 9.9997809105816260e-01
+│     norm(Q) - norm(Q₀) = -1.1794573038005829e+05
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Driver.jl:834
+┌ Info: Euclidean distance
+│     norm(Q - Qe)            = 7.6257870188512690e+06
+│     norm(Q - Qe) / norm(Qe) = 1.4165237157968667e-03
+└ @ ClimateMachine /central/scratch/climaci/climatemachine-docs/1125/climatemachine-docs/src/Driver/Driver.jl:850
+</code></pre><h2 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h2><ul><li><a href="../../../../References/#Shu1988">Chi-Wang Shu , Stanley Osher  (1988)</a></li><li><a href="../../../../References/#Heun1900">Karl Heun  (1900)</a></li></ul><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../ts_intro/">« Introduction</a><a class="docs-footer-nextpage" href="../tutorial_risingbubble_config/">Rising Thermal Bubble Configuration »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 19 March 2021 15:16">Friday 19 March 2021</span>. Using Julia version 1.5.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

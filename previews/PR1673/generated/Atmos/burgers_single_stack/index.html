@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Single Element Stack Experiment (Burgers Equation) · ClimateMachine</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../assets/documenter.js"></script><script src="../../../siteinfo.js"></script><script src="../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../../"><img src="../../../assets/logo.svg" alt="ClimateMachine logo"/></a><div class="docs-package-name"><span class="docs-autofit">ClimateMachine</span></div><form class="docs-search" action="../../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../../">Home</a></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">Getting started</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../GettingStarted/Installation/">Installation</a></li><li><a class="tocitem" href="../../../GettingStarted/Terminology/">Terminology</a></li><li><a class="tocitem" href="../../../GettingStarted/RunningClimateMachine/">Running</a></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox"/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Defaults</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../GettingStarted/Atmos/">Atmosphere model configurations</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Tutorials</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../TutorialList/">Home</a></li><li><a class="tocitem" href="../../how_to_make_a_balance_law/">Balance Law</a></li><li><input class="collapse-toggle" id="menuitem-3-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../heldsuarez/">Dry Idealized GCM (Held-Suarez)</a></li><li class="is-active"><a class="tocitem" href>Single Element Stack Experiment (Burgers Equation)</a><ul class="internal"><li class="toplevel"><a class="tocitem" href="#Preliminary-configuration"><span>Preliminary configuration</span></a></li><li><a class="tocitem" href="#Loading-code-burgers"><span>Loading code</span></a></li><li><a class="tocitem" href="#Initialization"><span>Initialization</span></a></li><li class="toplevel"><a class="tocitem" href="#Define-the-set-of-Partial-Differential-Equations-(PDEs)"><span>Define the set of Partial Differential Equations (PDEs)</span></a></li><li><a class="tocitem" href="#Define-the-model"><span>Define the model</span></a></li><li><a class="tocitem" href="#Define-the-variables"><span>Define the variables</span></a></li><li><a class="tocitem" href="#Define-the-compute-kernels"><span>Define the compute kernels</span></a></li><li class="toplevel"><a class="tocitem" href="#Spatial-discretization"><span>Spatial discretization</span></a></li><li class="toplevel"><a class="tocitem" href="#Time-discretization"><span>Time discretization</span></a></li><li class="toplevel"><a class="tocitem" href="#Configure-a-ClimateMachine-solver."><span>Configure a <code>ClimateMachine</code> solver.</span></a></li><li><a class="tocitem" href="#Inspect-the-initial-conditions-for-a-single-nodal-stack"><span>Inspect the initial conditions for a single nodal stack</span></a></li><li><a class="tocitem" href="#Inspect-the-initial-conditions-for-the-horizontal-averages"><span>Inspect the initial conditions for the horizontal averages</span></a></li><li class="toplevel"><a class="tocitem" href="#Solver-hooks-/-callbacks"><span>Solver hooks / callbacks</span></a></li><li class="toplevel"><a class="tocitem" href="#Solve"><span>Solve</span></a></li><li class="toplevel"><a class="tocitem" href="#Post-processing"><span>Post-processing</span></a></li></ul></li><li><a class="tocitem" href="../densitycurrent/">LES Experiment (Density Current)</a></li><li><a class="tocitem" href="../risingbubble/">LES Experiment (Rising Thermal Bubble)</a></li><li><a class="tocitem" href="../agnesi_hs_lin/">Linear Hydrostatic Mountain (Topography)</a></li><li><a class="tocitem" href="../agnesi_nh_lin/">Linear Non-Hydrostatic Mountain (Topography)</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><input class="collapse-toggle" id="menuitem-3-5" type="checkbox"/><label class="tocitem" for="menuitem-3-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-5-1" type="checkbox"/><label class="tocitem" for="menuitem-3-5-1"><span class="docs-label">Heat</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Land/Heat/heat_equation/">Heat Equation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-5-2" type="checkbox"/><label class="tocitem" for="menuitem-3-5-2"><span class="docs-label">Soil</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Land/Soil/Water/hydraulic_functions/">Hydraulic Functions</a></li><li><a class="tocitem" href="../../Land/Soil/Heat/bonan_heat_tutorial/">Soil Heat Equation</a></li><li><a class="tocitem" href="../../Land/Soil/Coupled/equilibrium_test/">Coupled Water and Heat</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6" type="checkbox"/><label class="tocitem" for="menuitem-3-6"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-6-1" type="checkbox"/><label class="tocitem" for="menuitem-3-6-1"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Numerics/SystemSolvers/cg/">Conjugate Gradient</a></li><li><a class="tocitem" href="../../Numerics/SystemSolvers/bgmres/">Batched Generalized Minimal Residual</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-2" type="checkbox"/><label class="tocitem" for="menuitem-3-6-2"><span class="docs-label">DG Methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Numerics/DGMethods/showcase_filters/">Filters</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-7" type="checkbox"/><label class="tocitem" for="menuitem-3-7"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-7-1" type="checkbox"/><label class="tocitem" for="menuitem-3-7-1"><span class="docs-label">Debug</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Diagnostics/Debug/StateCheck/">State Statistics Regression</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">How-to-guides</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-4-1" type="checkbox"/><label class="tocitem" for="menuitem-4-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../HowToGuides/Common/UniversalFunctions/">Universal Functions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Atmos/TemperatureProfiles/">Temperature profiles</a></li><li><a class="tocitem" href="../../../HowToGuides/Atmos/AtmosReferenceState/">Reference profiles</a></li><li><a class="tocitem" href="../../../HowToGuides/Atmos/MoistureModelChoices/">Moisture model</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><span class="tocitem">Meshes</span></li><li><input class="collapse-toggle" id="menuitem-4-5-2" type="checkbox"/><label class="tocitem" for="menuitem-4-5-2"><span class="docs-label">DG methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/DGMethods/how_to_make_a_balance_law/">How to make a balance law</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-3" type="checkbox"/><label class="tocitem" for="menuitem-4-5-3"><span class="docs-label">ODE Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/ODESolvers/Timestepping/">Time-integration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-4" type="checkbox"/><label class="tocitem" for="menuitem-4-5-4"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/SystemSolvers/IterativeSolvers/">Iterative Solvers</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">APIs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/">Home</a></li><li><input class="collapse-toggle" id="menuitem-5-2" type="checkbox"/><label class="tocitem" for="menuitem-5-2"><span class="docs-label">Driver</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Driver/">Top level interface</a></li><li><a class="tocitem" href="../../../APIs/Driver/Checkpoint/">Checkpoint</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-3" type="checkbox"/><label class="tocitem" for="menuitem-5-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../APIs/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../APIs/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../APIs/Atmos/TemperatureProfiles/">Temperature Profiles</a></li></ul></li><li><a class="tocitem" href="../../../APIs/Ocean/Ocean/">Ocean</a></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Land/LandModel/">Land Model</a></li><li><a class="tocitem" href="../../../APIs/Land/SoilWaterParameterizations/">Soil Water Parameterizations</a></li><li><a class="tocitem" href="../../../APIs/Land/SoilHeatParameterizations/">Soil Heat Parameterizations</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-6" type="checkbox"/><label class="tocitem" for="menuitem-5-6"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Common/Orientations/">Orientations</a></li><li><a class="tocitem" href="../../../APIs/Common/Spectra/">Spectra</a></li><li><a class="tocitem" href="../../../APIs/Common/SurfaceFluxes/">Surface Fluxes</a></li><li><a class="tocitem" href="../../../APIs/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../APIs/Common/TurbulenceClosures/">Turbulence Closures</a></li><li><a class="tocitem" href="../../../APIs/Common/TurbulenceConvection/">Turbulence Convection</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-7" type="checkbox"/><label class="tocitem" for="menuitem-5-7"><span class="docs-label">Balance Laws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/BalanceLaws/BalanceLaws/">Balance Laws</a></li><li><a class="tocitem" href="../../../APIs/BalanceLaws/Problems/">Problems</a></li></ul></li><li><a class="tocitem" href="../../../APIs/Arrays/Arrays/">Arrays</a></li><li><input class="collapse-toggle" id="menuitem-5-9" type="checkbox"/><label class="tocitem" for="menuitem-5-9"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Diagnostics/Diagnostics/">Diagnostics groups</a></li><li><a class="tocitem" href="../../../APIs/Diagnostics/StateCheck/">State Check</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-10" type="checkbox"/><label class="tocitem" for="menuitem-5-10"><span class="docs-label">Input/Output</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/InputOutput/">Input/Output</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-11" type="checkbox"/><label class="tocitem" for="menuitem-5-11"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Numerics/Meshes/Mesh/">Meshes</a></li><li><a class="tocitem" href="../../../APIs/Numerics/SystemSolvers/SystemSolvers/">SystemSolvers</a></li><li><a class="tocitem" href="../../../APIs/Numerics/ODESolvers/ODESolvers/">ODESolvers</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/DGMethods/">DG Methods</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/Courant/">Courant</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/NumericalFluxes/">Numerical Fluxes</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-12" type="checkbox"/><label class="tocitem" for="menuitem-5-12"><span class="docs-label">Utilities</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Utilities/VariableTemplates/">Variable Templates</a></li><li><a class="tocitem" href="../../../APIs/Utilities/SingleStackUtils/">Single Stack Utilities</a></li><li><a class="tocitem" href="../../../APIs/Utilities/TicToc/">Tic Toc</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../Contributing/">Contribution guide</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Theory</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-7-1" type="checkbox"/><label class="tocitem" for="menuitem-7-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Theory/Common/SurfaceFluxes/">SurfaceFluxes</a></li><li><a class="tocitem" href="../../../Theory/Common/Turbulence/">Turbulence Closures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7-2" type="checkbox"/><label class="tocitem" for="menuitem-7-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Theory/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../Theory/Atmos/EDMFEquations/">EDMF equations</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Model/tracers/">Tracers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Developer docs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../DevDocs/CodeStyle/">Coding style</a></li><li><a class="tocitem" href="../../../DevDocs/AcceptableUnicode/">Acceptable Unicode</a></li><li><a class="tocitem" href="../../../DevDocs/VariableList/">Variable list</a></li><li><a class="tocitem" href="../../../DevDocs/DiagnosticVariables/">Diagnostic variable list</a></li><li><a class="tocitem" href="../../../DevDocs/SystemImage/">Custom System Image</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li><a class="is-disabled">Atmos</a></li><li class="is-active"><a href>Single Element Stack Experiment (Burgers Equation)</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Single Element Stack Experiment (Burgers Equation)</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/ClimateMachine.jl/blob/master/tutorials/Atmos/burgers_single_stack.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Single-stack-tutorial-based-on-the-3D-Burgers-tracer-equations"><a class="docs-heading-anchor" href="#Single-stack-tutorial-based-on-the-3D-Burgers-tracer-equations">Single stack tutorial based on the 3D Burgers + tracer equations</a><a id="Single-stack-tutorial-based-on-the-3D-Burgers-tracer-equations-1"></a><a class="docs-heading-anchor-permalink" href="#Single-stack-tutorial-based-on-the-3D-Burgers-tracer-equations" title="Permalink"></a></h1><p>This tutorial implements the Burgers equations with a tracer field in a single element stack. The flow is initialized with a horizontally uniform profile of horizontal velocity and uniform initial temperature. The fluid is heated from the bottom surface. Gaussian noise is imposed to the horizontal velocity field at each node at the start of the simulation. The tutorial demonstrates how to</p><ul><li>Initialize a <a href="../../../APIs/BalanceLaws/BalanceLaws/#ClimateMachine.BalanceLaws.BalanceLaw"><code>BalanceLaw</code></a> in a single stack configuration;</li><li>Return the horizontal velocity field to a given profile (e.g., large-scale advection);</li><li>Remove any horizontal inhomogeneities or noise from the flow.</li></ul><p>The second and third bullet points are demonstrated imposing Rayleigh friction, horizontal diffusion and 2D divergence damping to the horizontal momentum prognostic equation.</p><p>Equations solved in balance law form:</p><div>\[\begin{align}
+\frac{∂ ρ}{∂ t} =&amp; - ∇ ⋅ (ρ\mathbf{u}) \\
+\frac{∂ ρ\mathbf{u}}{∂ t} =&amp; - ∇ ⋅ (-μ ∇\mathbf{u}) - ∇ ⋅ (ρ\mathbf{u} \mathbf{u}&#39;) - γ[ (ρ\mathbf{u}-ρ̄\mathbf{ū}) - (ρ\mathbf{u}-ρ̄\mathbf{ū})⋅ẑ ẑ] - ν_d ∇_h (∇_h ⋅ ρ\mathbf{u}) \\
+\frac{∂ ρcT}{∂ t} =&amp; - ∇ ⋅ (-α ∇ρcT) - ∇ ⋅ (\mathbf{u} ρcT)
+\end{align}\]</div><p>Boundary conditions:</p><div>\[\begin{align}
+z_{\mathrm{min}}: &amp; ρ = 1 \\
+z_{\mathrm{min}}: &amp; ρ\mathbf{u} = \mathbf{0} \\
+z_{\mathrm{min}}: &amp; ρcT = ρc T_{\mathrm{fixed}} \\
+z_{\mathrm{max}}: &amp; ρ = 1 \\
+z_{\mathrm{max}}: &amp; ρ\mathbf{u} = \mathbf{0} \\
+z_{\mathrm{max}}: &amp; -α∇ρcT = 0
+\end{align}\]</div><p>where</p><ul><li><span>$t$</span> is time</li><li><span>$ρ$</span> is the density</li><li><span>$\mathbf{u}$</span> is the velocity (vector)</li><li><span>$\mathbf{ū}$</span> is the horizontally averaged velocity (vector)</li><li><span>$μ$</span> is the dynamic viscosity tensor</li><li><span>$γ$</span> is the Rayleigh friction frequency</li><li><span>$ν_d$</span> is the horizontal divergence damping coefficient</li><li><span>$T$</span> is the temperature</li><li><span>$α$</span> is the thermal diffusivity tensor</li><li><span>$c$</span> is the heat capacity</li><li><span>$ρcT$</span> is the thermal energy</li></ul><p>Solving these equations is broken down into the following steps:</p><ol><li>Preliminary configuration</li><li>PDEs</li><li>Space discretization</li><li>Time discretization</li><li>Solver hooks / callbacks</li><li>Solve</li><li>Post-processing</li></ol><h1 id="Preliminary-configuration"><a class="docs-heading-anchor" href="#Preliminary-configuration">Preliminary configuration</a><a id="Preliminary-configuration-1"></a><a class="docs-heading-anchor-permalink" href="#Preliminary-configuration" title="Permalink"></a></h1><h2 id="Loading-code-burgers"><a class="docs-heading-anchor" href="#Loading-code-burgers">Loading code</a><a id="Loading-code-burgers-1"></a><a class="docs-heading-anchor-permalink" href="#Loading-code-burgers" title="Permalink"></a></h2><p>First, we&#39;ll load our pre-requisites</p><ul><li>load external packages:</li></ul><pre><code class="language-julia">using MPI
+using Distributions
+using OrderedCollections
+using Plots
+using StaticArrays
+using LinearAlgebra: Diagonal, tr</code></pre><ul><li>load CLIMAParameters and set up to use it:</li></ul><pre><code class="language-julia">using CLIMAParameters
+struct EarthParameterSet &lt;: AbstractEarthParameterSet end
+const param_set = EarthParameterSet()</code></pre><pre class="documenter-example-output">Main.ex-burgers_single_stack.EarthParameterSet()</pre><ul><li>load necessary ClimateMachine modules:</li></ul><pre><code class="language-julia">using ClimateMachine
+using ClimateMachine.Mesh.Topologies
+using ClimateMachine.Mesh.Grids
+using ClimateMachine.Writers
+using ClimateMachine.DGMethods
+using ClimateMachine.DGMethods.NumericalFluxes
+using ClimateMachine.BalanceLaws:
+    BalanceLaw, Prognostic, Auxiliary, Gradient, GradientFlux
+
+using ClimateMachine.Mesh.Geometry: LocalGeometry
+using ClimateMachine.MPIStateArrays
+using ClimateMachine.GenericCallbacks
+using ClimateMachine.ODESolvers
+using ClimateMachine.VariableTemplates
+using ClimateMachine.SingleStackUtils</code></pre><ul><li>import necessary ClimateMachine modules: (<code>import</code>ing enables us to</li></ul><p>provide implementations of these structs/methods)</p><pre><code class="language-julia">using ClimateMachine.Orientations:
+    Orientation,
+    FlatOrientation,
+    init_aux!,
+    vertical_unit_vector,
+    projection_tangential
+
+import ClimateMachine.BalanceLaws:
+    vars_state,
+    source!,
+    flux_second_order!,
+    flux_first_order!,
+    compute_gradient_argument!,
+    compute_gradient_flux!,
+    init_state_auxiliary!,
+    init_state_prognostic!,
+    boundary_state!</code></pre><h2 id="Initialization"><a class="docs-heading-anchor" href="#Initialization">Initialization</a><a id="Initialization-1"></a><a class="docs-heading-anchor-permalink" href="#Initialization" title="Permalink"></a></h2><p>Define the float type (<code>Float64</code> or <code>Float32</code>)</p><pre><code class="language-julia">FT = Float64;</code></pre><p>Initialize ClimateMachine for CPU.</p><pre><code class="language-julia">ClimateMachine.init(; disable_gpu = true);
+
+const clima_dir = dirname(dirname(pathof(ClimateMachine)));</code></pre><p>Load some helper functions for plotting</p><pre><code class="language-julia">include(joinpath(clima_dir, &quot;docs&quot;, &quot;plothelpers.jl&quot;));</code></pre><h1 id="Define-the-set-of-Partial-Differential-Equations-(PDEs)"><a class="docs-heading-anchor" href="#Define-the-set-of-Partial-Differential-Equations-(PDEs)">Define the set of Partial Differential Equations (PDEs)</a><a id="Define-the-set-of-Partial-Differential-Equations-(PDEs)-1"></a><a class="docs-heading-anchor-permalink" href="#Define-the-set-of-Partial-Differential-Equations-(PDEs)" title="Permalink"></a></h1><h2 id="Define-the-model"><a class="docs-heading-anchor" href="#Define-the-model">Define the model</a><a id="Define-the-model-1"></a><a class="docs-heading-anchor-permalink" href="#Define-the-model" title="Permalink"></a></h2><p>Model parameters can be stored in the particular <a href="../../../APIs/BalanceLaws/BalanceLaws/#ClimateMachine.BalanceLaws.BalanceLaw"><code>BalanceLaw</code></a>, in this case, the <code>BurgersEquation</code>:</p><pre><code class="language-julia">Base.@kwdef struct BurgersEquation{FT, APS, O} &lt;: BalanceLaw
+    &quot;Parameters&quot;
+    param_set::APS
+    &quot;Orientation model&quot;
+    orientation::O
+    &quot;Heat capacity&quot;
+    c::FT = 1
+    &quot;Vertical dynamic viscosity&quot;
+    μv::FT = 1e-4
+    &quot;Horizontal dynamic viscosity&quot;
+    μh::FT = 1
+    &quot;Vertical thermal diffusivity&quot;
+    αv::FT = 1e-2
+    &quot;Horizontal thermal diffusivity&quot;
+    αh::FT = 1
+    &quot;IC Gaussian noise standard deviation&quot;
+    σ::FT = 5e-2
+    &quot;Rayleigh damping&quot;
+    γ::FT = 5
+    &quot;Domain height&quot;
+    zmax::FT = 1
+    &quot;Initial conditions for temperature&quot;
+    initialT::FT = 295.15
+    &quot;Bottom boundary value for temperature (Dirichlet boundary conditions)&quot;
+    T_bottom::FT = 300.0
+    &quot;Top flux (α∇ρcT) at top boundary (Neumann boundary conditions)&quot;
+    flux_top::FT = 0.0
+    &quot;Divergence damping coefficient (horizontal)&quot;
+    νd::FT = 1
+end</code></pre><p>Create an instance of the <code>BurgersEquation</code>:</p><pre><code class="language-julia">orientation = FlatOrientation()
+
+m = BurgersEquation{FT, typeof(param_set), typeof(orientation)}(
+    param_set = param_set,
+    orientation = orientation,
+);</code></pre><p>This model dictates the flow control, using <a href="https://en.wikipedia.org/wiki/Multiple_dispatch">Dynamic Multiple Dispatch</a>, for which kernels are executed.</p><h2 id="Define-the-variables"><a class="docs-heading-anchor" href="#Define-the-variables">Define the variables</a><a id="Define-the-variables-1"></a><a class="docs-heading-anchor-permalink" href="#Define-the-variables" title="Permalink"></a></h2><p>All of the methods defined in this section were <code>import</code>ed in <a href="#Loading-code-burgers">Loading code</a> to let us provide implementations for our <code>BurgersEquation</code> as they will be used by the solver.</p><p>Specify auxiliary variables for <code>BurgersEquation</code></p><pre><code class="language-julia">function vars_state(m::BurgersEquation, st::Auxiliary, FT)
+    @vars begin
+        coord::SVector{3, FT}
+        orientation::vars_state(m.orientation, st, FT)
+    end
+end</code></pre><pre class="documenter-example-output">vars_state (generic function with 129 methods)</pre><p>Specify prognostic variables, the variables solved for in the PDEs, for <code>BurgersEquation</code></p><pre><code class="language-julia">vars_state(::BurgersEquation, ::Prognostic, FT) =
+    @vars(ρ::FT, ρu::SVector{3, FT}, ρcT::FT);</code></pre><p>Specify state variables whose gradients are needed for <code>BurgersEquation</code></p><pre><code class="language-julia">vars_state(::BurgersEquation, ::Gradient, FT) =
+    @vars(u::SVector{3, FT}, ρcT::FT, ρu::SVector{3, FT});</code></pre><p>Specify gradient variables for <code>BurgersEquation</code></p><pre><code class="language-julia">vars_state(::BurgersEquation, ::GradientFlux, FT) = @vars(
+    μ∇u::SMatrix{3, 3, FT, 9},
+    α∇ρcT::SVector{3, FT},
+    νd∇D::SMatrix{3, 3, FT, 9}
+);</code></pre><h2 id="Define-the-compute-kernels"><a class="docs-heading-anchor" href="#Define-the-compute-kernels">Define the compute kernels</a><a id="Define-the-compute-kernels-1"></a><a class="docs-heading-anchor-permalink" href="#Define-the-compute-kernels" title="Permalink"></a></h2><p>Specify the initial values in <code>aux::Vars</code>, which are available in <code>init_state_prognostic!</code>. Note that</p><ul><li>this method is only called at <code>t=0</code>.</li><li><code>aux.coord</code> is available here because we&#39;ve specified <code>coord</code> in <code>vars_state(m, aux, FT)</code>.</li></ul><pre><code class="language-julia">function nodal_init_state_auxiliary!(
+    m::BurgersEquation,
+    aux::Vars,
+    tmp::Vars,
+    geom::LocalGeometry,
+)
+    aux.coord = geom.coord
+end;</code></pre><p><code>init_aux!</code> initializes the auxiliary gravitational potential field needed for vertical projections</p><pre><code class="language-julia">function init_state_auxiliary!(
+    m::BurgersEquation,
+    state_auxiliary::MPIStateArray,
+    grid,
+    direction,
+)
+    init_aux!(m, m.orientation, state_auxiliary, grid, direction)
+
+    init_state_auxiliary!(
+        m,
+        nodal_init_state_auxiliary!,
+        state_auxiliary,
+        grid,
+        direction,
+    )
+end;</code></pre><p>Specify the initial values in <code>state::Vars</code>. Note that</p><ul><li>this method is only called at <code>t=0</code>.</li><li><code>state.ρ</code>, <code>state.ρu</code> and<code>state.ρcT</code> are available here because we&#39;ve specified <code>ρ</code>, <code>ρu</code> and <code>ρcT</code> in <code>vars_state(m, state, FT)</code>.</li></ul><pre><code class="language-julia">function init_state_prognostic!(
+    m::BurgersEquation,
+    state::Vars,
+    aux::Vars,
+    localgeo,
+    t::Real,
+)
+    z = aux.coord[3]
+    ε1 = rand(Normal(0, m.σ))
+    ε2 = rand(Normal(0, m.σ))
+    state.ρ = 1
+    ρu = 1 - 4 * (z - m.zmax / 2)^2 + ε1
+    ρv = 1 - 4 * (z - m.zmax / 2)^2 + ε2
+    ρw = 0
+    state.ρu = SVector(ρu, ρv, ρw)
+
+    state.ρcT = state.ρ * m.c * m.initialT
+end;</code></pre><p>The remaining methods, defined in this section, are called at every time-step in the solver by the <a href="../../../APIs/BalanceLaws/BalanceLaws/#ClimateMachine.BalanceLaws.BalanceLaw"><code>BalanceLaw</code></a> framework.</p><p>Since we have second-order fluxes, we must tell <code>ClimateMachine</code> to compute the gradient of <code>ρcT</code>, <code>u</code> and <code>ρu</code>. Here, we specify how <code>ρcT</code>, <code>u</code> and <code>ρu</code> are computed. Note that e.g. <code>transform.ρcT</code> is available here because we&#39;ve specified <code>ρcT</code> in <code>vars_state(m, ::Gradient, FT)</code>.</p><pre><code class="language-julia">function compute_gradient_argument!(
+    m::BurgersEquation,
+    transform::Vars,
+    state::Vars,
+    aux::Vars,
+    t::Real,
+)
+    transform.ρcT = state.ρcT
+    transform.u = state.ρu / state.ρ
+    transform.ρu = state.ρu
+end;</code></pre><p>Specify where in <code>diffusive::Vars</code> to store the computed gradient from <code>compute_gradient_argument!</code>. Note that:</p><ul><li><code>diffusive.μ∇u</code> is available here because we&#39;ve specified <code>μ∇u</code> in <code>vars_state(m, ::GradientFlux, FT)</code>.</li><li><code>∇transform.u</code> is available here because we&#39;ve specified <code>u</code> in <code>vars_state(m, ::Gradient, FT)</code>.</li><li><code>diffusive.μ∇u</code> is built using an anisotropic diffusivity tensor.</li><li>The <code>divergence</code> may be computed from the trace of tensor <code>∇ρu</code>.</li></ul><pre><code class="language-julia">function compute_gradient_flux!(
+    m::BurgersEquation{FT},
+    diffusive::Vars,
+    ∇transform::Grad,
+    state::Vars,
+    aux::Vars,
+    t::Real,
+) where {FT}
+    ∇ρu = ∇transform.ρu
+    ẑ = vertical_unit_vector(m.orientation, m.param_set, aux)
+    divergence = tr(∇ρu) - ẑ&#39; * ∇ρu * ẑ
+    diffusive.α∇ρcT = Diagonal(SVector(m.αh, m.αh, m.αv)) * ∇transform.ρcT
+    diffusive.μ∇u = Diagonal(SVector(m.μh, m.μh, m.μv)) * ∇transform.u
+    diffusive.νd∇D =
+        Diagonal(SVector(m.νd, m.νd, FT(0))) *
+        Diagonal(SVector(divergence, divergence, FT(0)))
+end;</code></pre><p>Introduce Rayleigh friction towards a target profile as a source. Note that:</p><ul><li>Rayleigh damping is only applied in the horizontal using the <code>projection_tangential</code> method.</li></ul><pre><code class="language-julia">function source!(
+    m::BurgersEquation{FT},
+    source::Vars,
+    state::Vars,
+    diffusive::Vars,
+    aux::Vars,
+    args...,
+) where {FT}
+    ẑ = vertical_unit_vector(m.orientation, m.param_set, aux)
+    z = aux.coord[3]
+    ρ̄ū =
+        state.ρ * SVector{3, FT}(
+            0.5 - 2 * (z - m.zmax / 2)^2,
+            0.5 - 2 * (z - m.zmax / 2)^2,
+            0.0,
+        )
+    ρu_p = state.ρu - ρ̄ū
+    source.ρu -=
+        m.γ * projection_tangential(m.orientation, m.param_set, aux, ρu_p)
+end;</code></pre><p>Compute advective flux. Note that:</p><ul><li><code>state.ρu</code> is available here because we&#39;ve specified <code>ρu</code> in <code>vars_state(m, state, FT)</code>.</li></ul><pre><code class="language-julia">function flux_first_order!(
+    m::BurgersEquation,
+    flux::Grad,
+    state::Vars,
+    aux::Vars,
+    t::Real,
+    _...,
+)
+    flux.ρ = state.ρu
+
+    u = state.ρu / state.ρ
+    flux.ρu = state.ρu * u&#39;
+    flux.ρcT = u * state.ρcT
+end;</code></pre><p>Compute diffusive flux (e.g. <span>$F(μ, \mathbf{u}, t) = -μ∇\mathbf{u}$</span> in the original PDE). Note that:</p><ul><li><code>diffusive.μ∇u</code> is available here because we&#39;ve specified <code>μ∇u</code> in <code>vars_state(m, ::GradientFlux, FT)</code>.</li><li>The divergence gradient can be written as a diffusive flux using a divergence diagonal tensor.</li></ul><pre><code class="language-julia">function flux_second_order!(
+    m::BurgersEquation,
+    flux::Grad,
+    state::Vars,
+    diffusive::Vars,
+    hyperdiffusive::Vars,
+    aux::Vars,
+    t::Real,
+)
+    flux.ρcT -= diffusive.α∇ρcT
+    flux.ρu -= diffusive.μ∇u
+    flux.ρu -= diffusive.νd∇D
+end;</code></pre><h3 id="Boundary-conditions"><a class="docs-heading-anchor" href="#Boundary-conditions">Boundary conditions</a><a id="Boundary-conditions-1"></a><a class="docs-heading-anchor-permalink" href="#Boundary-conditions" title="Permalink"></a></h3><p>Second-order terms in our equations, <span>$∇⋅(G)$</span> where <span>$G = μ∇\mathbf{u}$</span>, are internally reformulated to first-order unknowns. Boundary conditions must be specified for all unknowns, both first-order and second-order unknowns which have been reformulated.</p><p>The boundary conditions for <code>ρ</code>, <code>ρu</code> and <code>ρcT</code> (first order unknowns)</p><pre><code class="language-julia">function boundary_state!(
+    nf,
+    m::BurgersEquation,
+    state⁺::Vars,
+    aux⁺::Vars,
+    n⁻,
+    state⁻::Vars,
+    aux⁻::Vars,
+    bctype,
+    t,
+    _...,
+)
+    if bctype == 1 # bottom
+        state⁺.ρ = 1
+        state⁺.ρu = SVector(0, 0, 0)
+        state⁺.ρcT = state⁺.ρ * m.c * m.T_bottom
+    elseif bctype == 2 # top
+        state⁺.ρ = 1
+        state⁺.ρu = SVector(0, 0, 0)
+    end
+end;</code></pre><p>The boundary conditions for <code>ρ</code>, <code>ρu</code> and <code>ρcT</code> are specified here for second-order unknowns</p><pre><code class="language-julia">function boundary_state!(
+    nf,
+    m::BurgersEquation,
+    state⁺::Vars,
+    diff⁺::Vars,
+    aux⁺::Vars,
+    n⁻,
+    state⁻::Vars,
+    diff⁻::Vars,
+    aux⁻::Vars,
+    bctype,
+    t,
+    _...,
+)
+    if bctype == 1 # bottom
+        state⁺.ρ = 1
+        state⁺.ρu = SVector(0, 0, 0)
+        state⁺.ρcT = state⁺.ρ * m.c * m.T_bottom
+    elseif bctype == 2 # top
+        state⁺.ρ = 1
+        state⁺.ρu = SVector(0, 0, 0)
+        diff⁺.α∇ρcT = -n⁻ * m.flux_top
+    end
+end;</code></pre><h1 id="Spatial-discretization"><a class="docs-heading-anchor" href="#Spatial-discretization">Spatial discretization</a><a id="Spatial-discretization-1"></a><a class="docs-heading-anchor-permalink" href="#Spatial-discretization" title="Permalink"></a></h1><p>Prescribe polynomial order of basis functions in finite elements</p><pre><code class="language-julia">N_poly = 5;</code></pre><p>Specify the number of vertical elements</p><pre><code class="language-julia">nelem_vert = 10;</code></pre><p>Specify the domain height</p><pre><code class="language-julia">zmax = m.zmax;</code></pre><p>Establish a <code>ClimateMachine</code> single stack configuration</p><pre><code class="language-julia">driver_config = ClimateMachine.SingleStackConfiguration(
+    &quot;BurgersEquation&quot;,
+    N_poly,
+    nelem_vert,
+    zmax,
+    param_set,
+    m,
+    numerical_flux_first_order = CentralNumericalFluxFirstOrder(),
+);</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-burgers_single_stack.EarthParameterSet()
+│     orientation = ClimateMachine.Orientations.FlatOrientation()
+│     c = 1.0
+│     μv = 0.0001
+│     μh = 1.0
+│     αv = 0.01
+│     αh = 1.0
+│     σ = 0.05
+│     γ = 5.0
+│     zmax = 1.0
+│     initialT = 295.15
+│     T_bottom = 300.0
+│     flux_top = 0.0
+└     νd = 1.0
+┌ Info: Establishing single stack configuration for BurgersEquation
+│     precision        = Float64
+│     polynomial order = 5
+│     domain_min       = 0.00 m x0.00 m x0.00 m
+│     domain_max       = 1.00 m x1.00 m x1.00 m
+│     #vert elems      = 10
+│     MPI ranks        = 1
+│     min(Δ_horz)      = 0.12 m
+└     min(Δ_vert)      = 0.01 m</pre><h1 id="Time-discretization"><a class="docs-heading-anchor" href="#Time-discretization">Time discretization</a><a id="Time-discretization-1"></a><a class="docs-heading-anchor-permalink" href="#Time-discretization" title="Permalink"></a></h1><p>Specify simulation time (SI units)</p><pre><code class="language-julia">t0 = FT(0);
+timeend = FT(1);</code></pre><p>We&#39;ll define the time-step based on the Fourier number and the <a href="https://en.wikipedia.org/wiki/Courant–Friedrichs–Lewy_condition">Courant number</a> of the flow</p><pre><code class="language-julia">Δ = min_node_distance(driver_config.grid)
+
+given_Fourier = FT(0.5);
+Fourier_bound = given_Fourier * Δ^2 / max(m.αh, m.μh, m.νd);
+Courant_bound = FT(0.5) * Δ;
+dt = min(Fourier_bound, Courant_bound)</code></pre><pre class="documenter-example-output">6.899875101735774e-5</pre><h1 id="Configure-a-ClimateMachine-solver."><a class="docs-heading-anchor" href="#Configure-a-ClimateMachine-solver.">Configure a <code>ClimateMachine</code> solver.</a><a id="Configure-a-ClimateMachine-solver.-1"></a><a class="docs-heading-anchor-permalink" href="#Configure-a-ClimateMachine-solver." title="Permalink"></a></h1><p>This initializes the state vector and allocates memory for the solution in space (<code>dg</code> has the model <code>m</code>, which describes the PDEs as well as the function used for initialization). This additionally initializes the ODE solver, by default an explicit Low-Storage <a href="https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods">Runge-Kutta</a> method.</p><pre><code class="language-julia">solver_config =
+    ClimateMachine.SolverConfiguration(t0, timeend, driver_config, ode_dt = dt);</code></pre><pre class="documenter-example-output">[ Info: Initializing BurgersEquation</pre><h2 id="Inspect-the-initial-conditions-for-a-single-nodal-stack"><a class="docs-heading-anchor" href="#Inspect-the-initial-conditions-for-a-single-nodal-stack">Inspect the initial conditions for a single nodal stack</a><a id="Inspect-the-initial-conditions-for-a-single-nodal-stack-1"></a><a class="docs-heading-anchor-permalink" href="#Inspect-the-initial-conditions-for-a-single-nodal-stack" title="Permalink"></a></h2><p>Let&#39;s export plots of the initial state</p><pre><code class="language-julia">output_dir = @__DIR__;
+
+mkpath(output_dir);
+
+z_scale = 100 # convert from meters to cm
+z_key = &quot;z&quot;
+z_label = &quot;z [cm]&quot;
+z = get_z(driver_config.grid; z_scale = z_scale)
+state_vars = get_vars_from_nodal_stack(
+    driver_config.grid,
+    solver_config.Q,
+    vars_state(m, Prognostic(), FT),
+);</code></pre><p>Create an array to store the solution:</p><pre><code class="language-julia">state_data = Dict[state_vars]  # store initial condition at ``t=0``
+time_data = FT[0]                                      # store time data</code></pre><pre class="documenter-example-output">1-element Array{Float64,1}:
+ 0.0</pre><p>Generate plots of initial conditions for the southwest nodal stack</p><pre><code class="language-julia">export_plot(
+    z,
+    state_data,
+    (&quot;ρcT&quot;,),
+    joinpath(output_dir, &quot;initial_condition_T_nodal.png&quot;),
+    xlabel = &quot;ρcT at southwest node&quot;,
+    ylabel = z_label,
+    time_data = time_data,
+);
+export_plot(
+    z,
+    state_data,
+    (&quot;ρu[1]&quot;,),
+    joinpath(output_dir, &quot;initial_condition_u_nodal.png&quot;),
+    xlabel = &quot;ρu at southwest node&quot;,
+    ylabel = z_label,
+    time_data = time_data,
+);
+export_plot(
+    z,
+    state_data,
+    (&quot;ρu[2]&quot;,),
+    joinpath(output_dir, &quot;initial_condition_v_nodal.png&quot;),
+    xlabel = &quot;ρv at southwest node&quot;,
+    ylabel = z_label,
+    time_data = time_data,
+);</code></pre><pre class="documenter-example-output">┌ Warning: Plot Limits have been manually adjusted
+└ @ Main.ex-burgers_single_stack ~/work/ClimateMachine.jl/ClimateMachine.jl/docs/plothelpers.jl:52</pre><p><img src="../initial_condition_T_nodal.png" alt/> <img src="../initial_condition_u_nodal.png" alt/></p><h2 id="Inspect-the-initial-conditions-for-the-horizontal-averages"><a class="docs-heading-anchor" href="#Inspect-the-initial-conditions-for-the-horizontal-averages">Inspect the initial conditions for the horizontal averages</a><a id="Inspect-the-initial-conditions-for-the-horizontal-averages-1"></a><a class="docs-heading-anchor-permalink" href="#Inspect-the-initial-conditions-for-the-horizontal-averages" title="Permalink"></a></h2><p>Horizontal statistics of variables</p><pre><code class="language-julia">state_vars_var = get_horizontal_variance(
+    driver_config.grid,
+    solver_config.Q,
+    vars_state(m, Prognostic(), FT),
+);
+
+state_vars_avg = get_horizontal_mean(
+    driver_config.grid,
+    solver_config.Q,
+    vars_state(m, Prognostic(), FT),
+);
+
+data_avg = Dict[state_vars_avg]
+data_var = Dict[state_vars_var]
+
+export_plot(
+    z,
+    data_avg,
+    (&quot;ρu[1]&quot;,),
+    joinpath(output_dir, &quot;initial_condition_avg_u.png&quot;);
+    xlabel = &quot;Horizontal mean of ρu&quot;,
+    ylabel = z_label,
+    time_data = time_data,
+);
+export_plot(
+    z,
+    data_var,
+    (&quot;ρu[1]&quot;,),
+    joinpath(output_dir, &quot;initial_condition_variance_u.png&quot;),
+    xlabel = &quot;Horizontal variance of ρu&quot;,
+    ylabel = z_label,
+    time_data = time_data,
+);</code></pre><p><img src="../initial_condition_avg_u.png" alt/> <img src="../initial_condition_variance_u.png" alt/></p><h1 id="Solver-hooks-/-callbacks"><a class="docs-heading-anchor" href="#Solver-hooks-/-callbacks">Solver hooks / callbacks</a><a id="Solver-hooks-/-callbacks-1"></a><a class="docs-heading-anchor-permalink" href="#Solver-hooks-/-callbacks" title="Permalink"></a></h1><p>Define the number of outputs from <code>t0</code> to <code>timeend</code></p><pre><code class="language-julia">const n_outputs = 5;
+const every_x_simulation_time = timeend / n_outputs;</code></pre><p>Create a dictionary for <code>z</code> coordinate (and convert to cm) NCDatasets IO:</p><pre><code class="language-julia">dims = OrderedDict(z_key =&gt; collect(z));</code></pre><p>Create dictionaries to store outputs:</p><pre><code class="language-julia">data_var = Dict[Dict([k =&gt; Dict() for k in 0:n_outputs]...),]
+data_var[1] = state_vars_var
+
+data_avg = Dict[Dict([k =&gt; Dict() for k in 0:n_outputs]...),]
+data_avg[1] = state_vars_avg
+
+data_nodal = Dict[Dict([k =&gt; Dict() for k in 0:n_outputs]...),]
+data_nodal[1] = state_vars</code></pre><pre class="documenter-example-output">OrderedCollections.OrderedDict{Any,Any} with 5 entries:
+  &quot;ρ&quot;     =&gt; [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0  …  1.0, 1.0, 1.…
+  &quot;ρu[1]&quot; =&gt; [0.0148644, 0.105171, 0.0925204, 0.255171, 0.300145, 0.407007, 0.3…
+  &quot;ρu[2]&quot; =&gt; [0.0191198, -0.0199116, 0.0893337, 0.273913, 0.334051, 0.356575, 0…
+  &quot;ρu[3]&quot; =&gt; [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0  …  0.0, 0.0, 0.…
+  &quot;ρcT&quot;   =&gt; [295.15, 295.15, 295.15, 295.15, 295.15, 295.15, 295.15, 295.15, 2…</pre><p>The <code>ClimateMachine</code>&#39;s time-steppers provide hooks, or callbacks, which allow users to inject code to be executed at specified intervals. In this callback, the state variables are collected, combined into a single <code>OrderedDict</code> and written to a NetCDF file (for each output step).</p><pre><code class="language-julia">callback = GenericCallbacks.EveryXSimulationTime(every_x_simulation_time) do
+    state_vars_var = get_horizontal_variance(
+        driver_config.grid,
+        solver_config.Q,
+        vars_state(m, Prognostic(), FT),
+    )
+    state_vars_avg = get_horizontal_mean(
+        driver_config.grid,
+        solver_config.Q,
+        vars_state(m, Prognostic(), FT),
+    )
+    state_vars = get_vars_from_nodal_stack(
+        driver_config.grid,
+        solver_config.Q,
+        vars_state(m, Prognostic(), FT),
+        i = 1,
+        j = 1,
+    )
+    push!(data_var, state_vars_var)
+    push!(data_avg, state_vars_avg)
+    push!(data_nodal, state_vars)
+    push!(time_data, gettime(solver_config.solver))
+    nothing
+end;</code></pre><h1 id="Solve"><a class="docs-heading-anchor" href="#Solve">Solve</a><a id="Solve-1"></a><a class="docs-heading-anchor-permalink" href="#Solve" title="Permalink"></a></h1><p>This is the main <code>ClimateMachine</code> solver invocation. While users do not have access to the time-stepping loop, code may be injected via <code>user_callbacks</code>, which is a <code>Tuple</code> of <a href="../../../APIs/Numerics/ODESolvers/ODESolvers/#ClimateMachine.GenericCallbacks"><code>GenericCallbacks</code></a>.</p><pre><code class="language-julia">ClimateMachine.invoke!(solver_config; user_callbacks = (callback,))</code></pre><pre class="documenter-example-output">1.0018567587564864</pre><h1 id="Post-processing"><a class="docs-heading-anchor" href="#Post-processing">Post-processing</a><a id="Post-processing-1"></a><a class="docs-heading-anchor-permalink" href="#Post-processing" title="Permalink"></a></h1><p>Our solution has now been calculated and exported to NetCDF files in <code>output_dir</code>.</p><p>Let&#39;s plot the horizontal statistics of <code>ρu</code> and <code>ρcT</code>, as well as the evolution of <code>ρu</code> for the southwest nodal stack:</p><pre><code class="language-julia">export_plot(
+    z,
+    data_avg,
+    (&quot;ρu[1]&quot;),
+    joinpath(output_dir, &quot;solution_vs_time_u_avg.png&quot;),
+    xlabel = &quot;Horizontal mean of ρu&quot;,
+    ylabel = z_label,
+    time_data = time_data,
+);
+export_plot(
+    z,
+    data_var,
+    (&quot;ρu[1]&quot;),
+    joinpath(output_dir, &quot;variance_vs_time_u.png&quot;),
+    xlabel = &quot;Horizontal variance of ρu&quot;,
+    ylabel = z_label,
+    time_data = time_data,
+);
+export_plot(
+    z,
+    data_avg,
+    (&quot;ρcT&quot;),
+    joinpath(output_dir, &quot;solution_vs_time_T_avg.png&quot;),
+    xlabel = &quot;Horizontal mean of ρcT&quot;,
+    ylabel = z_label,
+    time_data = time_data,
+);
+export_plot(
+    z,
+    data_var,
+    (&quot;ρcT&quot;),
+    joinpath(output_dir, &quot;variance_vs_time_T.png&quot;),
+    xlabel = &quot;Horizontal variance of ρcT&quot;,
+    ylabel = z_label,
+    time_data = time_data,
+);
+export_plot(
+    z,
+    data_nodal,
+    (&quot;ρu[1]&quot;),
+    joinpath(output_dir, &quot;solution_vs_time_u_nodal.png&quot;),
+    xlabel = &quot;ρu at southwest node&quot;,
+    ylabel = z_label,
+    time_data = time_data,
+);</code></pre><p><img src="../solution_vs_time_u_avg.png" alt/> <img src="../variance_vs_time_u.png" alt/> <img src="../solution_vs_time_T_avg.png" alt/> <img src="../variance_vs_time_T.png" alt/> <img src="../solution_vs_time_u_nodal.png" alt/></p><p>Rayleigh friction returns the horizontal velocity to the objective profile on the timescale of the simulation (1 second), since <code>γ</code>∼1. The horizontal viscosity and 2D divergence damping act to reduce the horizontal variance over the same timescale. The initial Gaussian noise is propagated to the temperature field through advection. The horizontal diffusivity acts to reduce this <code>ρcT</code> variance in time, although in a longer timescale.</p><p>To run this file, and inspect the solution, include this tutorial in the Julia REPL with:</p><pre><code class="language-julia">include(joinpath(&quot;tutorials&quot;, &quot;Atmos&quot;, &quot;burgers_single_stack.jl&quot;))</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../heldsuarez/">« Dry Idealized GCM (Held-Suarez)</a><a class="docs-footer-nextpage" href="../densitycurrent/">LES Experiment (Density Current) »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 28 October 2020 15:53">Wednesday 28 October 2020</span>. Using Julia version 1.5.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

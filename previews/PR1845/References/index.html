@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>References · ClimateMachine</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../"><img src="../assets/logo.svg" alt="ClimateMachine logo"/></a><div class="docs-package-name"><span class="docs-autofit">ClimateMachine</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">Getting started</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../GettingStarted/Installation/">Installation</a></li><li><a class="tocitem" href="../GettingStarted/Terminology/">Terminology</a></li><li><a class="tocitem" href="../GettingStarted/RunningClimateMachine/">Running</a></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox"/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Defaults</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../GettingStarted/Atmos/">Atmosphere model configurations</a></li></ul></li></ul></li><li><span class="tocitem">Tutorials</span></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">How-to-guides</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-4-1" type="checkbox"/><label class="tocitem" for="menuitem-4-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../HowToGuides/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../HowToGuides/Common/UniversalFunctions/">Universal Functions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../HowToGuides/Atmos/TemperatureProfiles/">Temperature profiles</a></li><li><a class="tocitem" href="../HowToGuides/Atmos/AtmosReferenceState/">Reference profiles</a></li><li><a class="tocitem" href="../HowToGuides/Atmos/MoistureModelChoices/">Moisture model</a></li><li><a class="tocitem" href="../HowToGuides/Atmos/PrecipitationModelChoices/">Precipitation model</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><span class="tocitem">Meshes</span></li><li><input class="collapse-toggle" id="menuitem-4-5-2" type="checkbox"/><label class="tocitem" for="menuitem-4-5-2"><span class="docs-label">DG methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../HowToGuides/Numerics/DGMethods/how_to_make_a_balance_law/">How to make a balance law</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-3" type="checkbox"/><label class="tocitem" for="menuitem-4-5-3"><span class="docs-label">ODE Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../HowToGuides/Numerics/ODESolvers/Timestepping/">Time-integration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-4" type="checkbox"/><label class="tocitem" for="menuitem-4-5-4"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../HowToGuides/Numerics/SystemSolvers/IterativeSolvers/">Iterative Solvers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-6" type="checkbox"/><label class="tocitem" for="menuitem-4-6"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../HowToGuides/Diagnostics/UsingDiagnostics/">Using Diagnostics</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">APIs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../APIs/">Home</a></li><li><input class="collapse-toggle" id="menuitem-5-2" type="checkbox"/><label class="tocitem" for="menuitem-5-2"><span class="docs-label">Driver</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../APIs/Driver/">Top level interface</a></li><li><a class="tocitem" href="../APIs/Driver/Checkpoint/">Checkpoint</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-3" type="checkbox"/><label class="tocitem" for="menuitem-5-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../APIs/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../APIs/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../APIs/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../APIs/Atmos/TemperatureProfiles/">Temperature Profiles</a></li></ul></li><li><a class="tocitem" href="../APIs/Ocean/Ocean/">Ocean</a></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../APIs/Land/LandModel/">Land Model</a></li><li><a class="tocitem" href="../APIs/Land/Runoff/">Runoff Parameterizations</a></li><li><a class="tocitem" href="../APIs/Land/SoilWaterParameterizations/">Soil Water Parameterizations</a></li><li><a class="tocitem" href="../APIs/Land/SoilHeatParameterizations/">Soil Heat Parameterizations</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-6" type="checkbox"/><label class="tocitem" for="menuitem-5-6"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../APIs/Common/Orientations/">Orientations</a></li><li><a class="tocitem" href="../APIs/Common/Spectra/">Spectra</a></li><li><a class="tocitem" href="../APIs/Common/SurfaceFluxes/">Surface Fluxes</a></li><li><a class="tocitem" href="../APIs/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../APIs/Common/TurbulenceClosures/">Turbulence Closures</a></li><li><a class="tocitem" href="../APIs/Common/TurbulenceConvection/">Turbulence Convection</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-7" type="checkbox"/><label class="tocitem" for="menuitem-5-7"><span class="docs-label">Balance Laws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../APIs/BalanceLaws/BalanceLaws/">Balance Laws</a></li><li><a class="tocitem" href="../APIs/BalanceLaws/Problems/">Problems</a></li></ul></li><li><a class="tocitem" href="../APIs/Arrays/Arrays/">Arrays</a></li><li><input class="collapse-toggle" id="menuitem-5-9" type="checkbox"/><label class="tocitem" for="menuitem-5-9"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../APIs/Diagnostics/Diagnostics/">Diagnostics groups</a></li><li><a class="tocitem" href="../APIs/Diagnostics/StateCheck/">State Check</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-10" type="checkbox"/><label class="tocitem" for="menuitem-5-10"><span class="docs-label">Input/Output</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../APIs/InputOutput/">Input/Output</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-11" type="checkbox"/><label class="tocitem" for="menuitem-5-11"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../APIs/Numerics/Meshes/Mesh/">Meshes</a></li><li><a class="tocitem" href="../APIs/Numerics/SystemSolvers/SystemSolvers/">SystemSolvers</a></li><li><a class="tocitem" href="../APIs/Numerics/ODESolvers/ODESolvers/">ODESolvers</a></li><li><a class="tocitem" href="../APIs/Numerics/DGMethods/DGMethods/">DG Methods</a></li><li><a class="tocitem" href="../APIs/Numerics/DGMethods/Courant/">Courant</a></li><li><a class="tocitem" href="../APIs/Numerics/DGMethods/NumericalFluxes/">Numerical Fluxes</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-12" type="checkbox"/><label class="tocitem" for="menuitem-5-12"><span class="docs-label">Utilities</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../APIs/Utilities/VariableTemplates/">Variable Templates</a></li><li><a class="tocitem" href="../APIs/Utilities/SingleStackUtils/">Single Stack Utilities</a></li><li><a class="tocitem" href="../APIs/Utilities/TicToc/">Tic Toc</a></li></ul></li></ul></li><li><a class="tocitem" href="../Contributing/">Contribution guide</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Theory</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-7-1" type="checkbox"/><label class="tocitem" for="menuitem-7-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../Theory/Common/SurfaceFluxes/">SurfaceFluxes</a></li><li><a class="tocitem" href="../Theory/Common/Turbulence/">Turbulence Closures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7-2" type="checkbox"/><label class="tocitem" for="menuitem-7-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../Theory/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../Theory/Atmos/EDMF_plots/">EDMF Model</a></li><li><a class="tocitem" href="../Theory/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../Theory/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../Theory/Atmos/EDMFEquations/">EDMF equations</a></li><li><a class="tocitem" href="../Theory/Atmos/Model/tracers/">Tracers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Developer docs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../DevDocs/CodeStyle/">Coding style</a></li><li><a class="tocitem" href="../DevDocs/AcceptableUnicode/">Acceptable Unicode</a></li><li><a class="tocitem" href="../DevDocs/ModelVariableList/">Model variable list</a></li><li><a class="tocitem" href="../DevDocs/ModelOutput/">Model output</a></li><li><a class="tocitem" href="../DevDocs/DiagnosticVariableList/">Diagnostic variable list</a></li><li><a class="tocitem" href="../DevDocs/SystemImage/">Custom System Image</a></li></ul></li><li class="is-active"><a class="tocitem" href>References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>References</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>References</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/ClimateMachine.jl/blob/master/docs/src/References.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="References"><a class="docs-heading-anchor" href="#References">References</a><a id="References-1"></a><a class="docs-heading-anchor-permalink" href="#References" title="Permalink"></a></h1><dl><dt>Toro2013</dt>
+<dd>
+  <div id="Toro2013">Eleuterio F Toro  (2013), <a href="">Riemann solvers and numerical methods for fluid dynamics: a practical introduction</a>, Springer Science & Business Media, 2013.</a>
+</dd><dt>Rutledge1983</dt>
+<dd>
+  <div id="Rutledge1983">Steven A Rutledge , Peterv Hobbs  (1983), <a href="https://doi.org/10.1175/1520-0469(1983)040<1185:TMAMSA>2.0.CO;2">The mesoscale and microscale structure and organization of clouds and precipitation in midlatitude cyclones. VIII: A model for the “seeder-feeder” process in warm-frontal rainbands</a>, Journal of the Atmospheric Sciences, 40(5), 1185--1206, 1983.</a>
+</dd><dt>Desai2019</dt>
+<dd>
+  <div id="Desai2019">Neel Desai , KK Chandrakar , G Kinney , W Cantrell , RA Shaw  (2019), <a href="https://doi.org/10.1029/2019GL083503">Aerosol-Mediated Glaciation of Mixed-Phase Clouds: Steady-State Laboratory Measurements</a>, Geophysical Research Letters, 46(15), 9154--9162, 2019.</a>
+</dd><dt>Ralston1962</dt>
+<dd>
+  <div id="Ralston1962">Anthony Ralston  (1962), <a href="https://doi.org/10.1090/S0025-5718-1962-0150954-0">Runge-Kutta methods with minimum error bounds</a>, Mathematics of computation, 16(80), 431--437, 1962.</a>
+</dd><dt>Stevens2005</dt>
+<dd>
+  <div id="Stevens2005">Bjorn Stevens , Chin-Hoh Moeng , Andrew S Ackerman , Christopher S Bretherton , Andreas Chlond , Stephan de Roode , James Edwards , Jean-Christophe Golaz , Hongli Jiang , Marat Khairoutdinov , others  (2005), <a href="https://doi.org/10.1175/MWR2930.1">Evaluation of large-eddy simulations via observations of nocturnal marine stratocumulus</a>, Monthly weather review, 133(6), 1443--1462, 2005.</a>
+</dd><dt>Berrut2004</dt>
+<dd>
+  <div id="Berrut2004">Jean-Paul Berrut , Lloyd N Trefethen  (2004), <a href="https://doi.org/10.1137/S0036144502417715">Barycentric lagrange interpolation</a>, SIAM review, 46(3), 501--517, 2004.</a>
+</dd><dt>Kaul2015</dt>
+<dd>
+  <div id="Kaul2015">Colleen M Kaul , Jo { \~a } o Teixeira , Kentaroh Suzuki  (2015), <a href="https://doi.org/10.1175/MWR-D-14-00319.1">Sensitivities in large-eddy simulations of mixed-phase Arctic stratocumulus clouds using a simple microphysics approach</a>, Monthly Weather Review, 143(11), 4393--4421, 2015.</a>
+</dd><dt>Ronchi1996</dt>
+<dd>
+  <div id="Ronchi1996">C. Ronchi , R. Iacono , P. S. Paolucci  (1996), <a href="https://doi.org/10.1006/jcph.1996.0047">The ``cubed sphere``: a new method for the solution of partial differential equations in spherical geometry</a>, Journal of Computational Physics, 124(1), 93--114, 1996.</a>
+</dd><dt>Vreugdenhil2018</dt>
+<dd>
+  <div id="Vreugdenhil2018">Catherine A Vreugdenhil , John R Taylor  (2018), <a href="https://doi.org/10.1063/1.5037039">Large-eddy simulations of stratified plane Couette flow using the anisotropic minimum-dissipation model</a>, Physics of Fluids, 30(8), 085104, 2018.</a>
+</dd><dt>Vreman2004</dt>
+<dd>
+  <div id="Vreman2004">AW Vreman  (2004), <a href="https://doi.org/10.1063/1.1785131">An eddy-viscosity subgrid-scale model for turbulent shear flow: Algebraic theory and applications</a>, Physics of fluids, 16(10), 3670--3681, 2004.</a>
+</dd><dt>Carpenter1990</dt>
+<dd>
+  <div id="Carpenter1990">Richard L Carpenter Jr , Kelvin K Droegemeier , Paul R Woodward , Carl E Hane  (1990), <a href="https://doi.org/10.1175/1520-0493(1990)118<0586:AOTPPM>2.0.CO;2">Application of the piecewise parabolic method (PPM) to meteorological modeling</a>, Monthly Weather Review, 118(3), 586--612, 1990.</a>
+</dd><dt>Koshyk2001</dt>
+<dd>
+  <div id="Koshyk2001">John N Koshyk , Kevin Hamilton  (2001), <a href="https://doi.org/10.1175/1520-0469(2001)058<0329:THKESA>2.0.CO;2">The horizontal kinetic energy spectrum and spectral budget simulated by a high-resolution troposphere–stratosphere–mesosphere GCM</a>, Journal of the atmospheric sciences, 58(4), 329--348, 2001.</a>
+</dd><dt>Light2016</dt>
+<dd>
+  <div id="Light2016">Devin Light , Dale Durran  (2016), <a href="https://doi.org/10.1175/MWR-D-16-0220.1">Preserving nonnegativity in discontinuous Galerkin approximations to scalar transport via truncation and mass aware rescaling (TMAR)</a>, Monthly Weather Review, 144(12), 4771--4786, 2016.</a>
+</dd><dt>Baer1972</dt>
+<dd>
+  <div id="Baer1972">Ferdinand Baer  (1972), <a href="https://doi.org/10.1175/1520-0469(1972)029<0649:AASROA>2.0.CO;2">An alternate scale representation of atmospheric energy spectra</a>, Journal of the Atmospheric Sciences, 29(4), 649--664, 1972.</a>
+</dd><dt>Wyngaard1975</dt>
+<dd>
+  <div id="Wyngaard1975">John C Wyngaard  (1975), <a href="https://doi.org/10.1007/BF00223393">Modeling the planetary boundary layer—extension to the stable case</a>, Boundary-Layer Meteorology, 9(4), 441--460, 1975.</a>
+</dd><dt>KnothWensch2014</dt>
+<dd>
+  <div id="KnothWensch2014">Oswald Knoth , Joerg Wensch  (2014), <a href="https://doi.org/10.1175/MWR-D-13-00068.1">Generalized split-explicit Runge–Kutta methods for the compressible Euler equations</a>, Monthly Weather Review, 142(5), 2067--2081, 2014.</a>
+</dd><dt>Schlegel2012</dt>
+<dd>
+  <div id="Schlegel2012">M Schlegel , O Knoth , M Arnold , R Wolke  (2012), <a href="https://doi.org/10.5194/gmd-5-1395-2012">Implementation of multirate time integration methods for air pollution modelling</a>, Geoscientific Model Development, 5(6), 1395--1405, 2012.</a>
+</dd><dt>Kennedy2019</dt>
+<dd>
+  <div id="Kennedy2019">Christopher A Kennedy , Mark H Carpenter  (2019), <a href="https://doi.org/10.1016/j.apnum.2018.10.007">Higher-order additive Runge–Kutta schemes for ordinary differential equations</a>, Applied Numerical Mathematics, 136, 183--205, 2019.</a>
+</dd><dt>Schlegel2009</dt>
+<dd>
+  <div id="Schlegel2009">Martin Schlegel , Oswald Knoth , Martin Arnold , Ralf Wolke  (2009), <a href="https://doi.org/10.1016/j.cam.2008.08.009">Multirate Runge-Kutta schemes for advection equations</a>, Journal of Computational and Applied Mathematics, 226(2), 345--357, 2009.</a>
+</dd><dt>Straka1993</dt>
+<dd>
+  <div id="Straka1993">Jerry M Straka , Robert B Wilhelmson , Louis J Wicker , John R Anderson , Kelvin K Droegemeier  (1993), <a href="https://doi.org/10.1002/fld.1650170103">Numerical solutions of a non-linear density current: A benchmark solution and comparisons</a>, International Journal for Numerical Methods in Fluids, 17(1), 1--22, 1993.</a>
+</dd><dt>Ullrich2014</dt>
+<dd>
+  <div id="Ullrich2014">Paul A Ullrich , Thomas Melvin , Christiane Jablonowski , Andrew Staniforth  (2014), <a href="https://doi.org/10.1002/qj.2241">A proposed baroclinic wave test case for deep-and shallow-atmosphere dynamical cores</a>, Quarterly Journal of the Royal Meteorological Society, 140(682), 1590--1602, 2014.</a>
+</dd><dt>Kopriva2006</dt>
+<dd>
+  <div id="Kopriva2006">David A Kopriva  (2006), <a href="https://doi.org/10.1007/s10915-005-9070-8">Metric identities and the discontinuous spectral element method on curvilinear meshes</a>, Journal of Scientific Computing, 26(3), 301, 2006.</a>
+</dd><dt>Byun1990</dt>
+<dd>
+  <div id="Byun1990">Daewon W Byun  (1990), <a href="https://doi.org/10.1175/1520-0450(1990)029<0652:OTASOF>2.0.CO;2">On the analytical solutions of flux-profile relationships for the atmospheric surface layer</a>, Journal of Applied Meteorology, 29(7), 652--657, 1990.</a>
+</dd><dt>Smagorinsky1963</dt>
+<dd>
+  <div id="Smagorinsky1963">Joseph Smagorinsky  (1963), <a href="https://doi.org/10.1175/1520-0493(1963)091<0099:GCEWTP>2.3.CO;2">General circulation experiments with the primitive equations: I. The basic experiment</a>, Monthly weather review, 91(3), 99--164, 1963.</a>
+</dd><dt>Businger1971</dt>
+<dd>
+  <div id="Businger1971">Joost A Businger , John C Wyngaard , Yꎬ Izumi , Edward F Bradley  (1971), <a href="https://doi.org/10.1175/1520-0469(1971)028<0181:FPRITA>2.0.CO;2">Flux-profile relationships in the atmospheric surface layer</a>, Journal of the atmospheric Sciences, 28(2), 181--189, 1971.</a>
+</dd><dt>Wood2005</dt>
+<dd>
+  <div id="Wood2005">R Wood  (2005), <a href="https://doi.org/10.1175/JAS3530.1">Drizzle in stratiform boundary layer clouds. Part II: Microphysical aspects</a>, Journal of the atmospheric sciences, 62(9), 3034--3050, 2005.</a>
+</dd><dt>Wang2006</dt>
+<dd>
+  <div id="Wang2006">Lian-Ping Wang , Charmaine N Franklin , Orlando Ayala , Wojciech W Grabowski  (2006), <a href="https://doi.org/10.1175/JAS3655.1">Probability distributions of angle of approach and relative velocity for colliding droplets in a turbulent flow</a>, Journal of the atmospheric sciences, 63(3), 881--900, 2006.</a>
+</dd><dt>Sandu2019</dt>
+<dd>
+  <div id="Sandu2019">Adrian Sandu  (2019), <a href="https://doi.org/10.1137/18M1205492">A class of multirate infinitesimal gark methods</a>, SIAM Journal on Numerical Analysis, 57(5), 2300--2327, 2019.</a>
+</dd><dt>Williamson1992</dt>
+<dd>
+  <div id="Williamson1992">David L Williamson , John B Drake , James J Hack , R { \ " u } diger Jakob , Paul N Swarztrauber  (1992), <a href="https://doi.org/10.1016/S0021-9991(05)80016-6">A standard test set for numerical approximations to the shallow water equations in spherical geometry</a>, Journal of Computational Physics, 102(1), 211--224, 1992.</a>
+</dd><dt>Grachev2007</dt>
+<dd>
+  <div id="Grachev2007">Andrey A Grachev , Edgar L Andreas , Christopher W Fairall , Peter S Guest , P Ola G Persson  (2007), <a href="https://doi.org/10.1007/s10546-007-9177-6">SHEBA flux–profile relationships in the stable atmospheric boundary layer</a>, Boundary-layer meteorology, 124(3), 315--333, 2007.</a>
+</dd><dt>Seifert2006</dt>
+<dd>
+  <div id="Seifert2006">Axel Seifert , Klaus Dieter Beheng  (2006), <a href="https://doi.org/10.1007/s00703-005-0112-4">A two-moment cloud microphysics parameterization for mixed-phase clouds. Part 1: Model description</a>, Meteorology and atmospheric physics, 92(1-2), 45--66, 2006.</a>
+</dd><dt>Lauritzen2012</dt>
+<dd>
+  <div id="Lauritzen2012">Peter Hjort Lauritzen , William C Skamarock , MJ Prather , MA Taylor  (2012), <a href="https://doi.org/10.5194/gmd-5-887-2012">A standard test case suite for two-dimensional linear transport on the sphere</a>, Geoscientific Model Development, 5(3), 887--901, 2012.</a>
+</dd><dt>Mason2010</dt>
+<dd>
+  <div id="Mason2010">Basil John Mason  (2010), <a href="">Physics of clouds</a>, Clarendon Press, 2010.</a>
+</dd><dt>Taylor1937</dt>
+<dd>
+  <div id="Taylor1937">G. I. Taylor , A. E. Green  (1937), <a href="https://doi.org/doi.org/10.1098/rspa.1937.0036">Mechanisms of production of small eddies from large ones</a>, Proc. Roy. Soc. A, 158(895), 1937.</a>
+</dd><dt>Schar2002</dt>
+<dd>
+  <div id="Schar2002">Christoph Sch { \ " a } r , Daniel Leuenberger , Oliver Fuhrer , Daniel L { \ " u } thi , Claude Girard  (2002), <a href="https://doi.org/10.1175/1520-0493(2002)130<2459:ANTFVC>2.0.CO;2">A new terrain-following vertical coordinate formulation for atmospheric prediction models</a>, Monthly Weather Review, 130(10), 2459--2480, 2002.</a>
+</dd><dt>Doms2011</dt>
+<dd>
+  <div id="Doms2011">G { \ " u } nther Doms , M Baldauf  (2011), <a href="">A Description of the Nonhydrostatic Regional COSMO model. Part I: Dynamics and Numerics</a>, Deutscher Wetterdienst , Offenbach, -1, 2011.</a>
+</dd><dt>Beare2006</dt>
+<dd>
+  <div id="Beare2006">Robert J Beare , Malcolm K Macvean , Albert AM Holtslag , Joan Cuxart , Igor Esau , Jean-Christophe Golaz , Maria A Jimenez , Marat Khairoutdinov , Branko Kosovic , David Lewellen , others  (2006), <a href="https://doi.org/10.1175/1520-0469(2000)057<1052:ALESSO>2.0.CO;2">An intercomparison of large-eddy simulations of the stable boundary layer</a>, Boundary-Layer Meteorology, 118(2), 247--272, 2006.</a>
+</dd><dt>Spiteri2002</dt>
+<dd>
+  <div id="Spiteri2002">Raymond J Spiteri , Steven J Ruuth  (2002), <a href="https://doi.org/10.1137/S0036142901389025">A new class of optimal high-order strong-stability-preserving time discretization methods</a>, SIAM Journal on Numerical Analysis, 40(2), 469--491, 2002.</a>
+</dd><dt>Lilly1962</dt>
+<dd>
+  <div id="Lilly1962">Douglas K Lilly  (1962), <a href="https://doi.org/10.1111/j.2153-3490.1962.tb00128.x">On the numerical simulation of buoyant convection</a>, Tellus, 14(2), 148--172, 1962.</a>
+</dd><dt>Muhlbauer2013</dt>
+<dd>
+  <div id="Muhlbauer2013">Andreas Muhlbauer , Wojciech W Grabowski , Szymon P Malinowski , Thomas P Ackerman , George H Bryan , Zachary J Lebo , Jason A Milbrandt , Hugh Morrison , Mikhail Ovchinnikov , Sarah Tessendorf , others  (2013), <a href="https://doi.org/doi:10.1175/BAMS-D-12-00188.1">Reexamination of the state of the art of cloud modeling shows real improvements</a>, Bulletin of the American Meteorological Society, 94(5), ES45--ES48, 2013.</a>
+</dd><dt>Rutledge1984</dt>
+<dd>
+  <div id="Rutledge1984">Steven A Rutledge , Peter V Hobbs  (1984), <a href="https://doi.org/10.1175/1520-0469(1984)041<2949:TMAMSA>2.0.CO;2">The mesoscale and microscale structure and organization of clouds and precipitation in midlatitude cyclones. XII: A diagnostic modeling study of precipitation development in narrow cold-frontal rainbands</a>, Journal of the Atmospheric Sciences, 41(20), 2949--2972, 1984.</a>
+</dd><dt>Saad1986</dt>
+<dd>
+  <div id="Saad1986">Youcef Saad , Martin H Schultz  (1986), <a href="https://doi.org/10.1137/0907058">GMRES: A generalized minimal residual algorithm for solving nonsymmetric linear systems</a>, SIAM Journal on scientific and statistical computing, 7(3), 856--869, 1986.</a>
+</dd><dt>Shu1988</dt>
+<dd>
+  <div id="Shu1988">Chi-Wang Shu , Stanley Osher  (1988), <a href="https://doi.org/10.1016/0021-9991(88)90177-5">Efficient implementation of essentially non-oscillatory shock-capturing schemes</a>, Journal of computational physics, 77(2), 439--471, 1988.</a>
+</dd><dt>Bull2014</dt>
+<dd>
+  <div id="Bull2014">J.R. Bull , A. Jameson  (2014), <a href="https://doi.org/10.2514/6.2014-3210">Simulation of the Compressible { Taylor Green } Vortex using High-Order Flux Reconstruction Schemes</a>, AIAA Aviation 7th AIAA theoretical fluid mechanics conference, , 2014.</a>
+</dd><dt>Webb2017</dt>
+<dd>
+  <div id="Webb2017">M. J. Webb , T. Andrews , A. Bodas-Salcedo , S. Bony , C. S. Bretherton , R. Chadwick , H. Chepfer , H. Douville , P. Good , J. E. Kay , S. A. Klein , R. Marchand , B. Medeiros , A. P. Siebesma , C. B. Skinner , B. Stevens , G. Tselioudis , Y. Tsushima , M. Watanabe  (2017), <a href="https://doi.org/10.5194/gmd-10-359-2017">The Cloud Feedback Model Intercomparison Project (CFMIP) contribution to CMIP6</a>, Geoscientific Model Development, 10(1), 359--384, 2017.</a>
+</dd><dt>Nishizawa2018</dt>
+<dd>
+  <div id="Nishizawa2018">S Nishizawa , Y Kitamura  (2018), <a href="https://doi.org/10.1029/2018MS001534">A Surface Flux Scheme Based on the Monin-Obukhov Similarity for Finite Volume Models</a>, Journal of Advances in Modeling Earth Systems, 10(12), 3159--3175, 2018.</a>
+</dd><dt>Kessler1995</dt>
+<dd>
+  <div id="Kessler1995">Edwin Kessler  (1995), <a href="https://doi.org/10.1016/0169-8095(94)00090-Z">On the continuity and distribution of water substance in atmospheric circulations</a>, Atmospheric research, 38(1-4), 109--145, 1995.</a>
+</dd><dt>Niegemann2012</dt>
+<dd>
+  <div id="Niegemann2012">Jens Niegemann , Richard Diehl , Kurt Busch  (2012), <a href="https://doi.org/10.1016/j.jcp.2011.09.003">Efficient low-storage Runge–Kutta schemes with optimized stability regions</a>, Journal of Computational Physics, 231(2), 364--372, 2012.</a>
+</dd><dt>Arabas2015</dt>
+<dd>
+  <div id="Arabas2015">Sylwester Arabas , Anna Jaruga , Hanna Pawlowska , Wojciech W Grabowski  (2015), <a href="https://doi.org/10.5194/gmd-8-1677-2015">libcloudph++ 1.0: a single-moment bulk , double-moment bulk , and particle-based warm-rain microphysics library in C++</a>, Geoscientific Model Development, 8(6), 1677--1707, 2015.</a>
+</dd><dt>Giraldo2013</dt>
+<dd>
+  <div id="Giraldo2013">Francis X Giraldo , James F Kelly , Emil M Constantinescu  (2013), <a href="https://doi.org/10.1137/120876034">Implicit-explicit formulations of a three-dimensional nonhydrostatic unified model of the atmosphere ( { NUMA } )</a>, SIAM Journal on Scientific Computing, 35(5), B1162--B1194, 2013.</a>
+</dd><dt>Karrer2020</dt>
+<dd>
+  <div id="Karrer2020">M Karrer , A Seifert , C Siewert , D Ori , A von Lerber , S Kneifel  (2020), <a href="https://doi.org/10.1029/2020MS002066">Ice Particle Properties Inferred from Aggregation Modelling</a>, Journal of Advances in Modeling Earth Systems, -1, e2020MS002066, 2020.</a>
+</dd><dt>Roberts2018</dt>
+<dd>
+  <div id="Roberts2018">Steven Roberts , Arash Sarshar , Adrian Sandu  (2019), <a href="https://doi.org/10.1137/19M1266952">Coupled Multirate Infinitesimal GARK Schemes for Stiff Systems with Multiple Time Scales</a>, arXiv preprint arXiv:1812.00808, -1, 2019.</a>
+</dd><dt>Boyd1996</dt>
+<dd>
+  <div id="Boyd1996">JP Boyd  (1996), <a href="">The erfc-log filter and the asymptotics of the Euler and Vandeven sequence accelerations</a>,  In Proceedings of the Third International Conference on Spectral and High Order Methods, 267--276, 1996.</a>
+</dd><dt>Bank1985</dt>
+<dd>
+  <div id="Bank1985">R. E. Bank , W. M. Coughran , W. Fichtner , E. H. Grosse , D. J. Rose , R. K. Smith  (1985), <a href="https://doi.org/10.1109/TCAD.1985.1270142">Transient simulation of silicon devices and circuits</a>, IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems, 4(4), 436-451, 1985.</a>
+</dd><dt>Durran1982</dt>
+<dd>
+  <div id="Durran1982">Dale R Durran , Joseph B Klemp  (1982), <a href="https://doi.org/10.1175/1520-0469(1982)039<2152:OTEOMO>2.0.CO;2">On the effects of moisture on the Brunt-V { \ " a } is { \ " a } l { \ " a } frequency</a>, Journal of the Atmospheric Sciences, 39(10), 2152--2158, 1982.</a>
+</dd><dt>Grabowski1998</dt>
+<dd>
+  <div id="Grabowski1998">Wojciech W Grabowski  (1998), <a href="https://doi.org/10.1175/1520-0469(1998)055<3283:TCRMOL>2.0.CO;2">Toward cloud resolving modeling of large-scale tropical circulations: A simple cloud microphysics parameterization</a>, Journal of the Atmospheric Sciences, 55(21), 3283--3298, 1998.</a>
+</dd><dt>Heun1900</dt>
+<dd>
+  <div id="Heun1900">Karl Heun  (1900), <a href="">Neue Methoden zur approximativen Integration der Differentialgleichungen einer unabh\ " { a } ngigen Ver\ " { a } nderlichen</a>, Z. Math. Phys, 45, 23--38, 1900.</a>
+</dd><dt>Gryanik2020</dt>
+<dd>
+  <div id="Gryanik2020">Vladimir M Gryanik , Christof L { \ " u } pkes , Andrey Grachev , Dmitry Sidorenko  (2020), <a href="https://doi.org/10.1175/JAS-D-19-0255.1">New modified and extended stability functions for the stable boundary layer based on SHEBA and parametrizations of bulk transfer coefficients for climate models</a>, Journal of the Atmospheric Sciences, -1, 2020.</a>
+</dd><dt>Wiin1967</dt>
+<dd>
+  <div id="Wiin1967">Aksel WIIN-NIELSEN  (1967), <a href="https://doi.org/10.3402/tellusa.v19i4.9822">On the annual variation and spectral distribution of atmospheric energy 1</a>, Tellus, 19(4), 540--559, 1967.</a>
+</dd><dt>Marshall1948</dt>
+<dd>
+  <div id="Marshall1948">John S Marshall , W Mc K Palmer  (1948), <a href="">The distribution of raindrops with size</a>, Journal of meteorology, 5(4), 165--166, 1948.</a>
+</dd><dt>Skilling2004</dt>
+<dd>
+  <div id="Skilling2004">John Skilling  (2004), <a href="https://doi.org/10.1063/1.1751381">Programming the Hilbert curve</a>,  In AIP Conference Proceedings, 381--387, 2004.</a>
+</dd><dt>Tomita2008</dt>
+<dd>
+  <div id="Tomita2008">Hirofumi Tomita , Koji Goto , Masaki Satoh  (2008), <a href="https://doi.org/10.1137/070692273">A New Approach to Atmospheric General Circulation Model: Global Cloud Resolving Model { NICAM } and its Computational Performance</a>, { SIAM } Journal on Scientific Computing, 30(6), 2755--2776, 2008.</a>
+</dd><dt>Khvorostyanov2002</dt>
+<dd>
+  <div id="Khvorostyanov2002">Vitaly I Khvorostyanov , Judith A Curry  (2002), <a href="https://doi.org/10.1175/1520-0469(2002)059<1872:TVODAC>2.0.CO;2">Terminal velocities of droplets and crystals: Power laws with continuous parameters over the size spectrum</a>, Journal of the atmospheric sciences, 59(11), 1872--1884, 2002.</a>
+</dd><dt>Kosovic2000</dt>
+<dd>
+  <div id="Kosovic2000">Branko Kosovi { \'c } , Judith A Curry  (2000), <a href="https://doi.org/10.1175/1520-0469(2000)057<1052:ALESSO>2.0.CO;2">A large eddy simulation study of a quasi-steady , stably stratified atmospheric boundary layer</a>, Journal of the atmospheric sciences, 57(8), 1052--1068, 2000.</a>
+</dd><dt>GolubVanLoan2013</dt>
+<dd>
+  <div id="GolubVanLoan2013">Gene H. Golub , Charles F. Van Loan  (2013), <a href="http://www.cs.cornell.edu/cv/GVL4/golubandvanloan.htm">Matrix Computations</a>, Johns Hopkins University Press, Baltimore , MD , USA, 2013.</a>
+</dd><dt>Rafei2018</dt>
+<dd>
+  <div id="Rafei2018">M.E. Rafei , L. K\ " on\ " oszy , Z. Rana  (2018), <a href="">Investigation of Numerical Dissipation in Classicaland Implicit Large Eddy Simulations</a>, Aerospace, , 2018.</a>
+</dd><dt>Ogura1971</dt>
+<dd>
+  <div id="Ogura1971">Yoshimitsu Ogura , Tsutomu Takahashi  (1971), <a href="">Numerical simulation of the life cycle of a thunderstorm cell</a>, Mon. Wea. Rev, 99(12), 895--911, 1971.</a>
+</dd><dt>KennedyCarpenter2016</dt>
+<dd>
+  <div id="KennedyCarpenter2016">C. A. Kennedy , M. H. Carpenter  (2016), <a href="">Diagonally implicit Runge-Kutta methods for ordinary differential equations. A review</a>, Technical Report NASA/TM–2016–219173, National Aeronautics and Space Administration, Langley Research Center , Hampton , VA, 2016.</a>
+</dd><dt>Morrison2008</dt>
+<dd>
+  <div id="Morrison2008">Hugh Morrison , Andrew Gettelman  (2008), <a href="https://doi.org/10.1175/2008JCLI2105.1">A new two-moment bulk stratiform cloud microphysics scheme in the Community Atmosphere Model , version 3 (CAM3). Part I: Description and numerical tests</a>, Journal of Climate, 21(15), 3642--3659, 2008.</a>
+</dd><dt>Eisenstat1983</dt>
+<dd>
+  <div id="Eisenstat1983">Stanley C Eisenstat , Howard C Elman , Martin H Schultz  (1983), <a href="https://doi.org/10.1137/0720023">Variational iterative methods for nonsymmetric systems of linear equations</a>, SIAM Journal on Numerical Analysis, 20(2), 345--357, 1983.</a>
+</dd><dt>Grabowski1996</dt>
+<dd>
+  <div id="Grabowski1996">Wojciech W Grabowski , Piotr K Smolarkiewicz  (1996), <a href="https://doi.org/10.1175/1520-0493(1996)124<0487:TTLSLM>2.0.CO;2">Two-time-level semi-Lagrangian modeling of precipitating clouds</a>, Monthly weather review, 124(3), 487--497, 1996.</a>
+</dd><dt>Held1994</dt>
+<dd>
+  <div id="Held1994">Isaac M Held , Max J Suarez  (1994), <a href="https://doi.org/10.1175/1520-0477(1994)075<1825:APFTIO>2.0.CO;2">A proposal for the intercomparison of the dynamical cores of atmospheric general circulation models</a>, Bulletin of the American Meteorological society, 75(10), 1825--1830, 1994.</a>
+</dd><dt>Siebesma2003</dt>
+<dd>
+  <div id="Siebesma2003">A Pier Siebesma , Christopher S Bretherton , Andrew Brown , Andreas Chlond , Joan Cuxart , Peter G Duynkerke , Hongli Jiang , Marat Khairoutdinov , David Lewellen , Chin-Hoh Moeng , others  (2003), <a href="https://doi.org/10.1175/1520-0469(2003)60<1201:ALESIS>2.0.CO;2">A large eddy simulation intercomparison study of shallow cumulus convection</a>, Journal of the Atmospheric Sciences, 60(10), 1201--1219, 2003.</a>
+</dd><dt>Harrington1995</dt>
+<dd>
+  <div id="Harrington1995">Jerry Y Harrington , Michael P Meyers , Robert L Walko , William R Cotton  (1995), <a href="https://doi.org/10.1175/1520-0469(1995)052<4344:POICCP>2.0.CO;2">Parameterization of ice crystal conversion processes due to vapor deposition for mesoscale models using double-moment basis functions. Part I: Basic formulation and parcel model results</a>, Journal of the atmospheric sciences, 52(23), 4344--4366, 1995.</a>
+</dd>
+</dl></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../DevDocs/SystemImage/">« Custom System Image</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 17 December 2020 20:02">Thursday 17 December 2020</span>. Using Julia version 1.5.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

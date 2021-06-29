@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Linear Non-Hydrostatic Mountain (Topography) · ClimateMachine</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../assets/documenter.js"></script><script src="../../../siteinfo.js"></script><script src="../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../../"><img src="../../../assets/logo.svg" alt="ClimateMachine logo"/></a><div class="docs-package-name"><span class="docs-autofit">ClimateMachine</span></div><form class="docs-search" action="../../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../../">Home</a></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">Getting started</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../GettingStarted/Installation/">Installation</a></li><li><a class="tocitem" href="../../../GettingStarted/Terminology/">Terminology</a></li><li><a class="tocitem" href="../../../GettingStarted/RunningClimateMachine/">Running</a></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox"/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Defaults</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../GettingStarted/Atmos/">Atmosphere model configurations</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Tutorials</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../TutorialList/">Home</a></li><li><a class="tocitem" href="../../how_to_make_a_balance_law/">Balance Law</a></li><li><input class="collapse-toggle" id="menuitem-3-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../heldsuarez/">Dry Idealized GCM (Held-Suarez)</a></li><li><a class="tocitem" href="../burgers_single_stack/">Single Element Stack Experiment (Burgers Equation)</a></li><li><a class="tocitem" href="../densitycurrent/">LES Experiment (Density Current)</a></li><li><a class="tocitem" href="../risingbubble/">LES Experiment (Rising Thermal Bubble)</a></li><li><a class="tocitem" href="../agnesi_hs_lin/">Linear Hydrostatic Mountain (Topography)</a></li><li class="is-active"><a class="tocitem" href>Linear Non-Hydrostatic Mountain (Topography)</a><ul class="internal"><li><a class="tocitem" href="#Description-of-experiment"><span>Description of experiment</span></a></li><li><a class="tocitem" href="#Boilerplate-(Using-Modules)"><span>Boilerplate (Using Modules)</span></a></li><li><a class="tocitem" href="#init"><span>Initial Conditions</span></a></li><li><a class="tocitem" href="#config-helper"><span>Model Configuration</span></a></li></ul></li></ul></li><li><span class="tocitem">Ocean</span></li><li><input class="collapse-toggle" id="menuitem-3-5" type="checkbox"/><label class="tocitem" for="menuitem-3-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-5-1" type="checkbox"/><label class="tocitem" for="menuitem-3-5-1"><span class="docs-label">Heat</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Land/Heat/heat_equation/">Heat Equation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-5-2" type="checkbox"/><label class="tocitem" for="menuitem-3-5-2"><span class="docs-label">Soil</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Land/Soil/Water/hydraulic_functions/">Hydraulic Functions</a></li><li><a class="tocitem" href="../../Land/Soil/Heat/bonan_heat_tutorial/">Soil Heat Equation</a></li><li><a class="tocitem" href="../../Land/Soil/Coupled/equilibrium_test/">Coupled Water and Heat</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6" type="checkbox"/><label class="tocitem" for="menuitem-3-6"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-6-1" type="checkbox"/><label class="tocitem" for="menuitem-3-6-1"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Numerics/SystemSolvers/cg/">Conjugate Gradient</a></li><li><a class="tocitem" href="../../Numerics/SystemSolvers/bgmres/">Batched Generalized Minimal Residual</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-2" type="checkbox"/><label class="tocitem" for="menuitem-3-6-2"><span class="docs-label">DG Methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Numerics/DGMethods/showcase_filters/">Filters</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-7" type="checkbox"/><label class="tocitem" for="menuitem-3-7"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-7-1" type="checkbox"/><label class="tocitem" for="menuitem-3-7-1"><span class="docs-label">Debug</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Diagnostics/Debug/StateCheck/">State Statistics Regression</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">How-to-guides</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-4-1" type="checkbox"/><label class="tocitem" for="menuitem-4-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../HowToGuides/Common/UniversalFunctions/">Universal Functions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Atmos/TemperatureProfiles/">Temperature profiles</a></li><li><a class="tocitem" href="../../../HowToGuides/Atmos/AtmosReferenceState/">Reference profiles</a></li><li><a class="tocitem" href="../../../HowToGuides/Atmos/MoistureModelChoices/">Moisture model</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><span class="tocitem">Meshes</span></li><li><input class="collapse-toggle" id="menuitem-4-5-2" type="checkbox"/><label class="tocitem" for="menuitem-4-5-2"><span class="docs-label">DG methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/DGMethods/how_to_make_a_balance_law/">How to make a balance law</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-3" type="checkbox"/><label class="tocitem" for="menuitem-4-5-3"><span class="docs-label">ODE Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/ODESolvers/Timestepping/">Time-integration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-4" type="checkbox"/><label class="tocitem" for="menuitem-4-5-4"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/SystemSolvers/IterativeSolvers/">Iterative Solvers</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">APIs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/">Home</a></li><li><input class="collapse-toggle" id="menuitem-5-2" type="checkbox"/><label class="tocitem" for="menuitem-5-2"><span class="docs-label">Driver</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Driver/">Top level interface</a></li><li><a class="tocitem" href="../../../APIs/Driver/Checkpoint/">Checkpoint</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-3" type="checkbox"/><label class="tocitem" for="menuitem-5-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../APIs/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../APIs/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../APIs/Atmos/TemperatureProfiles/">Temperature Profiles</a></li></ul></li><li><a class="tocitem" href="../../../APIs/Ocean/Ocean/">Ocean</a></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Land/LandModel/">Land Model</a></li><li><a class="tocitem" href="../../../APIs/Land/SoilWaterParameterizations/">Soil Water Parameterizations</a></li><li><a class="tocitem" href="../../../APIs/Land/SoilHeatParameterizations/">Soil Heat Parameterizations</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-6" type="checkbox"/><label class="tocitem" for="menuitem-5-6"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Common/Orientations/">Orientations</a></li><li><a class="tocitem" href="../../../APIs/Common/Spectra/">Spectra</a></li><li><a class="tocitem" href="../../../APIs/Common/SurfaceFluxes/">Surface Fluxes</a></li><li><a class="tocitem" href="../../../APIs/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../APIs/Common/TurbulenceClosures/">Turbulence Closures</a></li><li><a class="tocitem" href="../../../APIs/Common/TurbulenceConvection/">Turbulence Convection</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-7" type="checkbox"/><label class="tocitem" for="menuitem-5-7"><span class="docs-label">Balance Laws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/BalanceLaws/BalanceLaws/">Balance Laws</a></li><li><a class="tocitem" href="../../../APIs/BalanceLaws/Problems/">Problems</a></li></ul></li><li><a class="tocitem" href="../../../APIs/Arrays/Arrays/">Arrays</a></li><li><input class="collapse-toggle" id="menuitem-5-9" type="checkbox"/><label class="tocitem" for="menuitem-5-9"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Diagnostics/Diagnostics/">Diagnostics groups</a></li><li><a class="tocitem" href="../../../APIs/Diagnostics/StateCheck/">State Check</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-10" type="checkbox"/><label class="tocitem" for="menuitem-5-10"><span class="docs-label">Input/Output</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/InputOutput/">Input/Output</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-11" type="checkbox"/><label class="tocitem" for="menuitem-5-11"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Numerics/Meshes/Mesh/">Meshes</a></li><li><a class="tocitem" href="../../../APIs/Numerics/SystemSolvers/SystemSolvers/">SystemSolvers</a></li><li><a class="tocitem" href="../../../APIs/Numerics/ODESolvers/ODESolvers/">ODESolvers</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/DGMethods/">DG Methods</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/Courant/">Courant</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/NumericalFluxes/">Numerical Fluxes</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-12" type="checkbox"/><label class="tocitem" for="menuitem-5-12"><span class="docs-label">Utilities</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Utilities/VariableTemplates/">Variable Templates</a></li><li><a class="tocitem" href="../../../APIs/Utilities/SingleStackUtils/">Single Stack Utilities</a></li><li><a class="tocitem" href="../../../APIs/Utilities/TicToc/">Tic Toc</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../Contributing/">Contribution guide</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Theory</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-7-1" type="checkbox"/><label class="tocitem" for="menuitem-7-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Theory/Common/SurfaceFluxes/">SurfaceFluxes</a></li><li><a class="tocitem" href="../../../Theory/Common/Turbulence/">Turbulence Closures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7-2" type="checkbox"/><label class="tocitem" for="menuitem-7-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Theory/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../Theory/Atmos/EDMFEquations/">EDMF equations</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Model/tracers/">Tracers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Developer docs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../DevDocs/CodeStyle/">Coding style</a></li><li><a class="tocitem" href="../../../DevDocs/AcceptableUnicode/">Acceptable Unicode</a></li><li><a class="tocitem" href="../../../DevDocs/VariableList/">Variable list</a></li><li><a class="tocitem" href="../../../DevDocs/DiagnosticVariables/">Diagnostic variable list</a></li><li><a class="tocitem" href="../../../DevDocs/SystemImage/">Custom System Image</a></li></ul></li><li><a class="tocitem" href="../../../References/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li><a class="is-disabled">Atmos</a></li><li class="is-active"><a href>Linear Non-Hydrostatic Mountain (Topography)</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Linear Non-Hydrostatic Mountain (Topography)</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/ClimateMachine.jl/blob/master/tutorials/Atmos/agnesi_nh_lin.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="EX-LIN_NH-docs"><a class="docs-heading-anchor" href="#EX-LIN_NH-docs">Linear NH mountain waves (Topography)</a><a id="EX-LIN_NH-docs-1"></a><a class="docs-heading-anchor-permalink" href="#EX-LIN_NH-docs" title="Permalink"></a></h1><h2 id="Description-of-experiment"><a class="docs-heading-anchor" href="#Description-of-experiment">Description of experiment</a><a id="Description-of-experiment-1"></a><a class="docs-heading-anchor-permalink" href="#Description-of-experiment" title="Permalink"></a></h2><ol><li>Dry linear Non-hydrostatic Mountain Waves</li></ol><p>This example of a non-linear hydrostatic mountain wave can be classified as an initial value problem.</p><p>The atmosphere is dry and the flow impinges against a witch of Agnesi mountain of heigh <span>$h_m=1m$</span> and base parameter <span>$a=1000$</span>m and centered in <span>$x_c = 72km$</span> in a 2D domain <span>$\Omega = 144km \times 30 km$</span>. The mountain is defined as</p><div>\[ z = \frac{h_m}{1 + \frac{x - x_c}{a}}\]</div><p>The 2D problem is setup in 3D by using 1 element in the y direction. To damp the upward moving gravity waves, a Reyleigh absorbing layer is added at <span>$z = 10,000m$</span>.</p><p>The initial atmosphere is defined such that it has a stability frequency <span>$N=0.01 s^{-1}$</span>, where</p><div>\[ N^2 = g\frac{\rm d \ln \theta}{ \rm dz}\]</div><p>so that</p><div>\[\theta = \theta_0 \exp\left(\frac{N^2 z}{g} \right),\]</div><div>\[\pi = 1 + \frac{g^2}{c_p \theta_0 N^2}\left(\exp\left(\frac{-N^2 z}{g} \right)\right)\]</div><p>where <span>$\theta_0 = 280K$</span>.</p><p>so that</p><div>\[ρ = \frac{p_{sfc}}{R_{gas}\theta}pi^{c_v/R_{gas}}\]</div><p>and <span>$T = \theta \pi$</span></p><ol><li>Boundaries<ul><li><code>Impenetrable(FreeSlip())</code> - Top and bottom: no momentum flux, no mass flux through walls.</li><li><code>Impermeable()</code> - non-porous walls, i.e. no diffusive fluxes through  walls.</li><li>Agnesi topography built via meshwarp.</li><li>Laterally periodic</li></ul></li><li>Domain - 144,000 m (horizontal) x 1360 m (horizontal) x 30,000m (vertical) (infinite domain in y)</li><li>Resolution - 340 m X 200 m effective resolution</li><li>Total simulation time - 18,000 s</li><li>Overrides defaults for<ul><li>CPU Initialisation</li><li>Time integrator</li><li>Sources</li></ul></li></ol><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>This experiment setup assumes that you have installed the <code>ClimateMachine</code> according to the instructions on the landing page. We assume the users&#39; familiarity with the conservative form of the equations of motion for a compressible fluid (see the <a href="../../../APIs/Atmos/AtmosModel/#AtmosModel-docs">AtmosModel</a> page).</p><p>The following topics are covered in this example</p><ul><li>Defining the initial conditions</li><li>Applying source terms</li><li>Add an idealized topography defined by a warping function</li></ul></div></div><h2 id="Boilerplate-(Using-Modules)"><a class="docs-heading-anchor" href="#Boilerplate-(Using-Modules)">Boilerplate (Using Modules)</a><a id="Boilerplate-(Using-Modules)-1"></a><a class="docs-heading-anchor-permalink" href="#Boilerplate-(Using-Modules)" title="Permalink"></a></h2><p>The setup of this problem is taken from Case 6 of: @article{giraldoRestelli2008a,   author = {{Giraldo},F.~X. and {Restelli},M.},   title = {A study of spectral element and discontinuous {G}alerkin methods for the {Navier-Stokes} equations in nonhydrostatic mesoscale atmospheric modeling: {E}quation sets and test cases},   journal = {J. Comput. Phys.},   year  = {2008},   volume = {227},   pages  = {3849-3877}, },</p><pre><code class="language-julia">using ClimateMachine
+ClimateMachine.init(parse_clargs = true)
+
+using ClimateMachine.Atmos
+using ClimateMachine.Orientations
+using ClimateMachine.ConfigTypes
+using ClimateMachine.Diagnostics
+using ClimateMachine.GenericCallbacks
+using ClimateMachine.ODESolvers
+using ClimateMachine.Mesh.Filters
+using ClimateMachine.Mesh.Topologies
+using ClimateMachine.Mesh.Grids
+using ClimateMachine.TemperatureProfiles
+using ClimateMachine.Thermodynamics
+using ClimateMachine.TurbulenceClosures
+using ClimateMachine.VariableTemplates
+using StaticArrays
+using Test
+
+using CLIMAParameters
+using CLIMAParameters.Atmos.SubgridScale: C_smag
+using CLIMAParameters.Planet: R_d, cp_d, cv_d, MSLP, grav
+struct EarthParameterSet &lt;: AbstractEarthParameterSet end
+const param_set = EarthParameterSet()</code></pre><pre class="documenter-example-output">Main.ex-agnesi_nh_lin.EarthParameterSet()</pre><h2 id="init"><a class="docs-heading-anchor" href="#init">Initial Conditions</a><a id="init-1"></a><a class="docs-heading-anchor-permalink" href="#init" title="Permalink"></a></h2><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>The following variables are assigned in the initial condition</p><ul><li><code>state.ρ</code> = Scalar quantity for initial density profile</li><li><code>state.ρu</code>= 3-component vector for initial momentum profile</li><li><code>state.ρe</code>= Scalar quantity for initial total-energy profile humidity</li></ul></div></div><pre><code class="language-julia">function init_agnesi_hs_lin!(problem, bl, state, aux, localgeo, t)
+    (x, y, z) = localgeo.coord
+
+    # Problem float-type
+    FT = eltype(state)
+
+    # Unpack constant parameters
+    R_gas::FT = R_d(bl.param_set)
+    c_p::FT = cp_d(bl.param_set)
+    c_v::FT = cv_d(bl.param_set)
+    p0::FT = MSLP(bl.param_set)
+    _grav::FT = grav(bl.param_set)
+    γ::FT = c_p / c_v
+
+    c::FT = c_v / R_gas
+    c2::FT = R_gas / c_p
+
+    # Define initial thermal field as isothermal
+    Tiso::FT = 250.0
+    θ0::FT = Tiso
+
+    # Assign a value to the Brunt-Vaisala frquencey:
+    Brunt::FT = 0.01
+    Brunt2::FT = Brunt * Brunt
+    g2::FT = _grav * _grav
+
+    π_exner::FT = exp(-_grav * z / (c_p * Tiso))
+    θ::FT = θ0 * exp(Brunt2 * z / _grav)
+    ρ::FT = p0 / (R_gas * θ) * (π_exner)^c
+
+    # Compute perturbed thermodynamic state:
+    T = θ * π_exner
+    e_int = internal_energy(bl.param_set, T)
+    ts = PhaseDry(bl.param_set, e_int, ρ)
+
+    # initial velocity
+    u = FT(10.0)
+
+    # State (prognostic) variable assignment
+    e_kin = FT(0)                                       # kinetic energy
+    e_pot = gravitational_potential(bl.orientation, aux)# potential energy
+    ρe_tot = ρ * total_energy(e_kin, e_pot, ts)         # total energy
+
+    state.ρ = ρ
+    state.ρu = SVector{3, FT}(ρ * u, 0, 0)
+    state.ρe = ρe_tot
+end
+
+function setmax(f, xmax, ymax, zmax)
+    function setmaxima(xin, yin, zin)
+        return f(xin, yin, zin; xmax = xmax, ymax = ymax, zmax = zmax)
+    end
+    return setmaxima
+end</code></pre><pre class="documenter-example-output">setmax (generic function with 1 method)</pre><p>Define a warping function to build an analytic topography:</p><pre><code class="language-julia">function warp_agnesi(xin, yin, zin; xmax = 1000.0, ymax = 1000.0, zmax = 1000.0)
+
+    FT = eltype(xin)
+
+    ac = FT(1000)
+    hm = FT(1)
+    xc = FT(0.5) * xmax
+    zdiff = hm / (FT(1) + ((xin - xc) / ac)^2)
+
+    # Linear relaxation towards domain maximum height
+    x, y, z = xin, yin, zin + zdiff * (zmax - zin) / zmax
+    return x, y, z
+end</code></pre><pre class="documenter-example-output">warp_agnesi (generic function with 1 method)</pre><h2 id="config-helper"><a class="docs-heading-anchor" href="#config-helper">Model Configuration</a><a id="config-helper-1"></a><a class="docs-heading-anchor-permalink" href="#config-helper" title="Permalink"></a></h2><p>We define a configuration function to assist in prescribing the physical model. The purpose of this is to populate the <code>AtmosLESConfiguration</code> with arguments appropriate to the problem being considered.</p><pre><code class="language-julia">function config_agnesi_hs_lin(FT, N, resolution, xmax, ymax, zmax)
+    #
+    # Explicit Rayleigh damping:
+    #
+    # ``
+    #   \tau_s = \alpha * \sin\left(0.5\pi \frac{z - z_s}{zmax - z_s} \right)^2,
+    # ``
+    # where
+    # ``sponge_ampz`` is the wave damping coefficient (1/s)
+    # ``z_s`` is the level where the Rayleigh sponge starts
+    # ``zmax`` is the domain top
+    #
+    # Setup the parameters for the gravity wave absorbing layer
+    # at the top of the domain
+    #
+    # u_relaxation(xvelo, vvelo, wvelo) contains the background velocity values to which
+    # the sponge relaxes the vertically moving wave
+    u_relaxation = SVector(FT(10), FT(0), FT(0))
+
+    # Wave damping coefficient (1/s)
+    sponge_ampz = FT(0.5)
+
+    # Vertical level where the absorbing layer starts
+    z_s = FT(10000.0)
+
+    # Pass the sponge parameters to the sponge calculator
+    rayleigh_sponge =
+        RayleighSponge{FT}(zmax, z_s, sponge_ampz, u_relaxation, 2)
+
+    # Define the time integrator:
+    # We chose an explicit single-rate LSRK144 for this problem
+    ode_solver = ClimateMachine.ExplicitSolverType(
+        solver_method = LSRK144NiegemannDiehlBusch,
+    )
+
+    # Setup the source terms for this problem:
+    source = (Gravity(), rayleigh_sponge)
+
+    # Define the reference state:
+    T_virt = FT(280)
+    temp_profile_ref = IsothermalProfile(param_set, T_virt)
+    ref_state = HydrostaticState(temp_profile_ref)
+
+    _C_smag = FT(0.0)
+    model = AtmosModel{FT}(
+        AtmosLESConfigType,
+        param_set;
+        init_state_prognostic = init_agnesi_hs_lin!,
+        ref_state = ref_state,
+        turbulence = Vreman(_C_smag),
+        moisture = DryModel(),
+        source = source,
+        tracers = NoTracers(),
+    )
+
+    config = ClimateMachine.AtmosLESConfiguration(
+        &quot;Agnesi_NH_LINEAR&quot;,      # Problem title [String]
+        N,                       # Polynomial order [Int]
+        resolution,              # (Δx, Δy, Δz) effective resolution [m]
+        xmax,                    # Domain maximum size [m]
+        ymax,                    # Domain maximum size [m]
+        zmax,                    # Domain maximum size [m]
+        param_set,               # Parameter set.
+        init_agnesi_hs_lin!,     # Function specifying initial condition
+        solver_type = ode_solver,# Time-integrator type
+        model = model,           # Model type
+        meshwarp = setmax(warp_agnesi, xmax, ymax, zmax),
+    )
+
+    return config
+end</code></pre><pre class="documenter-example-output">config_agnesi_hs_lin (generic function with 1 method)</pre><p>Define a <code>main</code> method (entry point)</p><pre><code class="language-julia">function main()
+
+    FT = Float64
+
+    # Define the polynomial order and effective grid spacings:
+    N = 4
+
+    # Define the domain size and spatial resolution
+    Nx = 20
+    Ny = 20
+    Nz = 20
+    xmax = FT(144000)
+    ymax = FT(4000)
+    zmax = FT(30000)
+    Δx = xmax / FT(Nx)
+    Δy = ymax / FT(Ny)
+    Δz = zmax / FT(Nz)
+    resolution = (Δx, Δy, Δz)
+
+    t0 = FT(0)
+    timeend = FT(100)
+
+    # Define the max Courant for the time time integrator (ode_solver).
+    # The default value is 1.7 for LSRK144:
+    CFL = FT(1.5)
+
+    # Assign configurations so they can be passed to the `invoke!` function
+    driver_config = config_agnesi_hs_lin(FT, N, resolution, xmax, ymax, zmax)
+    solver_config = ClimateMachine.SolverConfiguration(
+        t0,
+        timeend,
+        driver_config,
+        init_on_cpu = true,
+        Courant_number = CFL,
+    )
+
+    # Set up the spectral filter to remove the solutions spurious modes
+    # Define the order of the exponential filter: use 32 or 64 for this problem.
+    # The larger the value, the less dissipation you get:
+    filterorder = 64
+    filter = ExponentialFilter(solver_config.dg.grid, 0, filterorder)
+    cbfilter = GenericCallbacks.EveryXSimulationSteps(1) do
+        Filters.apply!(
+            solver_config.Q,
+            AtmosFilterPerturbations(driver_config.bl),
+            solver_config.dg.grid,
+            filter,
+            state_auxiliary = solver_config.dg.state_auxiliary,
+        )
+        nothing
+    end
+    # End exponential filter
+
+    # Invoke solver (calls `solve!` function for time-integrator),
+    # pass the driver, solver and diagnostic config information.
+    result = ClimateMachine.invoke!(
+        solver_config;
+        user_callbacks = (cbfilter,),
+        check_euclidean_distance = true,
+    )
+
+    # Check that the solution norm is reasonable.
+    @test FT(0.9) &lt; result &lt; FT(1)
+    # Some energy is lost from the sponge, so we cannot
+    # expect perfect energy conservation.
+end</code></pre><pre class="documenter-example-output">main (generic function with 1 method)</pre><p>Call <code>main</code></p><pre><code class="language-julia">main();</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-agnesi_nh_lin.EarthParameterSet()
+│     problem = ClimateMachine.Atmos.AtmosProblem{ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC},typeof(Main.ex-agnesi_nh_lin.init_agnesi_hs_lin!),typeof(ClimateMachine.Atmos.atmos_problem_init_state_auxiliary)}(ClimateMachine.Atmos.AtmosBC{ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip},ClimateMachine.Atmos.Insulating,ClimateMachine.Atmos.Impermeable,ClimateMachine.Atmos.ImpermeableTracer,ClimateMachine.TurbulenceConvection.NoTurbConvBC}(ClimateMachine.Atmos.Impenetrable{ClimateMachine.Atmos.FreeSlip}(ClimateMachine.Atmos.FreeSlip()), ClimateMachine.Atmos.Insulating(), ClimateMachine.Atmos.Impermeable(), ClimateMachine.Atmos.ImpermeableTracer(), ClimateMachine.TurbulenceConvection.NoTurbConvBC()), Main.ex-agnesi_nh_lin.init_agnesi_hs_lin!, ClimateMachine.Atmos.atmos_problem_init_state_auxiliary)
+│     orientation = ClimateMachine.Orientations.FlatOrientation()
+│     ref_state = ClimateMachine.Atmos.HydrostaticState{ClimateMachine.TemperatureProfiles.DecayingTemperatureProfile{Float64},Float64}(ClimateMachine.TemperatureProfiles.DecayingTemperatureProfile{Float64}(280.0, 280.0, 8191.709951980271), 0.0)
+│     turbulence = ClimateMachine.TurbulenceClosures.Vreman{Float64}(0.0)
+│     turbconv = ClimateMachine.TurbulenceConvection.NoTurbConv()
+│     hyperdiffusion = ClimateMachine.TurbulenceClosures.NoHyperDiffusion()
+│     viscoussponge = ClimateMachine.TurbulenceClosures.NoViscousSponge()
+│     moisture = ClimateMachine.Atmos.DryModel()
+│     precipitation = ClimateMachine.Atmos.NoPrecipitation()
+│     radiation = ClimateMachine.Atmos.NoRadiation()
+│     source = (ClimateMachine.Atmos.Gravity(), ClimateMachine.Atmos.RayleighSponge{Float64}(30000.0, 10000.0, 0.5, [10.0, 0.0, 0.0], 2.0))
+│     tracers = ClimateMachine.Atmos.NoTracers()
+└     data_config = nothing
+┌ Info: Establishing Atmos LES configuration for Agnesi_NH_LINEAR
+│     precision        = Float64
+│     polynomial order = 4
+│     domain           = 144000.00 m x4000.00 m x30000.00 m
+│     resolution       = 7200x200x1500
+│     MPI ranks        = 1
+│     min(Δ_horz)      = 138.14 m
+└     min(Δ_vert)      = 1036.00 m
+[ Info: Initializing Agnesi_NH_LINEAR
+┌ Info: Starting Agnesi_NH_LINEAR
+│     dt              = 6.32911e-01
+│     timeend         =   100.00
+│     number of steps = 158
+└     norm(Q)         = 6.1568358499566795e+10
+┌ Info: Finished
+│     norm(Q)            = 5.6209479192783104e+10
+│     norm(Q) / norm(Q₀) = 9.1296049728495854e-01
+└     norm(Q) - norm(Q₀) = -5.3588793067836914e+09
+┌ Info: Euclidean distance
+│     norm(Q - Qe)            = 2.1590556265499451e+10
+└     norm(Q - Qe) / norm(Qe) = 3.5067617184647476e-01</pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../agnesi_hs_lin/">« Linear Hydrostatic Mountain (Topography)</a><a class="docs-footer-nextpage" href="../../Land/Heat/heat_equation/">Heat Equation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 2 November 2020 15:12">Monday 2 November 2020</span>. Using Julia version 1.5.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

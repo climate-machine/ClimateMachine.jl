@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Heat Equation · ClimateMachine</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../../assets/documenter.js"></script><script src="../../../../siteinfo.js"></script><script src="../../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../../../"><img src="../../../../assets/logo.svg" alt="ClimateMachine logo"/></a><div class="docs-package-name"><span class="docs-autofit">ClimateMachine</span></div><form class="docs-search" action="../../../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../../../">Home</a></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">Getting started</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../GettingStarted/Installation/">Installation</a></li><li><a class="tocitem" href="../../../../GettingStarted/Terminology/">Terminology</a></li><li><a class="tocitem" href="../../../../GettingStarted/RunningClimateMachine/">Running</a></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox"/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Defaults</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../GettingStarted/Atmos/">Atmosphere model configurations</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Tutorials</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../TutorialList/">Home</a></li><li><a class="tocitem" href="../../../how_to_make_a_balance_law/">Balance Law</a></li><li><input class="collapse-toggle" id="menuitem-3-3" type="checkbox"/><label class="tocitem" for="menuitem-3-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Atmos/heldsuarez/">Dry Idealized GCM (Held-Suarez)</a></li><li><a class="tocitem" href="../../../Atmos/burgers_single_stack/">Single Element Stack Experiment (Burgers Equation)</a></li><li><a class="tocitem" href="../../../Atmos/densitycurrent/">LES Experiment (Density Current)</a></li><li><a class="tocitem" href="../../../Atmos/risingbubble/">LES Experiment (Rising Thermal Bubble)</a></li><li><a class="tocitem" href="../../../Atmos/agnesi_hs_lin/">Linear Hydrostatic Mountain (Topography)</a></li><li><a class="tocitem" href="../../../Atmos/agnesi_nh_lin/">Linear Non-Hydrostatic Mountain (Topography)</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><input class="collapse-toggle" id="menuitem-3-5" type="checkbox" checked/><label class="tocitem" for="menuitem-3-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-5-1" type="checkbox" checked/><label class="tocitem" for="menuitem-3-5-1"><span class="docs-label">Heat</span><i class="docs-chevron"></i></label><ul class="collapsed"><li class="is-active"><a class="tocitem" href>Heat Equation</a><ul class="internal"><li class="toplevel"><a class="tocitem" href="#Preliminary-configuration"><span>Preliminary configuration</span></a></li><li><a class="tocitem" href="#Loading-code-heat"><span>Loading code</span></a></li><li><a class="tocitem" href="#Initialization"><span>Initialization</span></a></li><li class="toplevel"><a class="tocitem" href="#Define-the-set-of-Partial-Differential-Equations-(PDEs)"><span>Define the set of Partial Differential Equations (PDEs)</span></a></li><li><a class="tocitem" href="#Define-the-model"><span>Define the model</span></a></li><li><a class="tocitem" href="#Define-the-variables"><span>Define the variables</span></a></li><li><a class="tocitem" href="#Define-the-compute-kernels"><span>Define the compute kernels</span></a></li><li class="toplevel"><a class="tocitem" href="#Spatial-discretization"><span>Spatial discretization</span></a></li><li class="toplevel"><a class="tocitem" href="#Time-discretization-/-solver"><span>Time discretization / solver</span></a></li><li><a class="tocitem" href="#Inspect-the-initial-conditions"><span>Inspect the initial conditions</span></a></li><li class="toplevel"><a class="tocitem" href="#Solver-hooks-/-callbacks"><span>Solver hooks / callbacks</span></a></li><li class="toplevel"><a class="tocitem" href="#Solve"><span>Solve</span></a></li><li class="toplevel"><a class="tocitem" href="#Post-processing"><span>Post-processing</span></a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-5-2" type="checkbox"/><label class="tocitem" for="menuitem-3-5-2"><span class="docs-label">Soil</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Soil/Water/hydraulic_functions/">Hydraulic Functions</a></li><li><a class="tocitem" href="../../Soil/Heat/bonan_heat_tutorial/">Soil Heat Equation</a></li><li><a class="tocitem" href="../../Soil/Coupled/equilibrium_test/">Coupled Water and Heat</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6" type="checkbox"/><label class="tocitem" for="menuitem-3-6"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-6-1" type="checkbox"/><label class="tocitem" for="menuitem-3-6-1"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Numerics/SystemSolvers/cg/">Conjugate Gradient</a></li><li><a class="tocitem" href="../../../Numerics/SystemSolvers/bgmres/">Batched Generalized Minimal Residual</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-2" type="checkbox"/><label class="tocitem" for="menuitem-3-6-2"><span class="docs-label">DG Methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Numerics/DGMethods/showcase_filters/">Filters</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-7" type="checkbox"/><label class="tocitem" for="menuitem-3-7"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-7-1" type="checkbox"/><label class="tocitem" for="menuitem-3-7-1"><span class="docs-label">Debug</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Diagnostics/Debug/StateCheck/">State Statistics Regression</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">How-to-guides</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-4-1" type="checkbox"/><label class="tocitem" for="menuitem-4-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../../HowToGuides/Common/UniversalFunctions/">Universal Functions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Atmos/TemperatureProfiles/">Temperature profiles</a></li><li><a class="tocitem" href="../../../../HowToGuides/Atmos/AtmosReferenceState/">Reference profiles</a></li><li><a class="tocitem" href="../../../../HowToGuides/Atmos/MoistureModelChoices/">Moisture model</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><span class="tocitem">Meshes</span></li><li><input class="collapse-toggle" id="menuitem-4-5-2" type="checkbox"/><label class="tocitem" for="menuitem-4-5-2"><span class="docs-label">DG methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Numerics/DGMethods/how_to_make_a_balance_law/">How to make a balance law</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-3" type="checkbox"/><label class="tocitem" for="menuitem-4-5-3"><span class="docs-label">ODE Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Numerics/ODESolvers/Timestepping/">Time-integration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-4" type="checkbox"/><label class="tocitem" for="menuitem-4-5-4"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Numerics/SystemSolvers/IterativeSolvers/">Iterative Solvers</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">APIs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/">Home</a></li><li><input class="collapse-toggle" id="menuitem-5-2" type="checkbox"/><label class="tocitem" for="menuitem-5-2"><span class="docs-label">Driver</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Driver/">Top level interface</a></li><li><a class="tocitem" href="../../../../APIs/Driver/Checkpoint/">Checkpoint</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-3" type="checkbox"/><label class="tocitem" for="menuitem-5-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../../APIs/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../../APIs/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../../APIs/Atmos/TemperatureProfiles/">Temperature Profiles</a></li></ul></li><li><a class="tocitem" href="../../../../APIs/Ocean/Ocean/">Ocean</a></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Land/LandModel/">Land Model</a></li><li><a class="tocitem" href="../../../../APIs/Land/SoilWaterParameterizations/">Soil Water Parameterizations</a></li><li><a class="tocitem" href="../../../../APIs/Land/SoilHeatParameterizations/">Soil Heat Parameterizations</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-6" type="checkbox"/><label class="tocitem" for="menuitem-5-6"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Common/Orientations/">Orientations</a></li><li><a class="tocitem" href="../../../../APIs/Common/Spectra/">Spectra</a></li><li><a class="tocitem" href="../../../../APIs/Common/SurfaceFluxes/">Surface Fluxes</a></li><li><a class="tocitem" href="../../../../APIs/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../../APIs/Common/TurbulenceClosures/">Turbulence Closures</a></li><li><a class="tocitem" href="../../../../APIs/Common/TurbulenceConvection/">Turbulence Convection</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-7" type="checkbox"/><label class="tocitem" for="menuitem-5-7"><span class="docs-label">Balance Laws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/BalanceLaws/BalanceLaws/">Balance Laws</a></li><li><a class="tocitem" href="../../../../APIs/BalanceLaws/Problems/">Problems</a></li></ul></li><li><a class="tocitem" href="../../../../APIs/Arrays/Arrays/">Arrays</a></li><li><input class="collapse-toggle" id="menuitem-5-9" type="checkbox"/><label class="tocitem" for="menuitem-5-9"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Diagnostics/Diagnostics/">Diagnostics groups</a></li><li><a class="tocitem" href="../../../../APIs/Diagnostics/StateCheck/">State Check</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-10" type="checkbox"/><label class="tocitem" for="menuitem-5-10"><span class="docs-label">Input/Output</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/InputOutput/">Input/Output</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-11" type="checkbox"/><label class="tocitem" for="menuitem-5-11"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Numerics/Meshes/Mesh/">Meshes</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/SystemSolvers/SystemSolvers/">SystemSolvers</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/ODESolvers/ODESolvers/">ODESolvers</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/DGMethods/">DG Methods</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/Courant/">Courant</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/NumericalFluxes/">Numerical Fluxes</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-12" type="checkbox"/><label class="tocitem" for="menuitem-5-12"><span class="docs-label">Utilities</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Utilities/VariableTemplates/">Variable Templates</a></li><li><a class="tocitem" href="../../../../APIs/Utilities/SingleStackUtils/">Single Stack Utilities</a></li><li><a class="tocitem" href="../../../../APIs/Utilities/TicToc/">Tic Toc</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../../Contributing/">Contribution guide</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Theory</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-7-1" type="checkbox"/><label class="tocitem" for="menuitem-7-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Theory/Common/SurfaceFluxes/">SurfaceFluxes</a></li><li><a class="tocitem" href="../../../../Theory/Common/Turbulence/">Turbulence Closures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7-2" type="checkbox"/><label class="tocitem" for="menuitem-7-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Theory/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/EDMFEquations/">EDMF equations</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/Model/tracers/">Tracers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Developer docs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../DevDocs/CodeStyle/">Coding style</a></li><li><a class="tocitem" href="../../../../DevDocs/AcceptableUnicode/">Acceptable Unicode</a></li><li><a class="tocitem" href="../../../../DevDocs/VariableList/">Variable list</a></li><li><a class="tocitem" href="../../../../DevDocs/DiagnosticVariables/">Diagnostic variable list</a></li><li><a class="tocitem" href="../../../../DevDocs/SystemImage/">Custom System Image</a></li></ul></li><li><a class="tocitem" href="../../../../References/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li><a class="is-disabled">Land</a></li><li><a class="is-disabled">Heat</a></li><li class="is-active"><a href>Heat Equation</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Heat Equation</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/ClimateMachine.jl/blob/master/tutorials/Land/Heat/heat_equation.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Heat-equation-tutorial"><a class="docs-heading-anchor" href="#Heat-equation-tutorial">Heat equation tutorial</a><a id="Heat-equation-tutorial-1"></a><a class="docs-heading-anchor-permalink" href="#Heat-equation-tutorial" title="Permalink"></a></h1><p>In this tutorial, we&#39;ll be solving the <a href="https://en.wikipedia.org/wiki/Heat_equation">heat equation</a>:</p><p><span>$\frac{∂ ρcT}{∂ t} + ∇ ⋅ (-α ∇ρcT) = 0$</span></p><p>where</p><ul><li><code>t</code> is time</li><li><code>α</code> is the thermal diffusivity</li><li><code>T</code> is the temperature</li><li><code>ρ</code> is the density</li><li><code>c</code> is the heat capacity</li><li><code>ρcT</code> is the thermal energy</li></ul><p>To put this in the form of ClimateMachine&#39;s <a href="../../../../APIs/BalanceLaws/BalanceLaws/#ClimateMachine.BalanceLaws.BalanceLaw"><code>BalanceLaw</code></a>, we&#39;ll re-write the equation as:</p><p><span>$\frac{∂ ρcT}{∂ t} + ∇ ⋅ (F(α, ρcT, t)) = 0$</span></p><p>where</p><ul><li><span>$F(α, ρcT, t) = -α ∇ρcT$</span> is the second-order flux</li></ul><p>with boundary conditions</p><ul><li>Fixed temperature <span>$T_{surface}$</span> at <span>$z_{min}$</span> (non-zero Dirichlet)</li><li>No thermal flux at <span>$z_{min}$</span> (zero Neumann)</li></ul><p>Solving these equations is broken down into the following steps:</p><ol><li>Preliminary configuration</li><li>PDEs</li><li>Space discretization</li><li>Time discretization / solver</li><li>Solver hooks / callbacks</li><li>Solve</li><li>Post-processing</li></ol><h1 id="Preliminary-configuration"><a class="docs-heading-anchor" href="#Preliminary-configuration">Preliminary configuration</a><a id="Preliminary-configuration-1"></a><a class="docs-heading-anchor-permalink" href="#Preliminary-configuration" title="Permalink"></a></h1><h2 id="Loading-code-heat"><a class="docs-heading-anchor" href="#Loading-code-heat">Loading code</a><a id="Loading-code-heat-1"></a><a class="docs-heading-anchor-permalink" href="#Loading-code-heat" title="Permalink"></a></h2><p>First, we&#39;ll load our pre-requisites:</p><ul><li>load external packages:</li></ul><pre><code class="language-julia">using MPI
+using OrderedCollections
+using Plots
+using StaticArrays
+using OrdinaryDiffEq
+using DiffEqBase</code></pre><ul><li>load CLIMAParameters and set up to use it:</li></ul><pre><code class="language-julia">using CLIMAParameters
+struct EarthParameterSet &lt;: AbstractEarthParameterSet end
+const param_set = EarthParameterSet()</code></pre><pre class="documenter-example-output">Main.ex-heat_equation.EarthParameterSet()</pre><ul><li>load necessary ClimateMachine modules:</li></ul><pre><code class="language-julia">using ClimateMachine
+using ClimateMachine.Mesh.Topologies
+using ClimateMachine.Mesh.Grids
+using ClimateMachine.DGMethods
+using ClimateMachine.DGMethods.NumericalFluxes
+using ClimateMachine.BalanceLaws:
+    BalanceLaw, Prognostic, Auxiliary, Gradient, GradientFlux
+
+using ClimateMachine.Mesh.Geometry: LocalGeometry
+using ClimateMachine.MPIStateArrays
+using ClimateMachine.GenericCallbacks
+using ClimateMachine.ODESolvers
+using ClimateMachine.VariableTemplates
+using ClimateMachine.SingleStackUtils</code></pre><ul><li>import necessary ClimateMachine modules: (<code>import</code>ing enables us to</li></ul><p>provide implementations of these structs/methods)</p><pre><code class="language-julia">import ClimateMachine.BalanceLaws:
+    vars_state,
+    source!,
+    flux_second_order!,
+    flux_first_order!,
+    compute_gradient_argument!,
+    compute_gradient_flux!,
+    nodal_update_auxiliary_state!,
+    nodal_init_state_auxiliary!,
+    init_state_prognostic!,
+    boundary_state!
+
+import ClimateMachine.DGMethods: calculate_dt</code></pre><h2 id="Initialization"><a class="docs-heading-anchor" href="#Initialization">Initialization</a><a id="Initialization-1"></a><a class="docs-heading-anchor-permalink" href="#Initialization" title="Permalink"></a></h2><p>Define the float type (<code>Float64</code> or <code>Float32</code>)</p><pre><code class="language-julia">FT = Float64;</code></pre><p>Initialize ClimateMachine for CPU.</p><pre><code class="language-julia">ClimateMachine.init(; disable_gpu = true);
+
+const clima_dir = dirname(dirname(pathof(ClimateMachine)));</code></pre><p>Load some helper functions for plotting</p><pre><code class="language-julia">include(joinpath(clima_dir, &quot;docs&quot;, &quot;plothelpers.jl&quot;));</code></pre><h1 id="Define-the-set-of-Partial-Differential-Equations-(PDEs)"><a class="docs-heading-anchor" href="#Define-the-set-of-Partial-Differential-Equations-(PDEs)">Define the set of Partial Differential Equations (PDEs)</a><a id="Define-the-set-of-Partial-Differential-Equations-(PDEs)-1"></a><a class="docs-heading-anchor-permalink" href="#Define-the-set-of-Partial-Differential-Equations-(PDEs)" title="Permalink"></a></h1><h2 id="Define-the-model"><a class="docs-heading-anchor" href="#Define-the-model">Define the model</a><a id="Define-the-model-1"></a><a class="docs-heading-anchor-permalink" href="#Define-the-model" title="Permalink"></a></h2><p>Model parameters can be stored in the particular <a href="../../../../APIs/BalanceLaws/BalanceLaws/#ClimateMachine.BalanceLaws.BalanceLaw"><code>BalanceLaw</code></a>, in this case, a <code>HeatModel</code>:</p><pre><code class="language-julia">Base.@kwdef struct HeatModel{FT, APS} &lt;: BalanceLaw
+    &quot;Parameters&quot;
+    param_set::APS
+    &quot;Heat capacity&quot;
+    ρc::FT = 1
+    &quot;Thermal diffusivity&quot;
+    α::FT = 0.01
+    &quot;Initial conditions for temperature&quot;
+    initialT::FT = 295.15
+    &quot;Bottom boundary value for temperature (Dirichlet boundary conditions)&quot;
+    T_bottom::FT = 300.0
+    &quot;Top flux (α∇ρcT) at top boundary (Neumann boundary conditions)&quot;
+    flux_top::FT = 0.0
+end</code></pre><p>Create an instance of the <code>HeatModel</code>:</p><pre><code class="language-julia">m = HeatModel{FT, typeof(param_set)}(; param_set = param_set);</code></pre><p>This model dictates the flow control, using <a href="https://en.wikipedia.org/wiki/Multiple_dispatch">Dynamic Multiple Dispatch</a>, for which kernels are executed.</p><h2 id="Define-the-variables"><a class="docs-heading-anchor" href="#Define-the-variables">Define the variables</a><a id="Define-the-variables-1"></a><a class="docs-heading-anchor-permalink" href="#Define-the-variables" title="Permalink"></a></h2><p>All of the methods defined in this section were <code>import</code>ed in <a href="#Loading-code-heat">Loading code</a> to let us provide implementations for our <code>HeatModel</code> as they will be used by the solver.</p><p>Specify auxiliary variables for <code>HeatModel</code></p><pre><code class="language-julia">vars_state(::HeatModel, ::Auxiliary, FT) = @vars(z::FT, T::FT);</code></pre><p>Specify prognostic variables, the variables solved for in the PDEs, for <code>HeatModel</code></p><pre><code class="language-julia">vars_state(::HeatModel, ::Prognostic, FT) = @vars(ρcT::FT);</code></pre><p>Specify state variables whose gradients are needed for <code>HeatModel</code></p><pre><code class="language-julia">vars_state(::HeatModel, ::Gradient, FT) = @vars(ρcT::FT);</code></pre><p>Specify gradient variables for <code>HeatModel</code></p><pre><code class="language-julia">vars_state(::HeatModel, ::GradientFlux, FT) = @vars(α∇ρcT::SVector{3, FT});</code></pre><h2 id="Define-the-compute-kernels"><a class="docs-heading-anchor" href="#Define-the-compute-kernels">Define the compute kernels</a><a id="Define-the-compute-kernels-1"></a><a class="docs-heading-anchor-permalink" href="#Define-the-compute-kernels" title="Permalink"></a></h2><p>Specify the initial values in <code>aux::Vars</code>, which are available in <code>init_state_prognostic!</code>. Note that</p><ul><li>this method is only called at <code>t=0</code></li><li><code>aux.z</code> and <code>aux.T</code> are available here because we&#39;ve specified <code>z</code> and <code>T</code></li></ul><p>in <code>vars_state</code> given <code>Auxiliary</code> in <code>vars_state</code></p><pre><code class="language-julia">function nodal_init_state_auxiliary!(
+    m::HeatModel,
+    aux::Vars,
+    tmp::Vars,
+    geom::LocalGeometry,
+)
+    aux.z = geom.coord[3]
+    aux.T = m.initialT
+end;</code></pre><p>Specify the initial values in <code>state::Vars</code>. Note that</p><ul><li>this method is only called at <code>t=0</code></li><li><code>state.ρcT</code> is available here because we&#39;ve specified <code>ρcT</code> in</li></ul><p><code>vars_state</code> given <code>Prognostic</code></p><pre><code class="language-julia">function init_state_prognostic!(
+    m::HeatModel,
+    state::Vars,
+    aux::Vars,
+    localgeo,
+    t::Real,
+)
+    state.ρcT = m.ρc * aux.T
+end;</code></pre><p>The remaining methods, defined in this section, are called at every time-step in the solver by the <a href="../../../../APIs/BalanceLaws/BalanceLaws/#ClimateMachine.BalanceLaws.BalanceLaw"><code>BalanceLaw</code></a> framework.</p><p>Compute/update all auxiliary variables at each node. Note that</p><ul><li><code>aux.T</code> is available here because we&#39;ve specified <code>T</code> in</li></ul><p><code>vars_state</code> given <code>Auxiliary</code></p><pre><code class="language-julia">function nodal_update_auxiliary_state!(
+    m::HeatModel,
+    state::Vars,
+    aux::Vars,
+    t::Real,
+)
+    aux.T = state.ρcT / m.ρc
+end;</code></pre><p>Since we have second-order fluxes, we must tell <code>ClimateMachine</code> to compute the gradient of <code>ρcT</code>. Here, we specify how <code>ρcT</code> is computed. Note that</p><ul><li><code>transform.ρcT</code> is available here because we&#39;ve specified <code>ρcT</code> in</li></ul><p><code>vars_state</code> given <code>Gradient</code></p><pre><code class="language-julia">function compute_gradient_argument!(
+    m::HeatModel,
+    transform::Vars,
+    state::Vars,
+    aux::Vars,
+    t::Real,
+)
+    transform.ρcT = state.ρcT
+end;</code></pre><p>Specify where in <code>diffusive::Vars</code> to store the computed gradient from <code>compute_gradient_argument!</code>. Note that:</p><ul><li><code>diffusive.α∇ρcT</code> is available here because we&#39;ve specified <code>α∇ρcT</code> in</li></ul><p><code>vars_state</code> given <code>Gradient</code></p><ul><li><code>∇transform.ρcT</code> is available here because we&#39;ve specified <code>ρcT</code>  in</li></ul><p><code>vars_state</code> given <code>Gradient</code></p><pre><code class="language-julia">function compute_gradient_flux!(
+    m::HeatModel,
+    diffusive::Vars,
+    ∇transform::Grad,
+    state::Vars,
+    aux::Vars,
+    t::Real,
+)
+    diffusive.α∇ρcT = -m.α * ∇transform.ρcT
+end;</code></pre><p>We have no sources, nor non-diffusive fluxes.</p><pre><code class="language-julia">function source!(m::HeatModel, _...) end;
+function flux_first_order!(m::HeatModel, _...) end;</code></pre><p>Compute diffusive flux (<span>$F(α, ρcT, t) = -α ∇ρcT$</span> in the original PDE). Note that:</p><ul><li><code>diffusive.α∇ρcT</code> is available here because we&#39;ve specified <code>α∇ρcT</code> in</li></ul><p><code>vars_state</code> given <code>GradientFlux</code></p><pre><code class="language-julia">function flux_second_order!(
+    m::HeatModel,
+    flux::Grad,
+    state::Vars,
+    diffusive::Vars,
+    hyperdiffusive::Vars,
+    aux::Vars,
+    t::Real,
+)
+    flux.ρcT += diffusive.α∇ρcT
+end;</code></pre><h3 id="Boundary-conditions"><a class="docs-heading-anchor" href="#Boundary-conditions">Boundary conditions</a><a id="Boundary-conditions-1"></a><a class="docs-heading-anchor-permalink" href="#Boundary-conditions" title="Permalink"></a></h3><p>Second-order terms in our equations, <span>$∇⋅(F)$</span> where <span>$F = -α∇ρcT$</span>, are internally reformulated to first-order unknowns. Boundary conditions must be specified for all unknowns, both first-order and second-order unknowns which have been reformulated.</p><p>The boundary conditions for <code>ρcT</code> (first order unknown)</p><pre><code class="language-julia">function boundary_state!(
+    nf,
+    m::HeatModel,
+    state⁺::Vars,
+    aux⁺::Vars,
+    n⁻,
+    state⁻::Vars,
+    aux⁻::Vars,
+    bctype,
+    t,
+    _...,
+)
+    # Apply Dirichlet BCs
+    if bctype == 1 # At bottom
+        state⁺.ρcT = m.ρc * m.T_bottom
+    elseif bctype == 2 # At top
+        nothing
+    end
+end;</code></pre><p>The boundary conditions for <code>ρcT</code> are specified here for second-order unknowns</p><pre><code class="language-julia">function boundary_state!(
+    nf,
+    m::HeatModel,
+    state⁺::Vars,
+    diff⁺::Vars,
+    aux⁺::Vars,
+    n⁻,
+    state⁻::Vars,
+    diff⁻::Vars,
+    aux⁻::Vars,
+    bctype,
+    t,
+    _...,
+)
+    # Apply Neumann BCs
+    if bctype == 1 # At bottom
+        nothing
+    elseif bctype == 2 # At top
+        diff⁺.α∇ρcT = n⁻ * m.flux_top
+    end
+end;</code></pre><h1 id="Spatial-discretization"><a class="docs-heading-anchor" href="#Spatial-discretization">Spatial discretization</a><a id="Spatial-discretization-1"></a><a class="docs-heading-anchor-permalink" href="#Spatial-discretization" title="Permalink"></a></h1><p>Prescribe polynomial order of basis functions in finite elements</p><pre><code class="language-julia">N_poly = 5;</code></pre><p>Specify the number of vertical elements</p><pre><code class="language-julia">nelem_vert = 10;</code></pre><p>Specify the domain height</p><pre><code class="language-julia">zmax = FT(1);</code></pre><p>Establish a <code>ClimateMachine</code> single stack configuration</p><pre><code class="language-julia">driver_config = ClimateMachine.SingleStackConfiguration(
+    &quot;HeatEquation&quot;,
+    N_poly,
+    nelem_vert,
+    zmax,
+    param_set,
+    m,
+    numerical_flux_first_order = CentralNumericalFluxFirstOrder(),
+);</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-heat_equation.EarthParameterSet()
+│     ρc = 1.0
+│     α = 0.01
+│     initialT = 295.15
+│     T_bottom = 300.0
+└     flux_top = 0.0
+┌ Info: Establishing single stack configuration for HeatEquation
+│     precision        = Float64
+│     polynomial order = 5
+│     domain_min       = 0.00 m x0.00 m x0.00 m
+│     domain_max       = 1.00 m x1.00 m x1.00 m
+│     #vert elems      = 10
+│     MPI ranks        = 1
+│     min(Δ_horz)      = 0.12 m
+└     min(Δ_vert)      = 0.01 m</pre><h1 id="Time-discretization-/-solver"><a class="docs-heading-anchor" href="#Time-discretization-/-solver">Time discretization / solver</a><a id="Time-discretization-/-solver-1"></a><a class="docs-heading-anchor-permalink" href="#Time-discretization-/-solver" title="Permalink"></a></h1><p>Specify simulation time (SI units)</p><pre><code class="language-julia">t0 = FT(0)
+timeend = FT(40)</code></pre><pre class="documenter-example-output">40.0</pre><p>In this section, we initialize the state vector and allocate memory for the solution in space (<code>dg</code> has the model <code>m</code>, which describes the PDEs as well as the function used for initialization). <code>SolverConfiguration</code> initializes the ODE solver, by default an explicit Low-Storage <a href="https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods">Runge-Kutta</a> method. In this tutorial, we prescribe an option for an implicit <code>Kvaerno3</code> method.</p><p>First, let&#39;s define how the time-step is computed, based on the <a href="https://en.wikipedia.org/wiki/Fourier_number">Fourier number</a> (i.e., diffusive Courant number) is defined. Because the <code>HeatModel</code> is a custom model, we must define how both are computed. First, we must define our own implementation of <code>DGMethods.calculate_dt</code>, (which we imported):</p><pre><code class="language-julia">function calculate_dt(dg, model::HeatModel, Q, Courant_number, t, direction)
+    Δt = one(eltype(Q))
+    CFL = DGMethods.courant(diffusive_courant, dg, model, Q, Δt, t, direction)
+    return Courant_number / CFL
+end</code></pre><pre class="documenter-example-output">calculate_dt (generic function with 5 methods)</pre><p>Next, we&#39;ll define our implementation of <code>diffusive_courant</code>:</p><pre><code class="language-julia">function diffusive_courant(
+    m::HeatModel,
+    state::Vars,
+    aux::Vars,
+    diffusive::Vars,
+    Δx,
+    Δt,
+    t,
+    direction,
+)
+    return Δt * m.α / (Δx * Δx)
+end</code></pre><pre class="documenter-example-output">diffusive_courant (generic function with 1 method)</pre><p>Finally, we initialize the state vector and solver configuration based on the given Fourier number. Note that, we can use a much larger Fourier number for implicit solvers as compared to explicit solvers.</p><pre><code class="language-julia">use_implicit_solver = false
+if use_implicit_solver
+    given_Fourier = FT(30)
+
+    solver_config = ClimateMachine.SolverConfiguration(
+        t0,
+        timeend,
+        driver_config;
+        ode_solver_type = ImplicitSolverType(OrdinaryDiffEq.Kvaerno3(
+            autodiff = false,
+            linsolve = LinSolveGMRES(),
+        )),
+        Courant_number = given_Fourier,
+        CFL_direction = VerticalDirection(),
+    )
+else
+    given_Fourier = FT(0.7)
+
+    solver_config = ClimateMachine.SolverConfiguration(
+        t0,
+        timeend,
+        driver_config;
+        Courant_number = given_Fourier,
+        CFL_direction = VerticalDirection(),
+    )
+end;
+
+
+grid = solver_config.dg.grid;
+Q = solver_config.Q;
+aux = solver_config.dg.state_auxiliary;</code></pre><pre class="documenter-example-output">[ Info: Initializing HeatEquation</pre><h2 id="Inspect-the-initial-conditions"><a class="docs-heading-anchor" href="#Inspect-the-initial-conditions">Inspect the initial conditions</a><a id="Inspect-the-initial-conditions-1"></a><a class="docs-heading-anchor-permalink" href="#Inspect-the-initial-conditions" title="Permalink"></a></h2><p>Let&#39;s export a plot of the initial state</p><pre><code class="language-julia">output_dir = @__DIR__;
+
+mkpath(output_dir);
+
+z_scale = 100; # convert from meters to cm
+z_key = &quot;z&quot;;
+z_label = &quot;z [cm]&quot;;
+z = get_z(grid; z_scale = z_scale, rm_dupes = true);</code></pre><p>Create an array to store the solution:</p><pre><code class="language-julia">all_data = Dict[dict_of_nodal_states(solver_config; interp = true)]  # store initial condition at ``t=0``
+time_data = FT[0]                                      # store time data
+
+export_plot(
+    z,
+    time_data,
+    all_data,
+    (&quot;ρcT&quot;,),
+    joinpath(output_dir, &quot;initial_condition.png&quot;);
+    xlabel = &quot;ρcT&quot;,
+    ylabel = z_label,
+    xlims = (m.initialT - 1, m.T_bottom + 1),
+);</code></pre><p><img src="../initial_condition.png" alt/></p><p>It matches what we have in <code>init_state_prognostic!(m::HeatModel, ...)</code>, so let&#39;s continue.</p><h1 id="Solver-hooks-/-callbacks"><a class="docs-heading-anchor" href="#Solver-hooks-/-callbacks">Solver hooks / callbacks</a><a id="Solver-hooks-/-callbacks-1"></a><a class="docs-heading-anchor-permalink" href="#Solver-hooks-/-callbacks" title="Permalink"></a></h1><p>Define the number of outputs from <code>t0</code> to <code>timeend</code></p><pre><code class="language-julia">const n_outputs = 5;</code></pre><p>This equates to exports every ceil(Int, timeend/n_outputs) time-step:</p><pre><code class="language-julia">const every_x_simulation_time = ceil(Int, timeend / n_outputs);</code></pre><p>The <code>ClimateMachine</code>&#39;s time-steppers provide hooks, or callbacks, which allow users to inject code to be executed at specified intervals. In this callback, a dictionary of prognostic and auxiliary states are appended to <code>all_data</code> for time the callback is executed. In addition, time is collected and appended to <code>time_data</code>.</p><pre><code class="language-julia">callback = GenericCallbacks.EveryXSimulationTime(every_x_simulation_time) do
+    push!(all_data, dict_of_nodal_states(solver_config; interp = true))
+    push!(time_data, gettime(solver_config.solver))
+    nothing
+end;</code></pre><h1 id="Solve"><a class="docs-heading-anchor" href="#Solve">Solve</a><a id="Solve-1"></a><a class="docs-heading-anchor-permalink" href="#Solve" title="Permalink"></a></h1><p>This is the main <code>ClimateMachine</code> solver invocation. While users do not have access to the time-stepping loop, code may be injected via <code>user_callbacks</code>, which is a <code>Tuple</code> of callbacks in <a href="../../../../APIs/Numerics/ODESolvers/ODESolvers/#ClimateMachine.GenericCallbacks"><code>GenericCallbacks</code></a>.</p><pre><code class="language-julia">ClimateMachine.invoke!(solver_config; user_callbacks = (callback,));</code></pre><pre class="documenter-example-output">┌ Info: Starting HeatEquation
+│     dt              = 9.65950e-03
+│     timeend         =    40.00
+│     number of steps = 4141
+└     norm(Q)         = 2.9515000000000049e+02
+┌ Info: Finished
+│     norm(Q)            = 2.9853556724952750e+02
+│     norm(Q) / norm(Q₀) = 1.0114706666085957e+00
+└     norm(Q) - norm(Q₀) = 3.3855672495270142e+00</pre><p>Append result at the end of the last time step:</p><pre><code class="language-julia">push!(all_data, dict_of_nodal_states(solver_config; interp = true));
+push!(time_data, gettime(solver_config.solver));</code></pre><h1 id="Post-processing"><a class="docs-heading-anchor" href="#Post-processing">Post-processing</a><a id="Post-processing-1"></a><a class="docs-heading-anchor-permalink" href="#Post-processing" title="Permalink"></a></h1><p>Our solution is stored in the array of dictionaries <code>all_data</code> whose keys are the output interval. The next level keys are the variable names, and the values are the values along the grid:</p><p>To get <code>T</code> at <span>$t=0$</span>, we can use <code>T_at_t_0 = all_data[1][&quot;T&quot;][:]</code></p><pre><code class="language-julia">@show keys(all_data[1])</code></pre><pre class="documenter-example-output">Base.KeySet for a Dict{String,Array{Float64,1}} with 3 entries. Keys:
+  &quot;T&quot;
+  &quot;z&quot;
+  &quot;ρcT&quot;</pre><p>Let&#39;s plot the solution:</p><pre><code class="language-julia">export_plot(
+    z,
+    time_data,
+    all_data,
+    (&quot;ρcT&quot;,),
+    joinpath(output_dir, &quot;solution_vs_time.png&quot;);
+    xlabel = &quot;ρcT&quot;,
+    ylabel = z_label,
+);</code></pre><p><img src="../solution_vs_time.png" alt/></p><pre><code class="language-julia">export_contour(
+    z,
+    time_data,
+    all_data,
+    &quot;ρcT&quot;,
+    joinpath(output_dir, &quot;solution_contour.png&quot;);
+    ylabel = &quot;z [cm]&quot;,
+)</code></pre><p><img src="../solution_contour.png" alt/></p><p>The results look as we would expect: a fixed temperature at the bottom is resulting in heat flux that propagates up the domain. To run this file, and inspect the solution in <code>all_data</code>, include this tutorial in the Julia REPL with:</p><pre><code class="language-julia">include(joinpath(&quot;tutorials&quot;, &quot;Land&quot;, &quot;Heat&quot;, &quot;heat_equation.jl&quot;))</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../../Atmos/agnesi_nh_lin/">« Linear Non-Hydrostatic Mountain (Topography)</a><a class="docs-footer-nextpage" href="../../Soil/Water/hydraulic_functions/">Hydraulic Functions »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 2 November 2020 16:52">Monday 2 November 2020</span>. Using Julia version 1.5.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

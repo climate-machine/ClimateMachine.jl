@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>LES Experiment (Rising Thermal Bubble) · ClimateMachine</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../assets/documenter.js"></script><script src="../../../siteinfo.js"></script><script src="../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../../"><img src="../../../assets/logo.svg" alt="ClimateMachine logo"/></a><div class="docs-package-name"><span class="docs-autofit">ClimateMachine</span></div><form class="docs-search" action="../../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../../">Home</a></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">Getting started</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../GettingStarted/Installation/">Installation</a></li><li><a class="tocitem" href="../../../GettingStarted/Terminology/">Terminology</a></li><li><a class="tocitem" href="../../../GettingStarted/RunningClimateMachine/">Running</a></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox"/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Defaults</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../GettingStarted/Atmos/">Atmosphere model configurations</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Tutorials</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../TutorialList/">Home</a></li><li><a class="tocitem" href="../../how_to_make_a_balance_law/">Balance Law</a></li><li><input class="collapse-toggle" id="menuitem-3-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../heldsuarez/">Dry Idealized GCM (Held-Suarez)</a></li><li><a class="tocitem" href="../burgers_single_stack/">Single Element Stack Experiment (Burgers Equation)</a></li><li><a class="tocitem" href="../densitycurrent/">LES Experiment (Density Current)</a></li><li class="is-active"><a class="tocitem" href>LES Experiment (Rising Thermal Bubble)</a><ul class="internal"><li><a class="tocitem" href="#Description-of-experiment"><span>Description of experiment</span></a></li><li><a class="tocitem" href="#Loading-code-rtb"><span>Loading code</span></a></li><li><a class="tocitem" href="#init-rtb"><span>Initial Conditions</span></a></li><li><a class="tocitem" href="#config-helper"><span>Model Configuration</span></a></li><li><a class="tocitem" href="#config_diagnostics"><span>Diagnostics</span></a></li><li><a class="tocitem" href="#Running-the-file"><span>Running the file</span></a></li><li><a class="tocitem" href="#output-viz"><span>Output Visualisation</span></a></li></ul></li><li><a class="tocitem" href="../agnesi_hs_lin/">Linear Hydrostatic Mountain (Topography)</a></li><li><a class="tocitem" href="../agnesi_nh_lin/">Linear Non-Hydrostatic Mountain (Topography)</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><input class="collapse-toggle" id="menuitem-3-5" type="checkbox"/><label class="tocitem" for="menuitem-3-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-5-1" type="checkbox"/><label class="tocitem" for="menuitem-3-5-1"><span class="docs-label">Heat</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Land/Heat/heat_equation/">Heat Equation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-5-2" type="checkbox"/><label class="tocitem" for="menuitem-3-5-2"><span class="docs-label">Soil</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Land/Soil/Water/hydraulic_functions/">Hydraulic Functions</a></li><li><a class="tocitem" href="../../Land/Soil/Heat/bonan_heat_tutorial/">Soil Heat Equation</a></li><li><a class="tocitem" href="../../Land/Soil/Coupled/equilibrium_test/">Coupled Water and Heat</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6" type="checkbox"/><label class="tocitem" for="menuitem-3-6"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-6-1" type="checkbox"/><label class="tocitem" for="menuitem-3-6-1"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Numerics/SystemSolvers/cg/">Conjugate Gradient</a></li><li><a class="tocitem" href="../../Numerics/SystemSolvers/bgmres/">Batched Generalized Minimal Residual</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-2" type="checkbox"/><label class="tocitem" for="menuitem-3-6-2"><span class="docs-label">DG Methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Numerics/DGMethods/showcase_filters/">Filters</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-7" type="checkbox"/><label class="tocitem" for="menuitem-3-7"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-7-1" type="checkbox"/><label class="tocitem" for="menuitem-3-7-1"><span class="docs-label">Debug</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Diagnostics/Debug/StateCheck/">State Statistics Regression</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">How-to-guides</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-4-1" type="checkbox"/><label class="tocitem" for="menuitem-4-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../HowToGuides/Common/UniversalFunctions/">Universal Functions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Atmos/TemperatureProfiles/">Temperature profiles</a></li><li><a class="tocitem" href="../../../HowToGuides/Atmos/AtmosReferenceState/">Reference profiles</a></li><li><a class="tocitem" href="../../../HowToGuides/Atmos/MoistureModelChoices/">Moisture model</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><span class="tocitem">Meshes</span></li><li><input class="collapse-toggle" id="menuitem-4-5-2" type="checkbox"/><label class="tocitem" for="menuitem-4-5-2"><span class="docs-label">DG methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/DGMethods/how_to_make_a_balance_law/">How to make a balance law</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-3" type="checkbox"/><label class="tocitem" for="menuitem-4-5-3"><span class="docs-label">ODE Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/ODESolvers/Timestepping/">Time-integration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-4" type="checkbox"/><label class="tocitem" for="menuitem-4-5-4"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/SystemSolvers/IterativeSolvers/">Iterative Solvers</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">APIs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/">Home</a></li><li><input class="collapse-toggle" id="menuitem-5-2" type="checkbox"/><label class="tocitem" for="menuitem-5-2"><span class="docs-label">Driver</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Driver/">Top level interface</a></li><li><a class="tocitem" href="../../../APIs/Driver/Checkpoint/">Checkpoint</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-3" type="checkbox"/><label class="tocitem" for="menuitem-5-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../APIs/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../APIs/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../APIs/Atmos/TemperatureProfiles/">Temperature Profiles</a></li></ul></li><li><a class="tocitem" href="../../../APIs/Ocean/Ocean/">Ocean</a></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Land/LandModel/">Land Model</a></li><li><a class="tocitem" href="../../../APIs/Land/SoilWaterParameterizations/">Soil Water Parameterizations</a></li><li><a class="tocitem" href="../../../APIs/Land/SoilHeatParameterizations/">Soil Heat Parameterizations</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-6" type="checkbox"/><label class="tocitem" for="menuitem-5-6"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Common/Orientations/">Orientations</a></li><li><a class="tocitem" href="../../../APIs/Common/Spectra/">Spectra</a></li><li><a class="tocitem" href="../../../APIs/Common/SurfaceFluxes/">Surface Fluxes</a></li><li><a class="tocitem" href="../../../APIs/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../APIs/Common/TurbulenceClosures/">Turbulence Closures</a></li><li><a class="tocitem" href="../../../APIs/Common/TurbulenceConvection/">Turbulence Convection</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-7" type="checkbox"/><label class="tocitem" for="menuitem-5-7"><span class="docs-label">Balance Laws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/BalanceLaws/BalanceLaws/">Balance Laws</a></li><li><a class="tocitem" href="../../../APIs/BalanceLaws/Problems/">Problems</a></li></ul></li><li><a class="tocitem" href="../../../APIs/Arrays/Arrays/">Arrays</a></li><li><input class="collapse-toggle" id="menuitem-5-9" type="checkbox"/><label class="tocitem" for="menuitem-5-9"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Diagnostics/Diagnostics/">Diagnostics groups</a></li><li><a class="tocitem" href="../../../APIs/Diagnostics/StateCheck/">State Check</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-10" type="checkbox"/><label class="tocitem" for="menuitem-5-10"><span class="docs-label">Input/Output</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/InputOutput/">Input/Output</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-11" type="checkbox"/><label class="tocitem" for="menuitem-5-11"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Numerics/Meshes/Mesh/">Meshes</a></li><li><a class="tocitem" href="../../../APIs/Numerics/SystemSolvers/SystemSolvers/">SystemSolvers</a></li><li><a class="tocitem" href="../../../APIs/Numerics/ODESolvers/ODESolvers/">ODESolvers</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/DGMethods/">DG Methods</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/Courant/">Courant</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/NumericalFluxes/">Numerical Fluxes</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-12" type="checkbox"/><label class="tocitem" for="menuitem-5-12"><span class="docs-label">Utilities</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Utilities/VariableTemplates/">Variable Templates</a></li><li><a class="tocitem" href="../../../APIs/Utilities/SingleStackUtils/">Single Stack Utilities</a></li><li><a class="tocitem" href="../../../APIs/Utilities/TicToc/">Tic Toc</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../Contributing/">Contribution guide</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Theory</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-7-1" type="checkbox"/><label class="tocitem" for="menuitem-7-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Theory/Common/SurfaceFluxes/">SurfaceFluxes</a></li><li><a class="tocitem" href="../../../Theory/Common/Turbulence/">Turbulence Closures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7-2" type="checkbox"/><label class="tocitem" for="menuitem-7-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Theory/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../Theory/Atmos/EDMFEquations/">EDMF equations</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Model/tracers/">Tracers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Developer docs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../DevDocs/CodeStyle/">Coding style</a></li><li><a class="tocitem" href="../../../DevDocs/AcceptableUnicode/">Acceptable Unicode</a></li><li><a class="tocitem" href="../../../DevDocs/VariableList/">Variable list</a></li><li><a class="tocitem" href="../../../DevDocs/DiagnosticVariables/">Diagnostic variable list</a></li><li><a class="tocitem" href="../../../DevDocs/SystemImage/">Custom System Image</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li><a class="is-disabled">Atmos</a></li><li class="is-active"><a href>LES Experiment (Rising Thermal Bubble)</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>LES Experiment (Rising Thermal Bubble)</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/ClimateMachine.jl/blob/master/tutorials/Atmos/risingbubble.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Rising-Thermal-Bubble"><a class="docs-heading-anchor" href="#Rising-Thermal-Bubble">Rising Thermal Bubble</a><a id="Rising-Thermal-Bubble-1"></a><a class="docs-heading-anchor-permalink" href="#Rising-Thermal-Bubble" title="Permalink"></a></h1><p>In this example, we demonstrate the usage of the <code>ClimateMachine</code> <a href="../../../APIs/Atmos/AtmosModel/#AtmosModel-docs">AtmosModel</a> machinery to solve the fluid dynamics of a thermal perturbation in a neutrally stratified background state defined by its uniform potential temperature. We solve a flow in a box configuration - this is representative of a large-eddy simulation. Several versions of the problem setup may be found in literature, but the general idea is to examine the vertical ascent of a thermal bubble (we can interpret these as simple representation of convective updrafts).</p><h2 id="Description-of-experiment"><a class="docs-heading-anchor" href="#Description-of-experiment">Description of experiment</a><a id="Description-of-experiment-1"></a><a class="docs-heading-anchor-permalink" href="#Description-of-experiment" title="Permalink"></a></h2><ol><li>Dry Rising Bubble (circular potential temperature perturbation)</li><li>Boundaries Top and Bottom boundaries:<ul><li><code>Impenetrable(FreeSlip())</code> - Top and bottom: no momentum flux, no mass flux through walls.</li><li><code>Impermeable()</code> - non-porous walls, i.e. no diffusive fluxes through  walls.</li></ul>Lateral boundaries<ul><li>Laterally periodic</li></ul></li><li>Domain - 2500m (horizontal) x 2500m (horizontal) x 2500m (vertical)</li><li>Resolution - 50m effective resolution</li><li>Total simulation time - 1000s</li><li>Mesh Aspect Ratio (Effective resolution) 1:1</li><li>Overrides defaults for<ul><li>CPU Initialisation</li><li>Time integrator</li><li>Sources</li><li>Smagorinsky Coefficient</li></ul></li></ol><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>This experiment setup assumes that you have installed the <code>ClimateMachine</code> according to the instructions on the landing page. We assume the users&#39; familiarity with the conservative form of the equations of motion for a compressible fluid (see the <a href="../../../APIs/Atmos/AtmosModel/#AtmosModel-docs">AtmosModel</a> page).</p><p>The following topics are covered in this example</p><ul><li>Package requirements</li><li>Defining a <code>model</code> subtype for the set of conservation equations</li><li>Defining the initial conditions</li><li>Applying source terms</li><li>Choosing a turbulence model</li><li>Adding tracers to the model</li><li>Choosing a time-integrator</li><li>Choosing diagnostics (output) configurations</li></ul><p>The following topics are not covered in this example</p><ul><li>Defining new boundary conditions</li><li>Defining new turbulence models</li><li>Building new time-integrators</li><li>Adding diagnostic variables (beyond a standard pre-defined list of variables)</li></ul></div></div><h2 id="Loading-code-rtb"><a class="docs-heading-anchor" href="#Loading-code-rtb">Loading code</a><a id="Loading-code-rtb-1"></a><a class="docs-heading-anchor-permalink" href="#Loading-code-rtb" title="Permalink"></a></h2><p>Before setting up our experiment, we recognize that we need to import some pre-defined functions from other packages. Julia allows us to use existing modules (variable workspaces), or write our own to do so.  Complete documentation for the Julia module system can be found <a href="https://docs.julialang.org/en/v1/manual/modules/#">here</a>.</p><p>We need to use the <code>ClimateMachine</code> module! This imports all functions specific to atmospheric and ocean flow modeling.</p><pre><code class="language-julia">using ClimateMachine
+ClimateMachine.init()
+using ClimateMachine.Atmos
+using ClimateMachine.Orientations
+using ClimateMachine.ConfigTypes
+using ClimateMachine.Diagnostics
+using ClimateMachine.GenericCallbacks
+using ClimateMachine.ODESolvers
+using ClimateMachine.TemperatureProfiles
+using ClimateMachine.Thermodynamics
+using ClimateMachine.TurbulenceClosures
+using ClimateMachine.VariableTemplates</code></pre><p>In ClimateMachine we use <code>StaticArrays</code> for our variable arrays. We also use the <code>Test</code> package to help with unit tests and continuous integration systems to design sensible tests for our experiment to ensure new / modified blocks of code don&#39;t damage the fidelity of the physics. The test defined within this experiment is not a unit test for a specific subcomponent, but ensures time-integration of the defined problem conditions within a reasonable tolerance. Immediately useful macros and functions from this include <code>@test</code> and <code>@testset</code> which will allow us to define the testing parameter sets.</p><pre><code class="language-julia">using StaticArrays
+using Test
+using CLIMAParameters
+using CLIMAParameters.Atmos.SubgridScale: C_smag
+using CLIMAParameters.Planet: R_d, cp_d, cv_d, MSLP, grav
+struct EarthParameterSet &lt;: AbstractEarthParameterSet end
+const param_set = EarthParameterSet();</code></pre><h2 id="init-rtb"><a class="docs-heading-anchor" href="#init-rtb">Initial Conditions</a><a id="init-rtb-1"></a><a class="docs-heading-anchor-permalink" href="#init-rtb" title="Permalink"></a></h2><p>This example demonstrates the use of functions defined in the <a href="../../../APIs/Common/Thermodynamics/#ClimateMachine.Thermodynamics"><code>Thermodynamics</code></a> package to generate the appropriate initial state for our problem.</p><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>The following variables are assigned in the initial condition</p><ul><li><code>state.ρ</code> = Scalar quantity for initial density profile</li><li><code>state.ρu</code>= 3-component vector for initial momentum profile</li><li><code>state.ρe</code>= Scalar quantity for initial total-energy profile humidity</li><li><code>state.tracers.ρχ</code> = Vector of four tracers (here, for demonstration only; we can interpret these as dye injections for visualization purposes)</li></ul></div></div><pre><code class="language-julia">function init_risingbubble!(problem, bl, state, aux, localgeo, t)
+    (x, y, z) = localgeo.coord
+
+    # Problem float-type
+    FT = eltype(state)
+
+    # Unpack constant parameters
+    R_gas::FT = R_d(bl.param_set)
+    c_p::FT = cp_d(bl.param_set)
+    c_v::FT = cv_d(bl.param_set)
+    p0::FT = MSLP(bl.param_set)
+    _grav::FT = grav(bl.param_set)
+    γ::FT = c_p / c_v
+
+    # Define bubble center and background potential temperature
+    xc::FT = 5000
+    yc::FT = 1000
+    zc::FT = 2000
+    r = sqrt((x - xc)^2 + (z - zc)^2)
+    rc::FT = 2000
+    θamplitude::FT = 2
+
+    # This is configured in the reference hydrostatic state
+    θ_ref::FT = bl.ref_state.virtual_temperature_profile.T_surface
+
+    # Add the thermal perturbation:
+    Δθ::FT = 0
+    if r &lt;= rc
+        Δθ = θamplitude * (1.0 - r / rc)
+    end
+
+    # Compute perturbed thermodynamic state:
+    θ = θ_ref + Δθ                                      ## potential temperature
+    π_exner = FT(1) - _grav / (c_p * θ) * z             ## exner pressure
+    ρ = p0 / (R_gas * θ) * (π_exner)^(c_v / R_gas)      ## density
+    T = θ * π_exner
+    e_int = internal_energy(bl.param_set, T)
+    ts = PhaseDry(bl.param_set, e_int, ρ)
+    ρu = SVector(FT(0), FT(0), FT(0))                   ## momentum
+    # State (prognostic) variable assignment
+    e_kin = FT(0)                                       ## kinetic energy
+    e_pot = gravitational_potential(bl, aux)            ## potential energy
+    ρe_tot = ρ * total_energy(e_kin, e_pot, ts)         ## total energy
+
+    ρχ = FT(0)                                          ## tracer
+
+    # We inject tracers at the initial condition at some specified z coordinates
+    if 500 &lt; z &lt;= 550
+        ρχ += FT(0.05)
+    end
+
+    # We want 4 tracers
+    ntracers = 4
+
+    # Define 4 tracers, (arbitrary scaling for this demo problem)
+    ρχ = SVector{ntracers, FT}(ρχ, ρχ / 2, ρχ / 3, ρχ / 4)
+
+    # Assign State Variables
+    state.ρ = ρ
+    state.ρu = ρu
+    state.ρe = ρe_tot
+    state.tracers.ρχ = ρχ
+end</code></pre><pre class="documenter-example-output">init_risingbubble! (generic function with 1 method)</pre><h2 id="config-helper"><a class="docs-heading-anchor" href="#config-helper">Model Configuration</a><a id="config-helper-1"></a><a class="docs-heading-anchor-permalink" href="#config-helper" title="Permalink"></a></h2><p>We define a configuration function to assist in prescribing the physical model. The purpose of this is to populate the <code>ClimateMachine.AtmosLESConfiguration</code> with arguments appropriate to the problem being considered.</p><pre><code class="language-julia">function config_risingbubble(FT, N, resolution, xmax, ymax, zmax)
+
+    # Choose an Explicit Single-rate Solver from the existing [`ODESolvers`](@ref ClimateMachine.ODESolvers) options.
+    # Apply the outer constructor to define the `ode_solver`.
+    # The 1D-IMEX method is less appropriate for the problem given the current
+    # mesh aspect ratio (1:1).
+    ode_solver = ClimateMachine.ExplicitSolverType(
+        solver_method = LSRK144NiegemannDiehlBusch,
+    )
+    # If the user prefers a multi-rate explicit time integrator,
+    # the ode_solver above can be replaced with
+    #
+    # `ode_solver = ClimateMachine.MultirateSolverType(
+    #    fast_model = AtmosAcousticGravityLinearModel,
+    #    slow_method = LSRK144NiegemannDiehlBusch,
+    #    fast_method = LSRK144NiegemannDiehlBusch,
+    #    timestep_ratio = 10,
+    # )`
+    # See [ODESolvers](@ref ODESolvers-docs) for all of the available solvers.
+
+
+    # Since we want four tracers, we specify this and include the appropriate
+    # diffusivity scaling coefficients (normally these would be physically
+    # informed but for this demonstration we use integers corresponding to the
+    # tracer index identifier)
+    ntracers = 4
+    δ_χ = SVector{ntracers, FT}(1, 2, 3, 4)
+    # To assemble `AtmosModel` with no tracers, set `tracers = NoTracers()`.
+
+    # The model coefficient for the turbulence closure is defined via the
+    # [CLIMAParameters
+    # package](https://CliMA.github.io/CLIMAParameters.jl/latest/) A reference
+    # state for the linearisation step is also defined.
+    T_surface = FT(300)
+    T_min_ref = FT(0)
+    T_profile = DryAdiabaticProfile{FT}(param_set, T_surface, T_min_ref)
+    ref_state = HydrostaticState(T_profile)
+
+    # Here we assemble the `AtmosModel`.
+    _C_smag = FT(C_smag(param_set))
+    model = AtmosModel{FT}(
+        AtmosLESConfigType,                            ## Flow in a box, requires the AtmosLESConfigType
+        param_set;                                     ## Parameter set corresponding to earth parameters
+        init_state_prognostic = init_risingbubble!,    ## Apply the initial condition
+        ref_state = ref_state,                         ## Reference state
+        turbulence = SmagorinskyLilly(_C_smag),        ## Turbulence closure model
+        moisture = DryModel(),                         ## Exclude moisture variables
+        source = (Gravity(),),                         ## Gravity is the only source term here
+        tracers = NTracers{ntracers, FT}(δ_χ),         ## Tracer model with diffusivity coefficients
+    )
+
+    # Finally, we pass a `Problem Name` string, the mesh information, and the
+    # model type to  the [`AtmosLESConfiguration`] object.
+    config = ClimateMachine.AtmosLESConfiguration(
+        &quot;DryRisingBubble&quot;,       ## Problem title [String]
+        N,                       ## Polynomial order [Int]
+        resolution,              ## (Δx, Δy, Δz) effective resolution [m]
+        xmax,                    ## Domain maximum size [m]
+        ymax,                    ## Domain maximum size [m]
+        zmax,                    ## Domain maximum size [m]
+        param_set,               ## Parameter set.
+        init_risingbubble!,      ## Function specifying initial condition
+        solver_type = ode_solver,## Time-integrator type
+        model = model,           ## Model type
+    )
+    return config
+end</code></pre><pre class="documenter-example-output">config_risingbubble (generic function with 1 method)</pre><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p><code>Keywords</code> are used to specify some arguments (see appropriate source files).</p></div></div><h2 id="config_diagnostics"><a class="docs-heading-anchor" href="#config_diagnostics">Diagnostics</a><a id="config_diagnostics-1"></a><a class="docs-heading-anchor-permalink" href="#config_diagnostics" title="Permalink"></a></h2><p>Here we define the diagnostic configuration specific to this problem.</p><pre><code class="language-julia">function config_diagnostics(driver_config)
+    interval = &quot;10000steps&quot;
+    dgngrp = setup_atmos_default_diagnostics(
+        AtmosLESConfigType(),
+        interval,
+        driver_config.name,
+    )
+    return ClimateMachine.DiagnosticsConfiguration([dgngrp])
+end
+
+function main()
+    # These are essentially arguments passed to the
+    # [`config_risingbubble`](@ref config-helper) function.  For type
+    # consistency we explicitly define the problem floating-precision.
+    FT = Float64
+    # We need to specify the polynomial order for the DG discretization,
+    # effective resolution, simulation end-time, the domain bounds, and the
+    # courant-number for the time-integrator. Note how the time-integration
+    # components `solver_config` are distinct from the spatial / model
+    # components in `driver_config`. `init_on_cpu` is a helper keyword argument
+    # that forces problem initialization on CPU (thereby allowing the use of
+    # random seeds, spline interpolants and other special functions at the
+    # initialization step.)
+    N = 4
+    Δh = FT(125)
+    Δv = FT(125)
+    resolution = (Δh, Δh, Δv)
+    xmax = FT(10000)
+    ymax = FT(500)
+    zmax = FT(10000)
+    t0 = FT(0)
+    timeend = FT(100)
+    # For full simulation set `timeend = 1000`
+
+    # Use up to 1.7 if ode_solver is the single rate LSRK144.
+    CFL = FT(1.7)
+
+    # Assign configurations so they can be passed to the `invoke!` function
+    driver_config = config_risingbubble(FT, N, resolution, xmax, ymax, zmax)
+    solver_config = ClimateMachine.SolverConfiguration(
+        t0,
+        timeend,
+        driver_config,
+        init_on_cpu = true,
+        Courant_number = CFL,
+    )
+    dgn_config = config_diagnostics(driver_config)
+
+    # Invoke solver (calls `solve!` function for time-integrator), pass the driver,
+    # solver and diagnostic config information.
+    result = ClimateMachine.invoke!(
+        solver_config;
+        diagnostics_config = dgn_config,
+        user_callbacks = (),
+        check_euclidean_distance = true,
+    )
+
+    # Check that the solution norm is reasonable.
+    @test isapprox(result, FT(1); atol = 1.5e-3)
+end</code></pre><pre class="documenter-example-output">main (generic function with 1 method)</pre><p>The experiment definition is now complete. Time to run it.</p><h2 id="Running-the-file"><a class="docs-heading-anchor" href="#Running-the-file">Running the file</a><a id="Running-the-file-1"></a><a class="docs-heading-anchor-permalink" href="#Running-the-file" title="Permalink"></a></h2><p><code>julia --project tutorials/Atmos/risingbubble.jl</code> will run the experiment from the main ClimateMachine.jl directory, with diagnostics output at the intervals specified in <a href="#config_diagnostics"><code>config_diagnostics</code></a>.  You can also prescribe command line arguments for simulation update and output specifications.  For rapid turnaround, we recommend that you run this experiment on a GPU.</p><p>VTK output can be controlled via command line by setting <code>parse_clargs=true</code> in the <code>ClimateMachine.init</code> arguments, and then using <code>--vtk=&lt;interval&gt;</code>.</p><h2 id="output-viz"><a class="docs-heading-anchor" href="#output-viz">Output Visualisation</a><a id="output-viz-1"></a><a class="docs-heading-anchor-permalink" href="#output-viz" title="Permalink"></a></h2><p>See the <code>ClimateMachine</code> API interface documentation for generating output.</p><ul><li><a href="https://wci.llnl.gov/simulation/computer-codes/visit/">VisIt</a></li><li><a href="https://wci.llnl.gov/simulation/computer-codes/visit/">Paraview</a></li></ul><p>are two commonly used programs for <code>.vtu</code> files.</p><p>For NetCDF or JLD2 diagnostics you may use any of the following tools: Julia&#39;s <a href="https://github.com/Alexander-Barth/NCDatasets.jl"><code>NCDatasets</code></a> and <a href="https://github.com/JuliaIO/JLD2.jl"><code>JLD2</code></a> packages with a suitable</p><p>or the known and quick NCDF visualization tool: <a href="http://meteora.ucsd.edu/~pierce/ncview_home_page.html"><code>ncview</code></a> plotting program.</p><pre><code class="language-julia">main()</code></pre><pre class="documenter-example-output">Test Passed</pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../densitycurrent/">« LES Experiment (Density Current)</a><a class="docs-footer-nextpage" href="../agnesi_hs_lin/">Linear Hydrostatic Mountain (Topography) »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 29 October 2020 17:53">Thursday 29 October 2020</span>. Using Julia version 1.5.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

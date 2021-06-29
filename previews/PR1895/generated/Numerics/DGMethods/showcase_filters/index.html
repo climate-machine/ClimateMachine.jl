@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Filters · ClimateMachine</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../../assets/documenter.js"></script><script src="../../../../siteinfo.js"></script><script src="../../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../../../"><img src="../../../../assets/logo.svg" alt="ClimateMachine logo"/></a><div class="docs-package-name"><span class="docs-autofit">ClimateMachine</span></div><form class="docs-search" action="../../../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../../../">Home</a></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">Getting started</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../GettingStarted/Installation/">Installation</a></li><li><a class="tocitem" href="../../../../GettingStarted/Terminology/">Terminology</a></li><li><a class="tocitem" href="../../../../GettingStarted/RunningClimateMachine/">Running</a></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox"/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Defaults</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../GettingStarted/Atmos/">Atmosphere model configurations</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox" checked/><label class="tocitem" for="menuitem-3"><span class="docs-label">Tutorials</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../TutorialList/">Home</a></li><li><a class="tocitem" href="../../../how_to_make_a_balance_law/">Balance Law</a></li><li><input class="collapse-toggle" id="menuitem-3-3" type="checkbox"/><label class="tocitem" for="menuitem-3-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Atmos/heldsuarez/">Dry Idealized GCM (Held-Suarez)</a></li><li><a class="tocitem" href="../../../Atmos/burgers_single_stack/">Single Element Stack Experiment (Burgers Equation)</a></li><li><a class="tocitem" href="../../../Atmos/densitycurrent/">LES Experiment (Density Current)</a></li><li><a class="tocitem" href="../../../Atmos/risingbubble/">LES Experiment (Rising Thermal Bubble)</a></li><li><a class="tocitem" href="../../../Atmos/agnesi_hs_lin/">Linear Hydrostatic Mountain (Topography)</a></li><li><a class="tocitem" href="../../../Atmos/agnesi_nh_lin/">Linear Non-Hydrostatic Mountain (Topography)</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-4" type="checkbox"/><label class="tocitem" for="menuitem-3-4"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-4-1" type="checkbox"/><label class="tocitem" for="menuitem-3-4-1"><span class="docs-label">Heat</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Land/Heat/heat_equation/">Heat Equation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-4-2" type="checkbox"/><label class="tocitem" for="menuitem-3-4-2"><span class="docs-label">Soil</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Land/Soil/Water/hydraulic_functions/">Hydraulic Functions</a></li><li><a class="tocitem" href="../../../Land/Soil/Heat/bonan_heat_tutorial/">Soil Heat Equation</a></li><li><a class="tocitem" href="../../../Land/Soil/Water/equilibrium_test/">Richards Equation</a></li><li><a class="tocitem" href="../../../Land/Soil/Coupled/equilibrium_test/">Coupled Water and Heat</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-5" type="checkbox"/><label class="tocitem" for="menuitem-3-5"><span class="docs-label">Ocean</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Ocean/geostrophic_adjustment/">One-dimensional geostrophic adjustment</a></li><li><a class="tocitem" href="../../../Ocean/internal_wave/">Propagating mode-1 internal wave</a></li><li><a class="tocitem" href="../../../Ocean/shear_instability/">Shear instability</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6" type="checkbox" checked/><label class="tocitem" for="menuitem-3-6"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-6-1" type="checkbox"/><label class="tocitem" for="menuitem-3-6-1"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../SystemSolvers/cg/">Conjugate Gradient</a></li><li><a class="tocitem" href="../../SystemSolvers/bgmres/">Batched Generalized Minimal Residual</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-2" type="checkbox" checked/><label class="tocitem" for="menuitem-3-6-2"><span class="docs-label">DG Methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li class="is-active"><a class="tocitem" href>Filters</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-7" type="checkbox"/><label class="tocitem" for="menuitem-3-7"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-7-1" type="checkbox"/><label class="tocitem" for="menuitem-3-7-1"><span class="docs-label">Debug</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Diagnostics/Debug/StateCheck/">State Statistics Regression</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">How-to-guides</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-4-1" type="checkbox"/><label class="tocitem" for="menuitem-4-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../../HowToGuides/Common/UniversalFunctions/">Universal Functions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Atmos/TemperatureProfiles/">Temperature profiles</a></li><li><a class="tocitem" href="../../../../HowToGuides/Atmos/AtmosReferenceState/">Reference profiles</a></li><li><a class="tocitem" href="../../../../HowToGuides/Atmos/MoistureModelChoices/">Moisture model</a></li><li><a class="tocitem" href="../../../../HowToGuides/Atmos/PrecipitationModelChoices/">Precipitation model</a></li><li><a class="tocitem" href="../../../../HowToGuides/Atmos/MoistureAndPrecip/">How to create an experiment with moisture and precipitation</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><span class="tocitem">Meshes</span></li><li><input class="collapse-toggle" id="menuitem-4-5-2" type="checkbox"/><label class="tocitem" for="menuitem-4-5-2"><span class="docs-label">DG methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Numerics/DGMethods/how_to_make_a_balance_law/">How to make a balance law</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-3" type="checkbox"/><label class="tocitem" for="menuitem-4-5-3"><span class="docs-label">ODE Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Numerics/ODESolvers/Timestepping/">Time-integration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-4" type="checkbox"/><label class="tocitem" for="menuitem-4-5-4"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Numerics/SystemSolvers/IterativeSolvers/">Iterative Solvers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-6" type="checkbox"/><label class="tocitem" for="menuitem-4-6"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../HowToGuides/Diagnostics/UsingDiagnostics/">Using Diagnostics</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">APIs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/">Home</a></li><li><input class="collapse-toggle" id="menuitem-5-2" type="checkbox"/><label class="tocitem" for="menuitem-5-2"><span class="docs-label">Driver</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Driver/">Top level interface</a></li><li><a class="tocitem" href="../../../../APIs/Driver/Checkpoint/">Checkpoint</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-3" type="checkbox"/><label class="tocitem" for="menuitem-5-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../../APIs/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../../APIs/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../../APIs/Atmos/TemperatureProfiles/">Temperature Profiles</a></li></ul></li><li><a class="tocitem" href="../../../../APIs/Ocean/Ocean/">Ocean</a></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Land/LandModel/">Land Model</a></li><li><a class="tocitem" href="../../../../APIs/Land/Runoff/">Runoff Parameterizations</a></li><li><a class="tocitem" href="../../../../APIs/Land/SoilWaterParameterizations/">Soil Water Parameterizations</a></li><li><a class="tocitem" href="../../../../APIs/Land/SoilHeatParameterizations/">Soil Heat Parameterizations</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-6" type="checkbox"/><label class="tocitem" for="menuitem-5-6"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Common/Orientations/">Orientations</a></li><li><a class="tocitem" href="../../../../APIs/Common/Spectra/">Spectra</a></li><li><a class="tocitem" href="../../../../APIs/Common/SurfaceFluxes/">Surface Fluxes</a></li><li><a class="tocitem" href="../../../../APIs/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../../APIs/Common/TurbulenceClosures/">Turbulence Closures</a></li><li><a class="tocitem" href="../../../../APIs/Common/TurbulenceConvection/">Turbulence Convection</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-7" type="checkbox"/><label class="tocitem" for="menuitem-5-7"><span class="docs-label">Balance Laws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/BalanceLaws/BalanceLaws/">Balance Laws</a></li><li><a class="tocitem" href="../../../../APIs/BalanceLaws/Problems/">Problems</a></li></ul></li><li><a class="tocitem" href="../../../../APIs/Arrays/Arrays/">Arrays</a></li><li><input class="collapse-toggle" id="menuitem-5-9" type="checkbox"/><label class="tocitem" for="menuitem-5-9"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Diagnostics/Diagnostics/">Diagnostics groups</a></li><li><a class="tocitem" href="../../../../APIs/Diagnostics/StateCheck/">State Check</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-10" type="checkbox"/><label class="tocitem" for="menuitem-5-10"><span class="docs-label">Input/Output</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/InputOutput/">Input/Output</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-11" type="checkbox"/><label class="tocitem" for="menuitem-5-11"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Numerics/Meshes/Mesh/">Meshes</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/SystemSolvers/SystemSolvers/">SystemSolvers</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/ODESolvers/ODESolvers/">ODESolvers</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/DGMethods/">DG Methods</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/Courant/">Courant</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/NumericalFluxes/">Numerical Fluxes</a></li><li><a class="tocitem" href="../../../../APIs/Numerics/DGMethods/FVReconstructions/">Finite Volume Reconstructions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-12" type="checkbox"/><label class="tocitem" for="menuitem-5-12"><span class="docs-label">Utilities</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../APIs/Utilities/VariableTemplates/">Variable Templates</a></li><li><a class="tocitem" href="../../../../APIs/Utilities/SingleStackUtils/">Single Stack Utilities</a></li><li><a class="tocitem" href="../../../../APIs/Utilities/TicToc/">Tic Toc</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../../Contributing/">Contribution guide</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Theory</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-7-1" type="checkbox"/><label class="tocitem" for="menuitem-7-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Theory/Common/SurfaceFluxes/">SurfaceFluxes</a></li><li><a class="tocitem" href="../../../../Theory/Common/Turbulence/">Turbulence Closures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7-2" type="checkbox"/><label class="tocitem" for="menuitem-7-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../Theory/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/EDMF_plots/">EDMF Model</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/EDMFEquations/">EDMF equations</a></li><li><a class="tocitem" href="../../../../Theory/Atmos/Model/tracers/">Tracers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Developer docs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../../DevDocs/CodeStyle/">Coding style</a></li><li><a class="tocitem" href="../../../../DevDocs/AcceptableUnicode/">Acceptable Unicode</a></li><li><a class="tocitem" href="../../../../DevDocs/ModelVariableList/">Model variable list</a></li><li><a class="tocitem" href="../../../../DevDocs/ModelOutput/">Model output</a></li><li><a class="tocitem" href="../../../../DevDocs/DiagnosticVariableList/">Diagnostic variable list</a></li><li><a class="tocitem" href="../../../../DevDocs/SystemImage/">Custom System Image</a></li></ul></li><li><a class="tocitem" href="../../../../References/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li><a class="is-disabled">Numerics</a></li><li><a class="is-disabled">DG Methods</a></li><li class="is-active"><a href>Filters</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Filters</a></li></ul></nav><div class="docs-right"><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Filters"><a class="docs-heading-anchor" href="#Filters">Filters</a><a id="Filters-1"></a><a class="docs-heading-anchor-permalink" href="#Filters" title="Permalink"></a></h1><p>In this tutorial we show the result of applying filters available in the CliMA codebase in a 1 dimensional box advection setup. See <a href="https://clima.github.io/ClimateMachine.jl/latest/APIs/Numerics/Meshes/Mesh/#Filters-1">Filters API</a> for filters interface details.</p><pre><code class="language-julia">using ClimateMachine
+const clima_dir = dirname(dirname(pathof(ClimateMachine)));
+include(joinpath(clima_dir, &quot;tutorials&quot;, &quot;Numerics&quot;, &quot;DGMethods&quot;, &quot;Box1D.jl&quot;))
+
+const FT = Float64
+
+output_dir = @__DIR__;
+mkpath(output_dir);</code></pre><p>The unfiltered result of the box advection test for order 4 polynomial with central flux is</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_no_filter.svg&quot;),
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 7.0629054001769571e+00
+│     norm(Q) / norm(Q₀) = 9.9694358982360409e-01
+└     norm(Q) - norm(Q₀) = -2.1653317359552560e-02
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0190972222224218e+01
+│     difference            = 1.6129320101754274e-12
+└     normalized difference = 3.2135898922900007e-14</pre><p><img src="../box_1D_4_no_filter.svg" alt/></p><p>The unfiltered result of the box advection test for order 4 polynomial with Rusanov flux (aka upwinding for advection) is</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_no_filter_upwind.svg&quot;),
+    numerical_flux_first_order = RusanovNumericalFlux(),
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 7.0513534001494413e+00
+│     norm(Q) / norm(Q₀) = 9.9531300131582301e-01
+└     norm(Q) - norm(Q₀) = -3.3205317387068334e-02
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0190972222224502e+01
+│     difference            = 1.8971491044794675e-12
+└     normalized difference = 3.7798612389490313e-14</pre><p><img src="../box_1D_4_no_filter_upwind.svg" alt/></p><p>Below we show results for the same box advection test but using different filters.</p><p>As seen in the results, when the TMAR filter is used mass is not necessarily conserved (mass increases are possible).</p><p><code>TMARFilter()</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_tmar.svg&quot;);
+    tmar_filter = true,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 7.0284834766751576e+00
+│     norm(Q) / norm(Q₀) = 9.9208486468994206e-01
+└     norm(Q) - norm(Q₀) = -5.6075240861352071e-02
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0273717773327995e+01
+│     difference            = 8.2745551105389836e-02
+└     normalized difference = 1.6486142316397157e-03</pre><p><img src="../box_1D_4_tmar.svg" alt/></p><p>Running the TMAR filter with Rusanov the mass conservation since some of the are reduced, but mass is still not conserved. <code>TMARFilter()</code> with Rusanov numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_tmar_upwind.svg&quot;);
+    tmar_filter = true,
+    numerical_flux_first_order = RusanovNumericalFlux(),
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 7.0195965557948785e+00
+│     norm(Q) / norm(Q₀) = 9.9083045757234967e-01
+└     norm(Q) - norm(Q₀) = -6.4962161741631164e-02
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0231802188006426e+01
+│     difference            = 4.0829965783821365e-02
+└     normalized difference = 8.1349222730822993e-04</pre><p><img src="../box_1D_4_tmar_upwind.svg" alt/></p><p><code>CutoffFilter(grid, Nc=1)</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_cutoff_1.svg&quot;);
+    cutoff_filter = true,
+    cutoff_param = 1,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 4.3749269099663559e+00
+│     norm(Q) / norm(Q₀) = 6.1752991038623717e-01
+└     norm(Q) - norm(Q₀) = -2.7096318075701538e+00
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0190972222220267e+01
+│     difference            = -2.3376856006507296e-12
+└     normalized difference = -4.6575818262705289e-14</pre><p><img src="../box_1D_4_cutoff_1.svg" alt/></p><p><code>CutoffFilter(grid, Nc=3)</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_cutoff_3.svg&quot;);
+    cutoff_filter = true,
+    cutoff_param = 3,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 7.0138240459750643e+00
+│     norm(Q) / norm(Q₀) = 9.9001565596649588e-01
+└     norm(Q) - norm(Q₀) = -7.0734671561445417e-02
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0190972222238941e+01
+│     difference            = 1.6335377495124703e-11
+└     normalized difference = 3.2546445649227800e-13</pre><p><img src="../box_1D_4_cutoff_3.svg" alt/></p><p><code>ExponentialFilter(grid, Nc=1, s=4)</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_exp_1_4.svg&quot;);
+    exp_filter = true,
+    exp_param_1 = 1,
+    exp_param_2 = 4,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 6.9333444856505588e+00
+│     norm(Q) / norm(Q₀) = 9.7865580088825466e-01
+└     norm(Q) - norm(Q₀) = -1.5121423188595084e-01
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0190972222221319e+01
+│     difference            = -1.2860823517257813e-12
+└     normalized difference = -2.5623778436321147e-14</pre><p><img src="../box_1D_4_exp_1_4.svg" alt/></p><p><code>ExponentialFilter(grid, Nc=1, s=8)</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_exp_1_8.svg&quot;);
+    exp_filter = true,
+    exp_param_1 = 1,
+    exp_param_2 = 8,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 7.0143099503307367e+00
+│     norm(Q) / norm(Q₀) = 9.9008424236334081e-01
+└     norm(Q) - norm(Q₀) = -7.0248767205772999e-02
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0190972222237889e+01
+│     difference            = 1.5283774246199755e-11
+└     normalized difference = 3.0451241666589387e-13</pre><p><img src="../box_1D_4_exp_1_8.svg" alt/></p><p><code>ExponentialFilter(grid, Nc=1, s=32)</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_exp_1_32.svg&quot;);
+    exp_filter = true,
+    exp_param_1 = 1,
+    exp_param_2 = 32,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 7.0543517922303485e+00
+│     norm(Q) / norm(Q₀) = 9.9573623051053417e-01
+└     norm(Q) - norm(Q₀) = -3.0206925306161203e-02
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0190972222231721e+01
+│     difference            = 9.1162632998020854e-12
+└     normalized difference = 1.8163153444088415e-13</pre><p><img src="../box_1D_4_exp_1_32.svg" alt/></p><p><code>BoydVandevenFilter(grid, Nc=1, s=4)</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_boyd_1_4.svg&quot;);
+    boyd_filter = true,
+    boyd_param_1 = 1,
+    boyd_param_2 = 4,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 6.9612435701255677e+00
+│     norm(Q) / norm(Q₀) = 9.8259381390887501e-01
+└     norm(Q) - norm(Q₀) = -1.2331514741094196e-01
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0190972222250650e+01
+│     difference            = 2.8045121780451154e-11
+└     normalized difference = 5.5876825131579874e-13</pre><p><img src="../box_1D_4_boyd_1_4.svg" alt/></p><p><code>BoydVandevenFilter(grid, Nc=1, s=8)</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_boyd_1_8.svg&quot;);
+    boyd_filter = true,
+    boyd_param_1 = 1,
+    boyd_param_2 = 8,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 6.9798736717024275e+00
+│     norm(Q) / norm(Q₀) = 9.8522349097411621e-01
+└     norm(Q) - norm(Q₀) = -1.0468504583408222e-01
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0190972222227202e+01
+│     difference            = 4.5972115003678482e-12
+└     normalized difference = 9.1594390322098253e-14</pre><p><img src="../box_1D_4_boyd_1_8.svg" alt/></p><p><code>BoydVandevenFilter(grid, Nc=1, s=32)</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_boyd_1_32.svg&quot;);
+    boyd_filter = true,
+    boyd_param_1 = 1,
+    boyd_param_2 = 32,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 7.0120419256480178e+00
+│     norm(Q) / norm(Q₀) = 9.8976410602554676e-01
+└     norm(Q) - norm(Q₀) = -7.2516791888491916e-02
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0190972222248625e+01
+│     difference            = 2.6020074983534869e-11
+└     normalized difference = 5.1842141786634284e-13</pre><p><img src="../box_1D_4_boyd_1_32.svg" alt/></p><p><code>ExponentialFilter(grid, Nc=1, s=8)</code> and <code>TMARFilter()</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_tmar_exp_1_8.svg&quot;);
+    exp_filter = true,
+    tmar_filter = true,
+    exp_param_1 = 1,
+    exp_param_2 = 8,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 6.9859473293754473e+00
+│     norm(Q) / norm(Q₀) = 9.8608080021738431e-01
+└     norm(Q) - norm(Q₀) = -9.8611388161062408e-02
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0255956701555093e+01
+│     difference            = 6.4984479332487410e-02
+└     normalized difference = 1.2947443824113615e-03</pre><p><img src="../box_1D_4_tmar_exp_1_8.svg" alt/></p><p><code>BoydVandevenFilter(grid, Nc=1, s=8)</code> and <code>TMARFilter()</code> with central numerical flux:</p><pre><code class="language-julia">run_box1D(
+    4,
+    FT(0.0),
+    FT(1.0),
+    FT(1.0),
+    joinpath(output_dir, &quot;box_1D_4_tmar_boyd_1_8.svg&quot;);
+    boyd_filter = true,
+    tmar_filter = true,
+    boyd_param_1 = 1,
+    boyd_param_2 = 8,
+)</code></pre><pre class="documenter-example-output">┌ Info: Model composition
+│     param_set = Main.ex-showcase_filters.EarthParameterSet()
+│     init_q = 0.0
+│     amplitude = 1.0
+└     velo = 1.0
+┌ Info: Defining `prognostic_vars` and
+│ `eq_tends` for Box1D will
+└ enable printing a table of tendencies.
+┌ Info: Establishing single stack configuration for Box1D
+│     precision               = Float64
+│     horiz polynomial order  = 4
+│     vert polynomial order   = 4
+│     domain_min              = 0.00 m x0.00 m x0.00 m
+│     domain_max              = 1.00 m x1.00 m x350.00 m
+│     # vert elems            = 128
+│     MPI ranks               = 1
+│     min(Δ_horz)             = 0.17 m
+└     min(Δ_vert)             = 0.47 m
+[ Info: Initializing Box1D
+┌ Info: Starting Box1D
+│     dt              = 4.71698e-01
+│     timeend         =   450.00
+│     number of steps = 954
+└     norm(Q)         = 7.0845587175365097e+00
+┌ Info: Finished
+│     norm(Q)            = 6.9548646819395552e+00
+│     norm(Q) / norm(Q₀) = 9.8169342075238630e-01
+└     norm(Q) - norm(Q₀) = -1.2969403559695447e-01
+┌ Info: Mass Conservation:
+│     initial mass          = 5.0190972222222605e+01
+│     final mass            = 5.0269145317360824e+01
+│     difference            = 7.8173095138218684e-02
+└     normalized difference = 1.5575130681291464e-03</pre><p><img src="../box_1D_4_tmar_boyd_1_8.svg" alt/></p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../SystemSolvers/bgmres/">« Batched Generalized Minimal Residual</a><a class="docs-footer-nextpage" href="../../../Diagnostics/Debug/StateCheck/">State Statistics Regression »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 23 December 2020 21:36">Wednesday 23 December 2020</span>. Using Julia version 1.5.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>EDMF equations · ClimateMachine</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../assets/documenter.js"></script><script src="../../../siteinfo.js"></script><script src="../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../../"><img src="../../../assets/logo.svg" alt="ClimateMachine logo"/></a><div class="docs-package-name"><span class="docs-autofit">ClimateMachine</span></div><form class="docs-search" action="../../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../../">Home</a></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">Getting started</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../GettingStarted/Installation/">Installation</a></li><li><a class="tocitem" href="../../../GettingStarted/Terminology/">Terminology</a></li><li><a class="tocitem" href="../../../GettingStarted/RunningClimateMachine/">Running</a></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox"/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Defaults</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../GettingStarted/Atmos/">Atmosphere model configurations</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Tutorials</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../generated/TutorialList/">Home</a></li><li><a class="tocitem" href="../../../generated/how_to_make_a_balance_law/">Balance Law</a></li><li><input class="collapse-toggle" id="menuitem-3-3" type="checkbox"/><label class="tocitem" for="menuitem-3-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../generated/Atmos/heldsuarez/">Dry Idealized GCM (Held-Suarez)</a></li><li><a class="tocitem" href="../../../generated/Atmos/burgers_single_stack/">Single Element Stack Experiment (Burgers Equation)</a></li><li><a class="tocitem" href="../../../generated/Atmos/densitycurrent/">LES Experiment (Density Current)</a></li><li><a class="tocitem" href="../../../generated/Atmos/risingbubble/">LES Experiment (Rising Thermal Bubble)</a></li><li><a class="tocitem" href="../../../generated/Atmos/agnesi_hs_lin/">Linear Hydrostatic Mountain (Topography)</a></li><li><a class="tocitem" href="../../../generated/Atmos/agnesi_nh_lin/">Linear Non-Hydrostatic Mountain (Topography)</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><input class="collapse-toggle" id="menuitem-3-5" type="checkbox"/><label class="tocitem" for="menuitem-3-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-5-1" type="checkbox"/><label class="tocitem" for="menuitem-3-5-1"><span class="docs-label">Heat</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../generated/Land/Heat/heat_equation/">Heat Equation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-5-2" type="checkbox"/><label class="tocitem" for="menuitem-3-5-2"><span class="docs-label">Soil</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../generated/Land/Soil/Water/hydraulic_functions/">Hydraulic Functions</a></li><li><a class="tocitem" href="../../../generated/Land/Soil/Heat/bonan_heat_tutorial/">Soil Heat Equation</a></li><li><a class="tocitem" href="../../../generated/Land/Soil/Coupled/equilibrium_test/">Coupled Water and Heat</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6" type="checkbox"/><label class="tocitem" for="menuitem-3-6"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-6-1" type="checkbox"/><label class="tocitem" for="menuitem-3-6-1"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../generated/Numerics/SystemSolvers/cg/">Conjugate Gradient</a></li><li><a class="tocitem" href="../../../generated/Numerics/SystemSolvers/bgmres/">Batched Generalized Minimal Residual</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-6-2" type="checkbox"/><label class="tocitem" for="menuitem-3-6-2"><span class="docs-label">DG Methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../generated/Numerics/DGMethods/showcase_filters/">Filters</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-7" type="checkbox"/><label class="tocitem" for="menuitem-3-7"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-7-1" type="checkbox"/><label class="tocitem" for="menuitem-3-7-1"><span class="docs-label">Debug</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../generated/Diagnostics/Debug/StateCheck/">State Statistics Regression</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">How-to-guides</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-4-1" type="checkbox"/><label class="tocitem" for="menuitem-4-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../HowToGuides/Common/UniversalFunctions/">Universal Functions</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Atmos/TemperatureProfiles/">Temperature profiles</a></li><li><a class="tocitem" href="../../../HowToGuides/Atmos/AtmosReferenceState/">Reference profiles</a></li><li><a class="tocitem" href="../../../HowToGuides/Atmos/MoistureModelChoices/">Moisture model</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><span class="tocitem">Meshes</span></li><li><input class="collapse-toggle" id="menuitem-4-5-2" type="checkbox"/><label class="tocitem" for="menuitem-4-5-2"><span class="docs-label">DG methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/DGMethods/how_to_make_a_balance_law/">How to make a balance law</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-3" type="checkbox"/><label class="tocitem" for="menuitem-4-5-3"><span class="docs-label">ODE Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/ODESolvers/Timestepping/">Time-integration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-4" type="checkbox"/><label class="tocitem" for="menuitem-4-5-4"><span class="docs-label">System Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/SystemSolvers/IterativeSolvers/">Iterative Solvers</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">APIs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/">Home</a></li><li><input class="collapse-toggle" id="menuitem-5-2" type="checkbox"/><label class="tocitem" for="menuitem-5-2"><span class="docs-label">Driver</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Driver/">Top level interface</a></li><li><a class="tocitem" href="../../../APIs/Driver/Checkpoint/">Checkpoint</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-3" type="checkbox"/><label class="tocitem" for="menuitem-5-3"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../APIs/Atmos/Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../../../APIs/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../APIs/Atmos/TemperatureProfiles/">Temperature Profiles</a></li></ul></li><li><a class="tocitem" href="../../../APIs/Ocean/Ocean/">Ocean</a></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Land/LandModel/">Land Model</a></li><li><a class="tocitem" href="../../../APIs/Land/SoilWaterParameterizations/">Soil Water Parameterizations</a></li><li><a class="tocitem" href="../../../APIs/Land/SoilHeatParameterizations/">Soil Heat Parameterizations</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-6" type="checkbox"/><label class="tocitem" for="menuitem-5-6"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Common/Orientations/">Orientations</a></li><li><a class="tocitem" href="../../../APIs/Common/Spectra/">Spectra</a></li><li><a class="tocitem" href="../../../APIs/Common/SurfaceFluxes/">Surface Fluxes</a></li><li><a class="tocitem" href="../../../APIs/Common/Thermodynamics/">Thermodynamics</a></li><li><a class="tocitem" href="../../../APIs/Common/TurbulenceClosures/">Turbulence Closures</a></li><li><a class="tocitem" href="../../../APIs/Common/TurbulenceConvection/">Turbulence Convection</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-7" type="checkbox"/><label class="tocitem" for="menuitem-5-7"><span class="docs-label">Balance Laws</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/BalanceLaws/BalanceLaws/">Balance Laws</a></li><li><a class="tocitem" href="../../../APIs/BalanceLaws/Problems/">Problems</a></li></ul></li><li><a class="tocitem" href="../../../APIs/Arrays/Arrays/">Arrays</a></li><li><input class="collapse-toggle" id="menuitem-5-9" type="checkbox"/><label class="tocitem" for="menuitem-5-9"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Diagnostics/Diagnostics/">Diagnostics groups</a></li><li><a class="tocitem" href="../../../APIs/Diagnostics/StateCheck/">State Check</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-10" type="checkbox"/><label class="tocitem" for="menuitem-5-10"><span class="docs-label">Input/Output</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/InputOutput/">Input/Output</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-11" type="checkbox"/><label class="tocitem" for="menuitem-5-11"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Numerics/Meshes/Mesh/">Meshes</a></li><li><a class="tocitem" href="../../../APIs/Numerics/SystemSolvers/SystemSolvers/">SystemSolvers</a></li><li><a class="tocitem" href="../../../APIs/Numerics/ODESolvers/ODESolvers/">ODESolvers</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/DGMethods/">DG Methods</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/Courant/">Courant</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGMethods/NumericalFluxes/">Numerical Fluxes</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-12" type="checkbox"/><label class="tocitem" for="menuitem-5-12"><span class="docs-label">Utilities</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Utilities/VariableTemplates/">Variable Templates</a></li><li><a class="tocitem" href="../../../APIs/Utilities/SingleStackUtils/">Single Stack Utilities</a></li><li><a class="tocitem" href="../../../APIs/Utilities/TicToc/">Tic Toc</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../Contributing/">Contribution guide</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox" checked/><label class="tocitem" for="menuitem-7"><span class="docs-label">Theory</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-7-1" type="checkbox"/><label class="tocitem" for="menuitem-7-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Common/SurfaceFluxes/">SurfaceFluxes</a></li><li><a class="tocitem" href="../../Common/Turbulence/">Turbulence Closures</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7-2" type="checkbox" checked/><label class="tocitem" for="menuitem-7-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../Microphysics_0M/">Microphysics_0M</a></li><li><a class="tocitem" href="../Microphysics/">Microphysics</a></li><li class="is-active"><a class="tocitem" href>EDMF equations</a><ul class="internal"><li><a class="tocitem" href="#Subdomain-decomposition"><span>Subdomain decomposition</span></a></li><li><a class="tocitem" href="#Domain-averaged-equations"><span>Domain averaged equations</span></a></li><li><a class="tocitem" href="#Sub-domain-equations:-Area-fraction"><span>Sub-domain equations: Area fraction</span></a></li><li><a class="tocitem" href="#Sub-domain-equations:-1st-moment"><span>Sub-domain equations: 1st moment</span></a></li><li><a class="tocitem" href="#Sub-domain-equations:-2nd-moment"><span>Sub-domain equations: 2nd moment</span></a></li><li class="toplevel"><a class="tocitem" href="#EDMF-variable-definitions"><span>EDMF variable definitions</span></a></li><li><a class="tocitem" href="#Constants"><span>Constants</span></a></li><li><a class="tocitem" href="#Phase-partition"><span>Phase partition</span></a></li><li><a class="tocitem" href="#Gas-constants"><span>Gas constants</span></a></li><li><a class="tocitem" href="#Specific-heats"><span>Specific heats</span></a></li><li><a class="tocitem" href="#Latent-heat"><span>Latent heat</span></a></li><li><a class="tocitem" href="#Exner-functions"><span>Exner functions</span></a></li><li><a class="tocitem" href="#Temperature"><span>Temperature</span></a></li><li><a class="tocitem" href="#Reference-state-profiles"><span>Reference state profiles</span></a></li><li><a class="tocitem" href="#Mixing-ratios"><span>Mixing ratios</span></a></li><li><a class="tocitem" href="#Potential-temperatures"><span>Potential temperatures</span></a></li><li><a class="tocitem" href="#Shear-production"><span>Shear production</span></a></li><li><a class="tocitem" href="#Buoyancy"><span>Buoyancy</span></a></li><li><a class="tocitem" href="#Buoyancy-gradient"><span>Buoyancy gradient</span></a></li><li><a class="tocitem" href="#Surface-fluxes"><span>Surface fluxes</span></a></li><li><a class="tocitem" href="#Prandtl-number"><span>Prandtl number</span></a></li><li><a class="tocitem" href="#Mixing-length"><span>Mixing length</span></a></li><li><a class="tocitem" href="#Eddy-diffusivity"><span>Eddy diffusivity</span></a></li><li><a class="tocitem" href="#Buoyancy-flux"><span>Buoyancy flux</span></a></li><li><a class="tocitem" href="#Entrainment-Detrainment"><span>Entrainment-Detrainment</span></a></li><li><a class="tocitem" href="#Inversion-height"><span>Inversion height</span></a></li><li><a class="tocitem" href="#Convective-velocity"><span>Convective velocity</span></a></li><li><a class="tocitem" href="#Non-local-mixing-length"><span>Non-local mixing length</span></a></li><li class="toplevel"><a class="tocitem" href="#Boundary-Conditions"><span>Boundary Conditions</span></a></li><li><a class="tocitem" href="#BC-functions"><span>BC functions</span></a></li><li><a class="tocitem" href="#Area-fraction"><span>Area fraction</span></a></li><li><a class="tocitem" href="#st-order-moments"><span>1st order moments</span></a></li><li><a class="tocitem" href="#nd-order-moments"><span>2nd order moments</span></a></li></ul></li><li><a class="tocitem" href="../Model/tracers/">Tracers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Developer docs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../DevDocs/CodeStyle/">Coding style</a></li><li><a class="tocitem" href="../../../DevDocs/AcceptableUnicode/">Acceptable Unicode</a></li><li><a class="tocitem" href="../../../DevDocs/VariableList/">Variable list</a></li><li><a class="tocitem" href="../../../DevDocs/DiagnosticVariables/">Diagnostic variable list</a></li><li><a class="tocitem" href="../../../DevDocs/SystemImage/">Custom System Image</a></li></ul></li><li><a class="tocitem" href="../../../References/">References</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Theory</a></li><li><a class="is-disabled">Atmos</a></li><li class="is-active"><a href>EDMF equations</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>EDMF equations</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/ClimateMachine.jl/blob/master/docs/src/Theory/Atmos/EDMFEquations.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><div>\[\newcommand{\paramT}[1]{       \text{#1}}
+\newcommand{\hyperparamT}[1]{\text{#1}}
+\newcommand{\simparamT}[1]{  \text{#1}}
+
+\newcommand{\exp}[1]{\mathrm{exp}\left(#1\right)}
+\newcommand{\atan}[1]{\mathrm{atan}\left(#1\right)}
+\newcommand{\sign}[1]{\mathrm{sign}\left(#1\right)}
+\newcommand{\erf}[1]{\mathrm{erf}\left(#1\right)}
+\newcommand{\erfinv}[1]{\mathrm{erfinv}\left(#1\right)}
+
+\newcommand{\param}[1]{     #1}
+\newcommand{\hyperparam}[1]{#1}
+\newcommand{\simparam}[1]{  #1}
+
+\newcommand{\CROSS}{\times}
+\newcommand{\GRAD}{\nabla}
+\newcommand{\DOT}{\bullet}
+\newcommand{\PD}{\partial}
+\newcommand{\PDFz}{\frac{\PD}{\PD z}}
+\newcommand{\DM}[1]{\langle #1 \rangle}
+\newcommand{\iEnv}{e}
+\newcommand{\SD}[2]{{\overline{#1}}_{#2}}
+\newcommand{\SDi}[1]{{\SD{#1}{i}}}
+\newcommand{\SDj}[1]{{\SD{#1}{j}}}
+\newcommand{\SDe}[1]{{\SD{#1}{\iEnv}}}
+\newcommand{\SDiog}[2]{#1_{#2}}
+\newcommand{\SDio}[1]{{\SDiog{#1}{i}}}
+\newcommand{\SDjo}[1]{{\SDiog{#1}{j}}}
+\newcommand{\SDeo}[1]{{\SDiog{#1}{\iEnv}}}
+\newcommand{\aSD}[2]{{#1}_{#2}}
+\newcommand{\aSDi}[1]{\aSD{#1}{i}}
+\newcommand{\aSDj}[1]{\aSD{#1}{j}}
+\newcommand{\aSDe}[1]{\aSD{#1}{\iEnv}}
+\newcommand{\otherDefs}{where additional variable definitions are in:}
+
+\newcommand{\IntraCVSDi}[2]{\overline{{#1}_{i      }&#39;{#2}_{i      }&#39;}}
+\newcommand{\IntraCVSDj}[2]{\overline{{#1}_{j      }&#39;{#2}_{j      }&#39;}}
+\newcommand{\IntraCVSDe}[2]{\overline{{#1}_{\iEnv{}}&#39;{#2}_{\iEnv{}}&#39;}}
+
+\newcommand{\InterCVSDi}[2]{\overline{{#1}_{i      }&#39;}~\overline{{#2}_{i      }&#39;}}
+\newcommand{\InterCVSDj}[2]{\overline{{#1}_{j      }&#39;}~\overline{{#2}_{j      }&#39;}}
+\newcommand{\InterCVSDe}[2]{\overline{{#1}_{\iEnv{}}&#39;}~\overline{{#2}_{\iEnv{}}&#39;}}
+
+\newcommand{\TCV}[2]{\langle {#1}^*{#2}^* \rangle}
+
+\newcommand{\BC}[1]{{#1|_{z_{min}}}}
+\newcommand{\BCT}[1]{{#1|_{z_{max}}}}
+\newcommand{\BCB}[1]{{#1|_{z_{min}}}}
+\newcommand{\BCG}[1]{{#1|_{z_{boundary}}}}
+
+\newcommand{\Km}{K^m}
+\newcommand{\Kh}{K^h}
+\newcommand{\TEquilib}{T_{\mathrm{iterated}}}
+\newcommand{\PhasePartition}{q}
+\newcommand{\ExnerD}{\Pi_{dry}}
+\newcommand{\ExnerM}{\Pi_{moist}}
+\newcommand{\WindSpeed}{|u|}
+\newcommand{\LayerThickness}{\param{\Delta z}}
+\newcommand{\SurfaceRoughness}[1]{\param{z_{0#1}}}
+\newcommand{\SensibleSurfaceHeatFlux}{F_{\mathrm{sensible}&#39;&#39;}}
+\newcommand{\LatentSurfaceHeatFlux}{F_{\mathrm{latent}&#39;&#39;}}
+\newcommand{\FrictionVelocity}{u_*}
+\newcommand{\Buoyancy}{b}
+\newcommand{\BuoyancyGrad}{\PD_z \Buoyancy}
+\newcommand{\BuoyancyFlux}{\IntraCVSDi{w}{b}}
+\newcommand{\TemperatureScale}{\theta_*}
+\newcommand{\SurfaceMomentumFlux}{\BC{\overline{w&#39;u&#39;}}}
+\newcommand{\SurfaceHeatFlux}{\BC{\overline{w&#39;\theta&#39;}}}
+\newcommand{\SurfaceBuoyancyFlux}{\BC{\IntraCVSDi{w}{\theta}}}
+\newcommand{\ConvectiveVelocity}{{w_*}} % Convective velocity near the surface
+\newcommand{\InversionHeight}{{z_*}}
+\newcommand{\MOLen}{\Lambda_{M-O}}
+\newcommand{\zLL}{\param{z_{||}}} % z at the first surface level (we should make this grid-independent)
+
+\newcommand{\qt}{q_{\mathrm{tot}}}
+\newcommand{\qr}{q_{\mathrm{rain}}}
+\newcommand{\ql}{q_{\mathrm{liq}}}
+\newcommand{\qi}{q_{\mathrm{ice}}}
+\newcommand{\qv}{q_{\mathrm{vap}}}
+\newcommand{\qvsat}{q_{\mathrm{vap}}^*}
+\newcommand{\pvsat}{p_{\mathrm{vap}}^*}
+\newcommand{\qc}{q_{\mathrm{con}}}
+\newcommand{\ThetaVap}{{\theta_{\mathrm{vap}}}}
+\newcommand{\ThetaVirt}{{\theta_{\mathrm{virt}}}}
+\newcommand{\ThetaRho}{{\theta_{\rho}}}
+\newcommand{\ThetaLiq}{{\theta_{\mathrm{liq}}}}
+\newcommand{\ThetaLiqIce}{{\theta_{\mathrm{liq-ice}}}}
+\newcommand{\ThetaLiqIceSat}{{\theta^*_{\mathrm{liq-ice}}}}
+\newcommand{\ThetaDry}{{\theta_{\mathrm{dry}}}}
+\newcommand{\TDry}{{T_{dry}}}
+\newcommand{\eint}{e_{\mathrm{int}}}
+\newcommand{\etot}{e_{\mathrm{tot}}}
+
+\newcommand{\TRef}{{T}_0}
+\newcommand{\alphaRef}{{\alpha}_0}
+\newcommand{\rhoRef}{{\rho}_0}
+\newcommand{\pRef}{{p}_0}
+\newcommand{\Heaviside}{\mathcal H}
+
+\newcommand{\alphaLL}{\alphaRef|_{\zLL}}
+\newcommand{\uH}{\simparam{\mathbf{u}_h}}
+
+\newcommand{\CoriolisParam}{\hyperparam{\mathrm{coriolis\_param}}}
+\newcommand{\SubsidenceParam}{\hyperparam{\mathrm{subsidence}}}
+\newcommand{\betaM}{\hyperparam{\beta_m}}
+\newcommand{\betaH}{\hyperparam{\beta_h}}
+\newcommand{\gammaM}{\hyperparam{\gamma_m}}
+\newcommand{\gammaH}{\hyperparam{\gamma_h}}
+
+\newcommand{\PTilde}{\param{\tilde{p}}}
+\newcommand{\VKConst}{\param{\kappa_{\mathrm{Von-Karman}}}}
+\newcommand{\Nsd}{\hyperparam{N_{sd}}}
+\newcommand{\grav}{\param{g}}
+\newcommand{\TZero}{\param{T_{0}}}
+\newcommand{\RefHintV}{\param{{\eint}_{v,0}}}
+\newcommand{\RefHintI}{\param{{\eint}_{i,0}}}
+
+\newcommand{\EpsDV}{\param{\varepsilon_{dv}}}
+\newcommand{\EpsVD}{\param{\varepsilon_{vd}}}
+\newcommand{\Rm}{R_m}
+\newcommand{\Cpm}{c_{pm}}
+\newcommand{\Cvm}{c_{vm}}
+\newcommand{\Rd}{\param{R_d}}
+\newcommand{\Rv}{\param{R_v}}
+\newcommand{\Cp}[1]{\param{c_{p#1}}}
+\newcommand{\Cv}[1]{\param{c_{v#1}}}
+\newcommand{\Cvd}{\Cv{d}}
+\newcommand{\Cvv}{\Cv{v}}
+\newcommand{\Cvl}{\Cv{l}}
+\newcommand{\Cvi}{\Cv{i}}
+
+\newcommand{\DeltaCp}{\param{\Delta c_p}}
+\newcommand{\TTriple}{\param{T_{\mathrm{tr}}}}
+\newcommand{\PTriple}{\param{p_{\mathrm{tr}}}}
+\newcommand{\TFreeze}{\param{T_{\mathrm{freeze}}}}
+
+\newcommand{\RefLHv}{\param{L_{v,0}}}
+\newcommand{\RefLHs}{\param{L_{s,0}}}
+\newcommand{\RefLHf}{\param{L_{f,0}}}
+\newcommand{\LatentHeatV}[1]{L_{vap}(#1)}
+\newcommand{\LatentHeatS}[1]{L_{sub}(#1)}
+\newcommand{\LatentHeatF}[1]{L_{fus}(#1)}\]</div><h1 id="Eddy-Diffusivity-Mass-Flux-(EDMF)-parameterization"><a class="docs-heading-anchor" href="#Eddy-Diffusivity-Mass-Flux-(EDMF)-parameterization">Eddy-Diffusivity Mass-Flux (EDMF) parameterization</a><a id="Eddy-Diffusivity-Mass-Flux-(EDMF)-parameterization-1"></a><a class="docs-heading-anchor-permalink" href="#Eddy-Diffusivity-Mass-Flux-(EDMF)-parameterization" title="Permalink"></a></h1><p>This document describes the Eddy-Diffusivity Mass-Flux (EDMF) parameterization for subgrid-scale (SGS) turbulence and convection. The model equations and rationale are based on: Tan et al. (2018); Cohen et al. (2020); Lopez-Gomez et al. (2020). The key predictands of the EDMF parameterization are the SGS vertical fluxes of heat, moisture and momentum, and the cloud fraction in the host model grid. The EDMF parameterization divides the host model&#39;s grid into <span>$N \ge 2$</span> subdomains that represent an isotropic turbulent enviroment and coherent updraft(s) and or downdraft(s). The parameterization solves prognostic equations for first and second moments in the subdomains to provide both the abovementioned SGS vertical fluxes and cloud fraction in the host model grid.</p><p>In this document, color-coding is used to indicate:</p><ul><li><div>\[\paramT{Constant parameters that are fixed in space and time (e.g., those defined in CLIMAParameters.jl)}\]</div></li><li><div>\[\simparamT{Single column (SC) inputs (e.g., variables that are fed into the SC model from the dynamical core (e.g., horizontal velocity))}\]</div></li><li><div>\[\hyperparamT{Tunable hyper-parameters that will need to be changeable, but will only include single numbers (e.g., Float64)}\]</div></li></ul><h2 id="Subdomain-decomposition"><a class="docs-heading-anchor" href="#Subdomain-decomposition">Subdomain decomposition</a><a id="Subdomain-decomposition-1"></a><a class="docs-heading-anchor-permalink" href="#Subdomain-decomposition" title="Permalink"></a></h2><p>The EDMF is 1D model in <span>$z$</span> that solves for the statistical distribution in the grid box of the host model. As such in the EDMF there is no spatial discretization in the horizontal directions (<span>$x$</span> and <span>$y$</span>), the horizontal space is broken into <span>$\Nsd$</span> (<span>$\sim$</span> 1-5) &quot;subdomains&quot; (SDs), denoted by subscript <span>$i$</span>, where <span>$1 \le i \le \Nsd$</span>. One of the subdomains, the &quot;environment&quot;, is treated different compared to others, termed &quot;updrafts&quot; (and or &quot;downdrafts&quot;). This environment subdomain is denoted with a special index <span>$\iEnv{}$</span> (which we usually set to 0). For dummy variables <span>$\phi$</span> and <span>$\psi$</span>, we use several domain and SD representations of interest:</p><div>\[\begin{align}
+  \SDi{\phi}                                                                                   \quad &amp; \text{horizontal mean of variable $\phi$ over subdomain $i$}, \\
+  \SDi{\phi}&#39; = \phi_i - \SDi{\phi}                                                            \quad &amp; \text{fluctuations of $\phi$ about the subdomain mean}, \\
+  \IntraCVSDi{\phi}{\psi}                                                                      \quad &amp; \text{intra subdomain covariance}, \\
+  \DM{\phi} = \sum_i \aSDi{a} \SDi{\phi}                                                       \quad &amp; \text{horizontal mean of $\phi$ over the total domain}, \\
+  \SDi{\phi}^* = \SDi{\phi} - \DM{\phi}                                                        \quad &amp; \text{difference between subdomain &amp; domain means}, \\
+  \InterCVSDi{\phi}{\psi}                                                                      \quad &amp; \text{inter subdomain covariance among subdomain means}, \\
+  \phi^* = \phi - \DM{\phi}                                                                    \quad &amp; \text{difference between subdomain &amp; domain means}, \\
+  \TCV{\phi}{\psi} = \sum_{\forall i} a_i \IntraCVSDi{\phi}{\psi} +
+  \sum_{\forall i} \sum_{\forall j}  \aSDi{a} \aSDj{a} \SDi{\phi}(\SDi{\psi} - \SDj{\psi})     \quad &amp; \text{total covariance}.
+\end{align}\]</div><p>Here, <span>$\SDi{\phi}$</span> and <span>$\SDi{\psi}$</span> are a dummy variables for the following 7 unknowns:</p><div>\[\begin{align}
+  \SDi{w}                   &amp; \quad \text{vertical velocity}, \\
+  \SDi{\eint}               &amp; \quad \text{internal energy},  \\
+  \SDi{\qt}                 &amp; \quad \text{total water specific humidity},  \\
+  \SDi{TKE}                 &amp; \quad \text{turbulent kinetic energy ($0.5(\IntraCVSDi{u}{u}+\IntraCVSDi{v}{v}+\IntraCVSDi{w}{w})$)},  \\
+  \IntraCVSDi{\eint}{\eint} &amp; \quad \text{intra subdomain covariance of $\eint&#39;$ and $\eint&#39;$},  \\
+  \IntraCVSDi{\qt}{\qt}     &amp; \quad \text{intra subdomain covariance of $\qt&#39;$ and $\qt&#39;$}, \\
+  \IntraCVSDi{\eint}{\qt}   &amp; \quad \text{intra subdomain covariance of $\eint&#39;$ and $\qt&#39;$}.
+\end{align}\]</div><p>From the large-scale model perspective, <span>$\DM{\phi}$</span> represents the resolved grid mean, and <span>$\TCV{\phi}{\psi}$</span> represents the SGS fluxes and (co)-variances of scalars that need to be parameterized. Equations in the following sections, \eqref{eq:AreaFracGov}, \eqref{eq:1stMoment} and \eqref{eq:2ndMoment}, are solved on <span>$z_{min} \le z \le z_{max}$</span> and <span>$t \ge 0$</span>. There are <span>$8 \Nsd$</span> equations in total.</p><h2 id="Domain-averaged-equations"><a class="docs-heading-anchor" href="#Domain-averaged-equations">Domain averaged equations</a><a id="Domain-averaged-equations-1"></a><a class="docs-heading-anchor-permalink" href="#Domain-averaged-equations" title="Permalink"></a></h2><p>The EDMF model can be used in the context of a stand-alone single column, or integrated with a dynamical core. Either way, the EDMF model relies on grid mean variables, which may be prescribed or solved for. Taking an area fraction-weighted average of the subdomain equations yields the domain-averaged equations (which should be consistent with variables in the dynamical core).</p><p>The domain-averaged equations for <span>$\DM{\phi} \in [w, \qt, \eint, \uH]$</span> are:</p><div>\[\begin{align}
+\PD_t (\rhoRef{} \DM{\phi})
++ \PD_z (\rhoRef{} \DM{w} \DM{\phi})
++ \nabla_h \DOT \left( \rhoRef{} \DM{\phi} \otimes \DM{\phi} \right)
+= \\
+  \DM{S}_{\text{diff}}^{\DM{\phi}}
++ \DM{S}_{\text{press}}
++ \DM{S}_{\text{coriolis}}
++ \DM{S}_{\text{subsidence}},
+\end{align}\]</div><p>where</p><div>\[\begin{align}
+\DM{S}_{\text{diff}}^{\DM{\phi}} &amp; = \PD_z (\rhoRef{} \aSDe{a} \SDe{\Km} \PD_z \DM{\phi}),   \label{eq:gm_diffusion} \\
+\DM{S}_{\text{diff}}^{w}         &amp; = \PD_z (\rhoRef{} \aSDe{a} \SDe{\Km} \PD_z \DM{w})   ,   \label{eq:gm_diffusion_w} \\
+\DM{S}_{\text{press}}            &amp; = - \GRAD_h \DM{p},                                       \label{eq:gm_pressure} \\
+\DM{S}_{\text{coriolis}}         &amp; = \CoriolisParam \DM{\phi} \CROSS \mathbf{k},             \label{eq:gm_coriolis} \\
+\DM{S}_{\text{subsidence}}       &amp; = - \SubsidenceParam \GRAD \phi,                          \label{eq:gm_subsidence} \\
+\end{align}\]</div><h2 id="Sub-domain-equations:-Area-fraction"><a class="docs-heading-anchor" href="#Sub-domain-equations:-Area-fraction">Sub-domain equations: Area fraction</a><a id="Sub-domain-equations:-Area-fraction-1"></a><a class="docs-heading-anchor-permalink" href="#Sub-domain-equations:-Area-fraction" title="Permalink"></a></h2><p>The EDMF equations take the form of advection-diffusion equations. The subdomain area fraction is given by the mass continuity equation in the <span>$i$</span>th subdomain (<span>$\aSDi{a}$</span>):</p><div>\[\begin{gather}
+  \PD_t (\rhoRef{} \aSDi{a})
+  + \PD_z (\rhoRef{} \aSDi{a} \SDi{w})
+  + \GRAD_h \DOT
+  (\rhoRef{} \aSDi{a} \DM{\uH})
+  =
+  \SDi{S}^a
+  , \quad i \ne \iEnv, \label{eq:AreaFracGov} \\
+  \aSDi{a} = 1 - \sum_{j\ne\iEnv} \aSDj{a}, \quad i = \iEnv, \label{eq:AreaFracConserve} \\
+  \qquad 0 &lt; \aSDi{a} &lt; 1. \label{eq:AreaFracConstraint}
+\end{gather}\]</div><p>Here, <span>$\rhoRef{}, \SDi{w}, \uH$</span> is fluid density, mean vertical velocity along <span>$z$</span>, and domain-mean of the horizontal velocity respectively. The area fraction constraints are necessary to ensure the system of equations is well-posed. All source terms (<span>$\SDi{S}^a$</span>) will be discussed in later sections.</p><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>The greater than zero constraint must be satisfied at every step of the solution process, since it is necessary to avoid division by zero in the mean field equations.</p></div></div><div>\[\begin{align}
+\SDi{S}^a = \SDi{S_{\epsilon\delta}}^a.
+\end{align}\]</div><h3 id="Source-term-definitions"><a class="docs-heading-anchor" href="#Source-term-definitions">Source term definitions</a><a id="Source-term-definitions-1"></a><a class="docs-heading-anchor-permalink" href="#Source-term-definitions" title="Permalink"></a></h3><p>We note that the net exchange is zero <span>$\sum_i \SDi{S_{\epsilon\delta}}^a = 0$</span>. Therefore, we may define the environment source term as the negative sum of all updraft source terms. The entrainment-detrainment source is:</p><div>\[\begin{align}
+\SDi{S_{\epsilon\delta}}^a =
+\begin{cases}
+  \rho a_i \SDi{w} \left( -\delta_i + \epsilon_{i} \right) &amp; i \ne \iEnv{} \\
+  0 - \sum_{j \ne \iEnv{}} \SDj{S_{\epsilon\delta}}^a &amp; i = \iEnv{} \\
+\end{cases},
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Reference-state-profiles">Reference state profiles</a> (<span>$\pRef{}$</span>, <span>$\rhoRef{}$</span>, and <span>$\alphaRef{}$</span>).</p></li><li><p><a href="#Entrainment-Detrainment">Entrainment-Detrainment</a> (<span>$\epsilon_{i}$</span>) and (<span>$\delta_i$</span>).</p></li></ul><h2 id="Sub-domain-equations:-1st-moment"><a class="docs-heading-anchor" href="#Sub-domain-equations:-1st-moment">Sub-domain equations: 1st moment</a><a id="Sub-domain-equations:-1st-moment-1"></a><a class="docs-heading-anchor-permalink" href="#Sub-domain-equations:-1st-moment" title="Permalink"></a></h2><p>The 1st moment sub-domain equations are:</p><div>\[\begin{align}\label{eq:1stMoment}
+  \PD_t (\rhoRef{} \aSDi{a} \SDi{\phi})
+  + \PD_z (\rhoRef{} \aSDi{a} \SDi{w} \SDi{\phi})
+  + \GRAD_h \DOT
+  (\rhoRef{} \aSDi{a} \DM{\uH} \SDi{\phi})
+  =
+  \SDi{S}^\phi
+  , \quad \forall i. \\
+\end{align}\]</div><p>Here, <span>$\SDi{S}^{\phi}$</span> are source terms, including diffusion, and many other sub-grid-scale (SGS) physics. In general, <span>$\SDi{S}^{\phi}$</span> and <span>$\SDi{S}^{a}$</span> may depend on <span>$\SDj{\phi}$</span> and or <span>$\aSDj{a}$</span> for any <span>$j$</span>.</p><h3 id="Source-terms-per-equation"><a class="docs-heading-anchor" href="#Source-terms-per-equation">Source terms per equation</a><a id="Source-terms-per-equation-1"></a><a class="docs-heading-anchor-permalink" href="#Source-terms-per-equation" title="Permalink"></a></h3><p>The source terms common to all unknowns are:</p><div>\[\begin{align}
+\SDi{S}^{\phi} =
+  \SDi{S_{\epsilon\delta}}^{\phi}
++ \SDi{S_{\text{turb-transp}}}^{\phi}, \quad \forall \phi
+\end{align}\]</div><p>Additional source terms exist in other equations:</p><div>\[\begin{align}
+\SDi{S}^{w} &amp;=
+  \SDi{S_{\epsilon\delta}}^w
++ \SDi{S_{\text{turb-transp}}}^w
++ \SDi{S_{\text{buoy}}}
++ \SDi{S_{\text{nh-press}}}
++ \SDi{S_{\text{coriolis}}}, \\
+\SDi{S}^{\eint} &amp;=
+  \SDi{S_{\epsilon\delta}}^{\eint}
++ \SDi{S_{\text{turb-transp}}}^{\eint}
++ \SDi{S_{\text{MP-MSS}}}^{\eint}
++ \SDi{S_{\text{rad}}}, \\
+\SDi{S}^{\qt} &amp;=
+  \SDi{S_{\epsilon\delta}}^{\qt}
++ \SDi{S_{\text{turb-transp}}}^{\qt}
++ \SDi{S_{\text{MP-MSS}}}^{\qt}.
+\end{align}\]</div><h3 id="Source-term-definitions-2"><a class="docs-heading-anchor" href="#Source-term-definitions-2">Source term definitions</a><a class="docs-heading-anchor-permalink" href="#Source-term-definitions-2" title="Permalink"></a></h3><p>Note: The sum of the total pressure and gravity are recast into the sum of the non-hydrostatic pressure and buoyancy sources.</p><div>\[\begin{align}
+\SDi{S_{\epsilon\delta}}^{\phi} &amp;=
+\begin{cases}
+  \rhoRef{} a_i \SDi{w} \left( -\delta_i \SDi{\phi} + \epsilon_{i} \SDe{\phi} \right) &amp; i \ne \iEnv{} \\
+  0 - \sum_{j \ne \iEnv{}} \SDj{S_{\epsilon\delta}}^{\phi} &amp; i=\iEnv{} \\
+\end{cases} \\
+\SDi{S_{\text{turb-transp}}}^{\phi} &amp; =  -\PD_z (\rhoRef{} a_i \IntraCVSDi{w}{\phi}) \\
+ &amp; = \PD_z (\rhoRef{} a_i \SDi{\Km} \PD_z \SDi{\phi}) \\
+\SDi{S_{\text{nh-press}}} &amp;= -\rhoRef{} \aSDi{a} \left( \alpha_b \SDi{b}  + \alpha_d \frac{(\SDi{w} - \SDe{w}) | \SDi{w} - \SDe{w} | }{r_d \aSDi{a}^{1/2}} \right) \\
+\alpha_b &amp;= 1/3, \quad \alpha_d = 0.375, \quad r_d      = 500 [m] \\
+\SDi{S_{\text{buoy}}} &amp;= \rhoRef{} \aSDi{a} \SDi{b} \\
+\SDi{S_{\text{coriolis}}} &amp; = f(\SDi{\mathbf{u}} - {\SDi{\mathbf{u}_{\text{geo-wind}}}}) \\
+\SDi{S_{\text{rad}}}  &amp;= \left( \PD_t {\SDi{\eint}} \right)_{radiation} \\
+\SDi{S_{\text{MP-MSS}}}^{\qt} &amp; = \\
+\SDi{S_{\text{MP-MSS}}}^{\eint} &amp; = \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Reference-state-profiles">Reference state profiles</a> (<span>$\pRef{}$</span>, <span>$\rhoRef{}$</span>, and <span>$\alphaRef{}$</span>).</p></li><li><p><a href="#Entrainment-Detrainment">Entrainment-Detrainment</a> (<span>$\epsilon_{i}$</span>) and (<span>$\delta_i$</span>).</p></li><li><p><a href="#Buoyancy">Buoyancy</a> (<span>$\Buoyancy$</span>).</p></li><li><p><a href="#Eddy-diffusivity">Eddy diffusivity</a> (<span>$\Km, \Kh$</span>).</p></li></ul><h2 id="Sub-domain-equations:-2nd-moment"><a class="docs-heading-anchor" href="#Sub-domain-equations:-2nd-moment">Sub-domain equations: 2nd moment</a><a id="Sub-domain-equations:-2nd-moment-1"></a><a class="docs-heading-anchor-permalink" href="#Sub-domain-equations:-2nd-moment" title="Permalink"></a></h2><p>The 2nd moment sub-domain equations are of the exact same form as the 1st moment equations (equation \eqref{eq:1stMoment}):</p><div>\[\begin{align}\label{eq:2ndMoment}
+  \PD_t (\rhoRef{} \aSDi{a} \SDi{\phi})
+  + \PD_z (\rhoRef{} \aSDi{a} \SDi{w} \SDi{\phi})
+  + \GRAD_h \DOT
+  (\rhoRef{} \aSDi{a} \DM{\uH} \SDi{\phi})
+  =
+  \SDi{S}^\phi
+  , \quad \forall i. \\
+\end{align}\]</div><p>Here, <span>$\SDi{S}^{\phi}$</span> are source terms, including diffusion, and many other sub-grid-scale (SGS) physics. In general, <span>$\SDi{S}^{\phi}$</span> and <span>$\SDi{S}^{a}$</span> may depend on <span>$\SDj{\phi}$</span> and or <span>$\aSDj{a}$</span> for any <span>$j$</span>.</p><h3 id="Source-terms-per-equation-2"><a class="docs-heading-anchor" href="#Source-terms-per-equation-2">Source terms per equation</a><a class="docs-heading-anchor-permalink" href="#Source-terms-per-equation-2" title="Permalink"></a></h3><p>The source terms common to all unknowns are:</p><div>\[\begin{align}
+\SDi{S}^{\phi\psi} =
+  \SDi{S_{\epsilon\delta}}^{\phi\psi}
++ \SDi{S_{\text{x-grad flux}}}^{\phi\psi}
++ \SDi{S_{\text{turb-transp}}}^{\phi\psi}
+\quad \forall \phi \psi,
+\end{align}\]</div><p>Additional source terms exist in other equations:</p><div>\[\begin{align}
+\SDi{S}^{TKE} &amp;=
+  \SDi{S_{\epsilon\delta}}^{TKE}
++ \SDi{S_{\text{x-grad flux}}}^{TKE}
++ \SDi{S_{\text{turb-transp}}}^{TKE}
++ \SDi{S_{\text{dissip}}}
++ \SDi{S_{\text{press}}},
++ \SDi{S_{\text{buoyancy}}}, \\
+\SDi{S}^{\phi\psi} &amp;=
+  \SDi{S_{\epsilon\delta}}^{\phi\psi}
++ \SDi{S_{\text{x-grad flux}}}^{\phi\psi}
++ \SDi{S_{\text{turb-transp}}}^{\phi\psi}
++ \SDi{S_{\text{dissip}}}^{\phi\psi}
++ \SDi{S_{\text{MP-MSS}}}^{\phi\psi}.
+\quad \phi\psi \in [\qt\qt, \eint\eint, \eint \qt].
+\end{align}\]</div><h3 id="Source-term-definitions-3"><a class="docs-heading-anchor" href="#Source-term-definitions-3">Source term definitions</a><a class="docs-heading-anchor-permalink" href="#Source-term-definitions-3" title="Permalink"></a></h3><div>\[\begin{align}
+\SDi{S_{\epsilon\delta}}^{\phi\psi} &amp;=
+\begin{cases}
+  \rhoRef{} a_i \SDi{w} \left[ -\delta_i \IntraCVSDi{\phi}{\psi} + \epsilon_{i}
+\left(
+\IntraCVSDe{\phi}{\psi} + (\SDe{\phi} - \SDi{\phi})(\SDe{\psi} - \SDi{\psi})
+\right) \right] &amp; i \ne \iEnv \\
+  0 - \sum_{j\ne \iEnv} \SDj{S_{\epsilon\delta}}^{\phi\psi} &amp; i=\iEnv \\
+\end{cases} \\
+\SDi{S_{\epsilon\delta}}^{TKE} &amp;=
+\begin{cases}
+  \rhoRef{} a_i \SDi{w} \left[ -\delta_i \SDi{TKE} + \epsilon_{i}
+\left(
+\SDe{TKE} + \frac{1}{2} (\SDe{w} - \SDi{w})^2
+\right) \right] &amp; i \ne \iEnv \\
+  0 - \sum_{j\ne \iEnv} \SDj{S_{\epsilon\delta}}^{TKE} &amp; i=\iEnv \\
+\end{cases} \\
+\SDi{S_{\text{x-grad flux}}}^{\phi\psi}
+&amp; =
+- \rhoRef{} a_i \IntraCVSDi{w}{\psi} \PD_z \SDi{\phi}
+- \rhoRef{} a_i \IntraCVSDi{w}{\phi} \PD_z \SDi{\psi} \\
+&amp; =
+ 2 \rhoRef{} a_i \SDi{\Kh} \PD_z \SDi{\psi} \PD_z \SDi{\phi} \\
+\SDi{S_{\text{x-grad flux}}}^{TKE}
+&amp; =
+\rhoRef{} a_i \SDi{\Km} \left[ \left(\PD_z\DM{u}\right)^2 + \left(\PD_z\DM{v}\right)^2 + \left(\PD_z\DM{w}\right)^2 \right] \\
+\SDi{S_{\text{turb-transp}}}^{\phi\psi} &amp; = - \PD_z (\rhoRef{} a_i \overline{w&#39;_i\phi&#39;_i\psi&#39;_i}) \\
+&amp; = \PD_z (\rhoRef{} a_i \SDi{\Kh} \PD_z \IntraCVSDi{\phi}{\psi}) \\
+\SDi{S_{\text{turb-transp}}}^{TKE} &amp; = \PD_z (\rhoRef{} a_i \SDi{\Km} \PD_z \SDi{TKE}) \\
+\SDi{S_{\text{dissip}}}
+&amp; = - \rhoRef{} a_i c_e \IntraCVSDi{\phi}{\psi} \frac{\SDi{TKE}^{1/2}}{\SDio{{l_{mix}}}}, \quad \text{Equation 38 in Tan et al.} \\
+c_e &amp; = 2 \\
+\SDi{S_{\text{press}}}
+&amp; = - \aSDi{a} \left[ \IntraCVSDi{u}{(\partial_x p^{\dagger})} +
+                      \IntraCVSDi{v}{(\partial_y p^{\dagger})} +
+                      \IntraCVSDi{w}{(\partial_z p^{\dagger})}\right]  \\
+&amp; = 0, \qquad \text{for now, need to derive correct formulation} \\
+\SDi{S_{\text{buoyancy}}}^{TKE} &amp; = \rhoRef{} \aSDi{a} \BuoyancyFlux \\
+\SDi{S_{\text{MP-MSSP}}}^{\qt\qt}
+&amp; = \\
+\SDi{S_{\text{MP-MSSP}}}^{\eint\eint}
+&amp; = \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Reference-state-profiles">Reference state profiles</a> (<span>$\pRef{}$</span>, <span>$\rhoRef{}$</span>, and <span>$\alphaRef{}$</span>).</p></li><li><p><a href="#Entrainment-Detrainment">Entrainment-Detrainment</a> (<span>$\epsilon_{i}$</span>) and (<span>$\delta_i$</span>).</p></li><li><p><a href="#Eddy-diffusivity">Eddy diffusivity</a> (<span>$\Km, \Kh$</span>).</p></li><li><p><a href="#Mixing-length">Mixing length</a> (<span>$l_{mix}$</span>).</p></li><li><p><a href="#Buoyancy-flux">Buoyancy flux</a> (<span>$\BuoyancyFlux$</span>).</p></li></ul><h1 id="EDMF-variable-definitions"><a class="docs-heading-anchor" href="#EDMF-variable-definitions">EDMF variable definitions</a><a id="EDMF-variable-definitions-1"></a><a class="docs-heading-anchor-permalink" href="#EDMF-variable-definitions" title="Permalink"></a></h1><p>The following definitions are ordered in a dependency fashion; all variables are defined from variables already defined in previous subsections.</p><h2 id="Constants"><a class="docs-heading-anchor" href="#Constants">Constants</a><a id="Constants-1"></a><a class="docs-heading-anchor-permalink" href="#Constants" title="Permalink"></a></h2><div>\[\begin{align}
+c_K &amp; = 0.1 \\
+\text{tol}_{\InversionHeight\mathrm{-stable}} &amp; = 0.01 \\
+\end{align}\]</div><h2 id="Phase-partition"><a class="docs-heading-anchor" href="#Phase-partition">Phase partition</a><a id="Phase-partition-1"></a><a class="docs-heading-anchor-permalink" href="#Phase-partition" title="Permalink"></a></h2><div>\[\begin{align}
+\PhasePartition &amp;= \{\qv, \ql, \qi\} \\
+\qv &amp;= \qt - \ql - \qi \\
+\pvsat(T) &amp;= \PTriple \left( \frac{T}{\TTriple} \right)^{\frac{\DeltaCp}{\Rv}} \exp{\frac{\RefLHv - \DeltaCp \TZero}{\Rv} \left( \frac{1}{\TTriple} - \frac{1}{T} \right)} \label{eq:pvsat} \\
+\qvsat(T, \rho) &amp;= \frac{\pvsat(T)}{\rho \Rv T}                                                                                                                            \label{eq:qvsat} \\
+\qc &amp;= \max(\qt - \qvsat, 0)                                                                                                                                               \label{eq:qc} \\
+\ql &amp;= \lambda \qc                                                                                                                                                         \label{eq:ql} \\
+\qi &amp;= (1-\lambda) \qc                                                                                                                                                     \label{eq:qi} \\
+\lambda(T) &amp;= \Heaviside(T-\TFreeze)                                                                                                                                       \label{eq:lambda} \\
+\Heaviside &amp;= \text{Heaviside function} \\
+\end{align}\]</div><p>Functionally,</p><div>\[\begin{align}
+\PhasePartition &amp; = \PhasePartition(\qt, T, \rho) \\
+\qvsat &amp; = \qvsat(T, \rho) \\
+\end{align}\]</div><h2 id="Gas-constants"><a class="docs-heading-anchor" href="#Gas-constants">Gas constants</a><a id="Gas-constants-1"></a><a class="docs-heading-anchor-permalink" href="#Gas-constants" title="Permalink"></a></h2><div>\[\begin{align}
+\EpsDV &amp; = \frac{\Rv}{\Rd} \approx 1.61 \\
+\EpsVD &amp; = \frac{\Rd}{\Rv} \approx 0.62 \\
+\Rm &amp; = \Rd \left[1 + (\EpsDV-1) \qt - \EpsDV (\ql+\qi) \right] \\
+\end{align}\]</div><h2 id="Specific-heats"><a class="docs-heading-anchor" href="#Specific-heats">Specific heats</a><a id="Specific-heats-1"></a><a class="docs-heading-anchor-permalink" href="#Specific-heats" title="Permalink"></a></h2><div>\[\begin{align}
+\Cvm &amp;= (1 - \SDi{\qt}) \Cv{d} + \SDi{\qv} \Cv{v} + \SDi{\ql} \Cv{l} + \SDi{\qi} \Cv{i} \\
+\Cpm &amp;= (1 - \SDi{\qt}) \Cp{d} + \SDi{\qt} \Cp{v} \\
+\end{align}\]</div><h2 id="Latent-heat"><a class="docs-heading-anchor" href="#Latent-heat">Latent heat</a><a id="Latent-heat-1"></a><a class="docs-heading-anchor-permalink" href="#Latent-heat" title="Permalink"></a></h2><div>\[\begin{align}
+\LatentHeatV{T} &amp;= \RefLHv + (\Cp{v} - \Cp{l}) (T - \TTriple) \\
+\LatentHeatS{T} &amp;= \RefLHs + (\Cp{v} - \Cp{i}) (T - \TTriple) \\
+\LatentHeatF{T} &amp;= \RefLHf + (\Cp{l} - \Cp{i}) (T - \TTriple) \\
+\end{align}\]</div><h2 id="Exner-functions"><a class="docs-heading-anchor" href="#Exner-functions">Exner functions</a><a id="Exner-functions-1"></a><a class="docs-heading-anchor-permalink" href="#Exner-functions" title="Permalink"></a></h2><div>\[\begin{align}
+\ExnerD(\pRef{})    = \left(\frac{\pRef{}}{\PTilde{}} \right)^{\Rd/\Cp{d}} \\
+\ExnerM(\pRef{}, \PhasePartition) = \left(\frac{\pRef{}}{\PTilde{}} \right)^{\Rm/\Cpm} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Specific-heats">Specific heats</a> <span>$\Cpm$</span> and <span>$\Cvm$</span>.</p></li><li><p><a href="#Gas-constants">Gas constants</a> (<span>$\Rm$</span>).</p></li><li><p><a href="#Phase-partition">Phase partition</a> <span>$\PhasePartition, \qt, \qv, \ql, \qi, \qvsat$</span>.</p></li></ul><h2 id="Temperature"><a class="docs-heading-anchor" href="#Temperature">Temperature</a><a id="Temperature-1"></a><a class="docs-heading-anchor-permalink" href="#Temperature" title="Permalink"></a></h2><p>Note that, while temperature may be computed using different thermodynamic formulations, <a href="../../../APIs/Common/Thermodynamics/#ClimateMachine.Thermodynamics.ThermodynamicState"><code>ThermodynamicState</code></a>&#39;s are immediately converted to the (<span>$\qt, \eint, \rhoRef{}$</span>)-formulation.</p><h3 id="Dry-temperature"><a class="docs-heading-anchor" href="#Dry-temperature">Dry temperature</a><a id="Dry-temperature-1"></a><a class="docs-heading-anchor-permalink" href="#Dry-temperature" title="Permalink"></a></h3><div>\[\begin{align}
+\TDry &amp; = \ThetaLiqIce \ExnerD \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><a href="#Exner-functions">Exner functions</a> <span>$\ExnerD$</span> and <span>$\ExnerM$</span>.</li></ul><p>Functionally,</p><div>\[\begin{align}
+\TDry &amp; = \TDry(\ThetaLiqIce, \pRef) \\
+\end{align}\]</div><h3 id="(\\qt,-\\eint,-\\rhoRef{})-formulation"><a class="docs-heading-anchor" href="#(\\qt,-\\eint,-\\rhoRef{})-formulation">(<span>$\qt, \eint, \rhoRef{}$</span>)-formulation</a><a id="(\\qt,-\\eint,-\\rhoRef{})-formulation-1"></a><a class="docs-heading-anchor-permalink" href="#(\\qt,-\\eint,-\\rhoRef{})-formulation" title="Permalink"></a></h3><p>Here, <span>$T$</span> conditionally satisfies the non-linear set of equations, which can be solved using a standard root solver (e.g., Secant method):</p><div>\[\begin{align}
+T =
+\begin{cases}
+\mathrm{satisfies} &amp; \eint(T) = \Cvm (T - \TZero)  + \qv \RefHintV - \qi \RefHintI &amp; \qt &gt; \qvsat(T, \rhoRef{}) \\
+&amp; \TZero + \frac{\eint(T)}{(1-\qt)\Cv{d} + \qt \Cv{v}} + \qt \RefHintV &amp; \text{otherwise} \\
+\end{cases}
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Phase-partition">Phase partition</a> <span>$\PhasePartition, \qt, \qv, \ql, \qi, \qvsat$</span>.</p></li><li><p><a href="#Specific-heats">Specific heats</a> <span>$\Cpm$</span> and <span>$\Cvm$</span>.</p></li><li><p><a href="#Reference-state-profiles">Reference state profiles</a> (<span>$\pRef{}$</span>, <span>$\rhoRef{}$</span>, and <span>$\alphaRef{}$</span>).</p></li></ul><p>Functionally,</p><div>\[\begin{align}
+T &amp; = T(\qt, \eint, \rhoRef) \\
+\end{align}\]</div><h3 id="(\\qt,-\\ThetaLiqIce,-\\rhoRef,-\\pRef)-formulation"><a class="docs-heading-anchor" href="#(\\qt,-\\ThetaLiqIce,-\\rhoRef,-\\pRef)-formulation">(<span>$\qt, \ThetaLiqIce, \rhoRef, \pRef$</span>)-formulation</a><a id="(\\qt,-\\ThetaLiqIce,-\\rhoRef,-\\pRef)-formulation-1"></a><a class="docs-heading-anchor-permalink" href="#(\\qt,-\\ThetaLiqIce,-\\rhoRef,-\\pRef)-formulation" title="Permalink"></a></h3><p>Here, <span>$T$</span> conditionally satisfies the non-linear set of equations, which can be solved using a standard root solver (e.g., Secant method):</p><div>\[\begin{align}
+T =
+\begin{cases}
+\mathrm{satisfies} &amp; \ThetaLiqIce \ExnerM = T \left(1 - \frac{ \RefLHv \ql + \RefLHs \qi}{\Cpm T} \right) &amp; \qt &gt; \qvsat(T, \rhoRef{}) \\
+&amp; \TDry &amp; \text{otherwise} \\
+\end{cases}
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Dry-temperature">Dry temperature</a> <span>$\TDry$</span>.</p></li><li><p><a href="#Phase-partition">Phase partition</a> <span>$\PhasePartition, \qt, \qv, \ql, \qi, \qvsat$</span>.</p></li><li><p><a href="#Specific-heats">Specific heats</a> <span>$\Cpm$</span> and <span>$\Cvm$</span>.</p></li><li><p><a href="#Exner-functions">Exner functions</a> <span>$\ExnerD$</span> and <span>$\ExnerM$</span>.</p></li></ul><p>Functionally,</p><div>\[\begin{align}
+T &amp; = T(\qt, \ThetaLiqIce, \rhoRef, \pRef) \\
+\end{align}\]</div><h2 id="Reference-state-profiles"><a class="docs-heading-anchor" href="#Reference-state-profiles">Reference state profiles</a><a id="Reference-state-profiles-1"></a><a class="docs-heading-anchor-permalink" href="#Reference-state-profiles" title="Permalink"></a></h2><p>Using the hydrostatic balance, <span>$\PD_z \pRef = - \rhoRef{} \grav$</span>, and the ideal gas law, <span>$\pRef = \rhoRef{} \Rm \TRef$</span>, the reference state profiles are computed as:</p><div>\[\begin{align}
+\PD_z \pRef &amp; = - \grav \frac{\pRef}{\TRef \Rm} \\
+\int_{\BC{\pRef}}^{\pRef} \frac{\TDry(\BC{\DM{\ThetaLiqIce}}, \pRef)}{\pRef} \PD \pRef &amp; = - \frac{\grav}{\BC{\DM{\Rm}}} \int_{z_{min}}^{z} \PD z \\
+\rhoRef{}(\pRef) &amp; = \frac{\pRef{}}{\TDry(\BC{\DM{\ThetaLiqIce}}, \pRef) \BC{\DM{\Rm}}} \\
+\alphaRef &amp; = \frac{1}{\rhoRef{}(\pRef)} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Temperature">Temperature</a> (<span>$T$</span> and <span>$\TDry$</span>).</p></li><li><p><a href="#Gas-constants">Gas constants</a> (<span>$\Rm$</span>).</p></li><li><p><a href="#Specific-heats">Specific heats</a> <span>$\Cpm$</span> and <span>$\Cvm$</span>.</p></li></ul><h2 id="Mixing-ratios"><a class="docs-heading-anchor" href="#Mixing-ratios">Mixing ratios</a><a id="Mixing-ratios-1"></a><a class="docs-heading-anchor-permalink" href="#Mixing-ratios" title="Permalink"></a></h2><div>\[\begin{align}\label{eq:MixingRatios}
+r_{con} &amp; = \frac{\qt+\ql}{1 - \qt} \\
+r_{vap} &amp; = \frac{\qt-\ql    - \qi}{1 - \qt} \\
+\end{align}\]</div><h2 id="Potential-temperatures"><a class="docs-heading-anchor" href="#Potential-temperatures">Potential temperatures</a><a id="Potential-temperatures-1"></a><a class="docs-heading-anchor-permalink" href="#Potential-temperatures" title="Permalink"></a></h2><p>Fix: which virtual potential temperature is used</p><div>\[\begin{align}\label{eq:Theta}
+\ThetaDry    &amp; = T/\ExnerD \\
+\ThetaLiqIce &amp; = \ThetaDry (1 - (\RefLHv \ql + \RefLHs \qi)/(\Cpm T)) \\
+\ThetaVirt   &amp; = \ThetaDry (1 - r_{con} + 0.61 r_{vap}) \\
+\ThetaVirt   &amp; = \theta \left(1 + 0.61 \qr - \ql \right) \\
+\ThetaRho    &amp; = T \Rm/\ExnerD \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Reference-state-profiles">Reference state profiles</a> (<span>$\pRef{}$</span>, <span>$\rhoRef{}$</span>, and <span>$\alphaRef{}$</span>).</p></li><li><p><a href="#Exner-functions">Exner functions</a> (<span>$\ExnerM$</span>).</p></li><li><p><a href="#Mixing-ratios">Mixing ratios</a> (<span>$r_{con}$</span>, <span>$r_{vap}$</span>).</p></li></ul><h2 id="Shear-production"><a class="docs-heading-anchor" href="#Shear-production">Shear production</a><a id="Shear-production-1"></a><a class="docs-heading-anchor-permalink" href="#Shear-production" title="Permalink"></a></h2><div>\[\begin{align}\label{eq:ShearProduction}
+|S|^2 &amp;= (\PD_z \DM{u})^2 + (\PD_z \DM{v})^2 + (\PD_z \SDe{w})^2 \\
+\end{align}\]</div><h2 id="Buoyancy"><a class="docs-heading-anchor" href="#Buoyancy">Buoyancy</a><a id="Buoyancy-1"></a><a class="docs-heading-anchor-permalink" href="#Buoyancy" title="Permalink"></a></h2><div>\[\begin{align}\label{eq:Buoyancy}
+\SDi{b}^{\dagger} &amp; = \grav (\SDi{\alpha} - \alphaRef)/\alphaRef \\
+\SDi{b} &amp; = \SDi{b}^{\dagger} - \sum_j a_j \SDj{b}^{\dagger} \\
+\alpha_i &amp; = \frac{\SDi{\Rm} \SDi{T}}{\pRef} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Reference-state-profiles">Reference state profiles</a> (<span>$\pRef{}$</span>, <span>$\rhoRef{}$</span>, and <span>$\alphaRef{}$</span>).</p></li><li><p><a href="#Phase-partition">Phase partition</a> <span>$\PhasePartition, \qt, \qv, \ql, \qi, \qvsat$</span>.</p></li><li><p><a href="#Temperature">Temperature</a> (<span>$T$</span> and <span>$\TDry$</span>).</p></li></ul><h2 id="Buoyancy-gradient"><a class="docs-heading-anchor" href="#Buoyancy-gradient">Buoyancy gradient</a><a id="Buoyancy-gradient-1"></a><a class="docs-heading-anchor-permalink" href="#Buoyancy-gradient" title="Permalink"></a></h2><h3 id="(\\qt,-\\ThetaLiqIce,-\\pRef,-\\rhoRef)-formulation"><a class="docs-heading-anchor" href="#(\\qt,-\\ThetaLiqIce,-\\pRef,-\\rhoRef)-formulation">(<span>$\qt, \ThetaLiqIce, \pRef, \rhoRef$</span>)-formulation</a><a id="(\\qt,-\\ThetaLiqIce,-\\pRef,-\\rhoRef)-formulation-1"></a><a class="docs-heading-anchor-permalink" href="#(\\qt,-\\ThetaLiqIce,-\\pRef,-\\rhoRef)-formulation" title="Permalink"></a></h3><div>\[\begin{align}\label{eq:BuoyancyGradLong}
+\SDi{\BuoyancyGrad} &amp; = \PD_z \SDi{\ThetaLiqIce}
+\left[ (1-f_c) \PD_{\ThetaLiqIce} b |_d  + f_c \PD_{\ThetaLiqIce} b |_s \right] +
+\PD_z \SDi{\qt}      \left[ (1-f_c) \PD_{\qt} b |_d + f_c \PD_{\qt} b |_s \right] \\
+f_c &amp;= 0 \qquad \text{good for simple cases, need to confirm for more complex cases} \\
+\PD_{\ThetaLiqIce} b |_d &amp; = \frac{\grav}{\DM{\ThetaVirt}} \left[ 1 + \left( \frac{\Rv}{\Rd} - 1 \right) \SDi{\qt} \right] \\
+\PD_{\ThetaLiqIce} b |_s &amp;= \frac{\grav}{\DM{\ThetaVirt}} \left[ 1 + \frac{\Rv}{\Rd} \left(1 + \frac{\LatentHeatV{\SDi{T}}}{\Rv \SDi{T}} \right) \SDi{\qvsat} - \SDi{\qt} \right] \left( 1 + \frac{{\LatentHeatV{\SDi{T}}}^2}{\Cpm \Rv \SDi{T}^2} \SDi{\qvsat} \right)^{-1} \\
+\PD_{\qt} b |_d &amp;= \frac{\grav}{\DM{\ThetaVirt}} \left( \frac{\Rv}{\Rd} - 1 \right) \SDi{\ThetaDry} \\
+\PD_{\qt} b |_s &amp;= \left( \frac{{\LatentHeatV{\SDi{T}}}}{\Cpm \SDi{T}} \PD_{\ThetaLiqIce} b |_s - \frac{\grav}{\DM{\ThetaVirt}} \right) \SDi{\ThetaDry} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Reference-state-profiles">Reference state profiles</a> (<span>$\pRef{}$</span>, <span>$\rhoRef{}$</span>, and <span>$\alphaRef{}$</span>).</p></li><li><p><a href="#Potential-temperatures">Potential temperatures</a> (<span>$\ThetaDry$</span>, <span>$\ThetaVirt$</span>).</p></li><li><p><a href="#Phase-partition">Phase partition</a> <span>$\PhasePartition, \qt, \qv, \ql, \qi, \qvsat$</span>.</p></li><li><p><a href="#Latent-heat">Latent heat</a> (<span>$\LatentHeatV{T}$</span>).</p></li></ul><h3 id="(\\qt,-\\eint,-\\rhoRef{})-formulation-2"><a class="docs-heading-anchor" href="#(\\qt,-\\eint,-\\rhoRef{})-formulation-2">(<span>$\qt, \eint, \rhoRef{}$</span>)-formulation</a><a class="docs-heading-anchor-permalink" href="#(\\qt,-\\eint,-\\rhoRef{})-formulation-2" title="Permalink"></a></h3><p>Pending.</p><h2 id="Surface-fluxes"><a class="docs-heading-anchor" href="#Surface-fluxes">Surface fluxes</a><a id="Surface-fluxes-1"></a><a class="docs-heading-anchor-permalink" href="#Surface-fluxes" title="Permalink"></a></h2><div class="admonition is-category-todo"><header class="admonition-header">Todo</header><div class="admonition-body"><p>Add definitions for universal functions (e.g., <span>$\Psi_m$</span>).</p></div></div><p>Variables in this section must be computed simultaneously because it requires the solution of a non-linear equation.</p><h3 id="Monin-Obhukov-length"><a class="docs-heading-anchor" href="#Monin-Obhukov-length">Monin-Obhukov length</a><a id="Monin-Obhukov-length-1"></a><a class="docs-heading-anchor-permalink" href="#Monin-Obhukov-length" title="Permalink"></a></h3><p>NOTE: All variables (Monin-Obhukov length, friction velocity, temperature scale) in <a href="#Surface-fluxes">Surface fluxes</a> must be solved simultaneously</p><div>\[\begin{align}\label{eq:MOLen}
+\MOLen = \begin{cases}
+- \frac{\FrictionVelocity^3 \theta}{\VKConst \grav \SurfaceHeatFlux} &amp; \SurfaceHeatFlux &gt; 0 \\
+0 &amp; \text{otherwise} \\
+\end{cases} \\
+\end{align}\]</div><h3 id="Friction-velocity"><a class="docs-heading-anchor" href="#Friction-velocity">Friction velocity</a><a id="Friction-velocity-1"></a><a class="docs-heading-anchor-permalink" href="#Friction-velocity" title="Permalink"></a></h3><p>NOTE: All variables (Monin-Obhukov length, friction velocity, temperature scale) in <a href="#Surface-fluxes">Surface fluxes</a> must be solved simultaneously</p><ul><li><p>Knowns: <span>$u_{\mathrm{ave}} = \sqrt{\DM{u}^2+\DM{v}^2}, \LayerThickness, \SurfaceRoughness{m}$</span></p></li><li><p>Unknowns: <span>$\FrictionVelocity, \MOLen$</span>, and <span>$\SurfaceMomentumFlux$</span></p></li></ul><div>\[\begin{align}\label{eq:FrictionVelocity}
+u_{\mathrm{ave}}     &amp; = \frac{\FrictionVelocity}{\VKConst}    \left[ \log\left(\frac{\LayerThickness}{\SurfaceRoughness{m}}\right) - \Psi_m\left(\frac{\LayerThickness}{\MOLen}\right) + \frac{\SurfaceRoughness{m}}{\LayerThickness} \Psi_m\left(\frac{\SurfaceRoughness{m}}{\MOLen}\right) + R_{z0m} \left\{ \psi_m\left(\frac{\SurfaceRoughness{m}}{\MOLen}\right) - 1 \right\} \right] \\
+R_{z0m}              &amp; = 1 - \SurfaceRoughness{h}/\LayerThickness \\
+\SurfaceMomentumFlux &amp; = -\FrictionVelocity^2                , \label{eq:SurfaceMomentumFlux}  \\
+\end{align}\]</div><p>where <span>$\Psi_m$</span> is defined in Appendix A, equations A6 in Nishizawa, S., and Y. Kitamura. &quot;A Surface Flux Scheme Based on the Monin‐Obukhov Similarity for Finite Volume Models.&quot; Journal of Advances in Modeling Earth Systems 10.12 (2018): 3159-3175.</p><h3 id="Temperature-scale"><a class="docs-heading-anchor" href="#Temperature-scale">Temperature scale</a><a id="Temperature-scale-1"></a><a class="docs-heading-anchor-permalink" href="#Temperature-scale" title="Permalink"></a></h3><p>NOTE: All variables (Monin-Obhukov length, friction velocity, temperature scale) in <a href="#Surface-fluxes">Surface fluxes</a> must be solved simultaneously</p><ul><li><p>Knowns: <span>$\theta_{\mathrm{ave}}, \theta_s, \LayerThickness, \SurfaceRoughness{h}$</span></p></li><li><p>Unknowns: <span>$\FrictionVelocity, \MOLen$</span>, and <span>$\SurfaceHeatFlux$</span></p></li></ul><div>\[\begin{align}\label{eq:TemperatureScale}
+\theta_{\mathrm{ave}} - \theta_s &amp; = \frac{Pr \TemperatureScale}{\VKConst} \left[ \log\left(\frac{\LayerThickness}{\SurfaceRoughness{h}}\right) - \Psi_h\left(\frac{\LayerThickness}{\MOLen}\right) + \frac{\SurfaceRoughness{h}}{\LayerThickness} \Psi_m\left(\frac{\SurfaceRoughness{h}}{\MOLen}\right) + R_{z0h} \left\{ \psi_h\left(\frac{\SurfaceRoughness{h}}{\MOLen}\right) - 1 \right\} \right] \\
+R_{z0h}                          &amp; = 1 - \SurfaceRoughness{h}/\LayerThickness \\
+\SurfaceHeatFlux                 &amp; = -\FrictionVelocity\TemperatureScale , \label{eq:SurfaceHeatFlux}  \\
+\end{align}\]</div><p>where <span>$\Psi_h$</span> is defined in Appendix A, equation A6 in Nishizawa, S., and Y. Kitamura. &quot;A Surface Flux Scheme Based on the Monin‐Obukhov Similarity for Finite Volume Models.&quot; Journal of Advances in Modeling Earth Systems 10.12 (2018): 3159-3175.</p><h2 id="Prandtl-number"><a class="docs-heading-anchor" href="#Prandtl-number">Prandtl number</a><a id="Prandtl-number-1"></a><a class="docs-heading-anchor-permalink" href="#Prandtl-number" title="Permalink"></a></h2><div>\[\begin{align}\label{eq:PrandtlNumber}
+Pr_{neut} &amp;= 0.74 \\
+Pr(z) &amp;= \begin{cases}
+    Pr_{neut} &amp; \MOLen &lt; 0 \\
+    Pr_{neut} \left[ \frac{1 + \omega_2 R_g - \sqrt{-4 R_g + (1+\omega_2 R_g)^2}}{2 R_g} \right] &amp; \text{otherwise} \\
+\end{cases} \\
+\omega_2 &amp;= \omega_1+1 \\
+\omega_1 &amp;= \frac{40}{13} \\
+R_g &amp;= \frac{\BuoyancyGrad}{|S|^2} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Shear-production">Shear production</a> (<span>$S$</span>).</p></li><li><p><a href="#Monin-Obhukov-length">Monin-Obhukov length</a> (<span>$\MOLen$</span>).</p></li><li><p><a href="#Buoyancy-gradient">Buoyancy gradient</a> (<span>$\BuoyancyGrad$</span>).</p></li></ul><h2 id="Mixing-length"><a class="docs-heading-anchor" href="#Mixing-length">Mixing length</a><a id="Mixing-length-1"></a><a class="docs-heading-anchor-permalink" href="#Mixing-length" title="Permalink"></a></h2><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>These mixing length have been tested for the environment, not the updrafts</p></div></div><div>\[\begin{align}\label{eq:MixingLength}
+\SDio{{l_{mix}^m,}} &amp;= \frac{\sum_j l_j e^{-l_j}}{\sum_j e^{-l_j}}, \qquad j = 1,2,3 \\
+l_1 &amp;= \frac{\sqrt{c_w\SDe{TKE}}}{\SDe{N}} \\
+c_w &amp;= 0.4 \\
+\SDe{N} &amp;= \frac{\grav \PD_z \SDe{\ThetaVirt}}{\SDe{\ThetaVirt}} , \qquad \text{(buoyancy frequency of environment)} \\
+l_2 &amp;= \frac{\VKConst z}{c_K \kappa^* \phi_m(z/\MOLen)} \\
+\phi_m(\xi) &amp;= \left( 1 + a_l \xi \right)^{-b_l} \\
+(a_l, b_l) &amp;=
+\begin{cases}
+  (-100, 0.2) &amp; \MOLen &lt; 0 \\
+  (2.7, -1) &amp; \text{otherwise} \\
+\end{cases} \\
+\kappa^* &amp;= \frac{\FrictionVelocity}{\sqrt{\SDe{TKE}}} \\
+l_3 &amp;= \sqrt{\frac{c_{\varepsilon}}{c_K}} \sqrt{\SDe{TKE}}
+\left[ \max(|S|^2 - \frac{1}{Pr(z)} \BuoyancyGrad, 0) \right]^{-1/2} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Constants">Constants</a>.</p></li><li><p><a href="#Shear-production">Shear production</a> (<span>$S$</span>).</p></li><li><p><a href="#Monin-Obhukov-length">Monin-Obhukov length</a> (<span>$\MOLen$</span>).</p></li><li><p><a href="#Friction-velocity">Friction velocity</a> (<span>$\FrictionVelocity$</span>).</p></li><li><p><a href="#Buoyancy-gradient">Buoyancy gradient</a> (<span>$\BuoyancyGrad$</span>).</p></li><li><p><a href="#Potential-temperatures">Potential temperatures</a> (<span>$\ThetaDry$</span>, <span>$\ThetaVirt$</span>).</p></li><li><p><a href="#Prandtl-number">Prandtl number</a> (<span>$Pr$</span>).</p></li></ul><p>Smoothing function is provided in python file. The Prandtl number was used from Eq. 75 in Dan Li 2019 &quot;Turbulent Prandtl number in the atmospheric BL - where are we now&quot;.</p><h2 id="Eddy-diffusivity"><a class="docs-heading-anchor" href="#Eddy-diffusivity">Eddy diffusivity</a><a id="Eddy-diffusivity-1"></a><a class="docs-heading-anchor-permalink" href="#Eddy-diffusivity" title="Permalink"></a></h2><div>\[\begin{align}\label{eq:EddyDiffusivity}
+\SDi{\Km} &amp; = \begin{cases}
+c_K \SDio{{l_{mix},}} \sqrt{\SDi{TKE}} &amp; i = \iEnv \\
+0 &amp; \text{otherwise}
+\end{cases} \\
+\SDi{\Kh} &amp; = \frac{\SDi{\Km}}{Pr} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Constants">Constants</a>.</p></li><li><p><a href="#Mixing-length">Mixing length</a> (<span>$l_{mix}$</span>).</p></li><li><p><a href="#Prandtl-number">Prandtl number</a> (<span>$Pr$</span>).</p></li></ul><h2 id="Buoyancy-flux"><a class="docs-heading-anchor" href="#Buoyancy-flux">Buoyancy flux</a><a id="Buoyancy-flux-1"></a><a class="docs-heading-anchor-permalink" href="#Buoyancy-flux" title="Permalink"></a></h2><div class="admonition is-category-todo"><header class="admonition-header">Todo</header><div class="admonition-body"><p>Currently, <span>$\BuoyancyFlux$</span> is hard-coded from the first expression (which was used in SCAMPy), however, this value should be computed from the SurfaceFluxes section.</p></div></div><div>\[\begin{align}\label{eq:BuoyancyFlux}
+\SurfaceBuoyancyFlux &amp; = \frac{\grav \BC{\alphaRef}}{\Cpm \BC{\SDi{T}}} (\SensibleSurfaceHeatFlux + (\EpsDV - 1) \Cpm \BC{\SDi{T}} \LatentSurfaceHeatFlux / \LatentHeatV{\BC{\SDi{T}}}) \\
+\BuoyancyFlux &amp; = - \SDi{\Kh} \SDi{\BuoyancyGrad} \\
+\end{align}\]</div><ul><li><p><a href="#Eddy-diffusivity">Eddy diffusivity</a> (<span>$\Km, \Kh$</span>).</p></li><li><p><a href="#Latent-heat">Latent heat</a> (<span>$\LatentHeatV{T}$</span>).</p></li><li><p><a href="#Buoyancy-gradient">Buoyancy gradient</a> (<span>$\BuoyancyGrad$</span>).</p></li><li><p><a href="#Specific-heats">Specific heats</a> <span>$\Cpm$</span> and <span>$\Cvm$</span>.</p></li></ul><h2 id="Entrainment-Detrainment"><a class="docs-heading-anchor" href="#Entrainment-Detrainment">Entrainment-Detrainment</a><a id="Entrainment-Detrainment-1"></a><a class="docs-heading-anchor-permalink" href="#Entrainment-Detrainment" title="Permalink"></a></h2><p>Entrainment (<span>$\epsilon_{i}$</span>)</p><div>\[\begin{align}\label{eq:Entrainment}
+\epsilon_{i} &amp;= c_{\epsilon} \frac{\max(\SDi{b}, 0)}{\SDi{w}^2} \\
+c_{\epsilon} &amp;= 0.12 \\
+\end{align}\]</div><p>Detrainment (<span>$\delta_{j}$</span>):</p><div>\[\begin{align}\label{eq:Detrainment}
+\delta_{i} &amp;= c_{\delta} \frac{|\min(\SDi{b}, 0)|}{\SDi{w}^2} + \delta_{B} \Heaviside(\SDi{\ql}) \\
+c_{\delta} &amp;= c_{\delta,0} + \Gamma(\aSDi{a}) \\
+\Gamma(\aSDi{a}) &amp;= 0 \\
+c_{\delta,0} &amp;= c_{\epsilon} = 0.12 \\
+\delta_B &amp;= 0.004 [m^{-1}] \\
+\Heaviside &amp;= \text{Heaviside function} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Reference-state-profiles">Reference state profiles</a> (<span>$\pRef{}$</span>, <span>$\rhoRef{}$</span>, and <span>$\alphaRef{}$</span>).</p></li><li><p><a href="#Temperature">Temperature</a> (<span>$T$</span> and <span>$\TDry$</span>).</p></li><li><p><a href="#Buoyancy">Buoyancy</a> (<span>$\Buoyancy$</span>).</p></li></ul><h2 id="Inversion-height"><a class="docs-heading-anchor" href="#Inversion-height">Inversion height</a><a id="Inversion-height-1"></a><a class="docs-heading-anchor-permalink" href="#Inversion-height" title="Permalink"></a></h2><div>\[\begin{align}\label{eq:InversionHeight}
+\SDio{\InversionHeight} &amp;=
+\begin{cases}
+  \left[ (\PD_z \ThetaRho)^{-1} (\BC{\ThetaRho} - \ThetaRho|_{z_1}) + z_1 \right] &amp; \simparam{\BC{\DM{u}}}^2 + \simparam{\BC{\DM{v}}}^2 &lt;= \text{tol}_{\InversionHeight\mathrm{-stable}} \\
+  \left[ (\PD_z Ri_{bulk})^{-1} (\hyperparam{Ri_{bulk, crit}} - Ri_{bulk}|_{z_2}) + z_2 \right] &amp; \text{otherwise} \\
+\end{cases} \\
+z_1 &amp;= \min_z (\ThetaRho(z) &gt; \BC{\ThetaRho}) \\
+z_2 &amp;= \min_z (Ri_{bulk}(z) &gt; \hyperparam{Ri_{bulk, crit}}) \\
+Ri_{bulk} &amp;= \grav z \frac{(\ThetaRho/\BC{\ThetaRho} - 1)}{\simparam{\DM{u}}^2 + \simparam{\DM{v}}^2} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><a href="#Potential-temperatures">Potential temperatures</a> (<span>$\theta$</span>).</li></ul><h2 id="Convective-velocity"><a class="docs-heading-anchor" href="#Convective-velocity">Convective velocity</a><a id="Convective-velocity-1"></a><a class="docs-heading-anchor-permalink" href="#Convective-velocity" title="Permalink"></a></h2><div>\[\begin{align}\label{eq:ConvectiveVelocity}
+\SDio{\ConvectiveVelocity} &amp;= (\max(\BuoyancyFlux \SDio{\InversionHeight}, 0))^{1/3} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Inversion-height">Inversion height</a> (<span>$\SDio{\InversionHeight}$</span>).</p></li><li><p><a href="#Buoyancy-flux">Buoyancy flux</a> (<span>$\BuoyancyFlux$</span>).</p></li></ul><h2 id="Non-local-mixing-length"><a class="docs-heading-anchor" href="#Non-local-mixing-length">Non-local mixing length</a><a id="Non-local-mixing-length-1"></a><a class="docs-heading-anchor-permalink" href="#Non-local-mixing-length" title="Permalink"></a></h2><div>\[\begin{align}\label{eq:MixingLengthOld}
+\SDio{{l_{mix},}} &amp;= (l_A^{-1} + l_B^{-1})^{-1} \\
+l_A &amp;= \VKConst z \left( 1 + a_l \frac{z}{\MOLen} \right)^{b_l} \\
+\SDio{{l_B}} &amp;= \SDio{\tau} \SDi{TKE} \\
+(a_l, b_l) &amp;=
+\begin{cases}
+  (-100, 0.2) &amp; \MOLen &lt; 0 \\
+  (2.7, -1) &amp; \text{otherwise} \\
+\end{cases} \\
+\SDio{\tau} &amp;= \SDio{\InversionHeight}/\SDio{\ConvectiveVelocity} \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Inversion-height">Inversion height</a> (<span>$\SDio{\InversionHeight}$</span>).</p></li><li><p><a href="#Monin-Obhukov-length">Monin-Obhukov length</a> (<span>$\MOLen$</span>).</p></li><li><p><a href="#Convective-velocity">Convective velocity</a> (<span>$\SDio{\ConvectiveVelocity}$</span>).</p></li></ul><h1 id="Boundary-Conditions"><a class="docs-heading-anchor" href="#Boundary-Conditions">Boundary Conditions</a><a id="Boundary-Conditions-1"></a><a class="docs-heading-anchor-permalink" href="#Boundary-Conditions" title="Permalink"></a></h1><p>Here, we specify boundary conditions (BCs) by their type, Dirichlet (D) or Neumann (N), and their value.</p><h2 id="BC-functions"><a class="docs-heading-anchor" href="#BC-functions">BC functions</a><a id="BC-functions-1"></a><a class="docs-heading-anchor-permalink" href="#BC-functions" title="Permalink"></a></h2><div>\[\begin{align}
+\Gamma_{\phi}(F_1, F_2)
+&amp; = \begin{cases}
+    4 \frac{F_1 F_2}{\FrictionVelocity^2} (1 - 8.3\zLL/\MOLen)^{-2/3} &amp; \MOLen &lt; 0 \\
+    4 \frac{F_1 F_2}{\FrictionVelocity^2} &amp; \text{otherwise}
+\end{cases} \\
+\Gamma_{TKE}
+&amp; = \begin{cases}
+    3.75 {\FrictionVelocity}^2 + 0.2 {\ConvectiveVelocity}^2 + {\FrictionVelocity}^2 (-\zLL/\MOLen)^{2/3} &amp; \MOLen &lt; 0 \\
+    3.75 {\FrictionVelocity}^2 &amp; \text{otherwise}
+\end{cases} \\
+\SensibleSurfaceHeatFlux &amp; = \BC{\TCV{w}{\eint}} \Cpm \rhoRef \\
+\LatentSurfaceHeatFlux   &amp; = \BC{\TCV{w}{\qt}}  \LatentHeatV{T} \rhoRef \\
+F_{\eint}(\SensibleSurfaceHeatFlux)  &amp; = \frac{\SensibleSurfaceHeatFlux}{\Cpm}       = \BC{\TCV{w}{\eint}} \rhoRef \\
+F_{\qt}(\LatentSurfaceHeatFlux)      &amp; = \frac{\LatentSurfaceHeatFlux}{\LatentHeatV{T}} = \BC{\TCV{w}{\qt}}   \rhoRef \\
+\end{align}\]</div><p>where additional variable definitions are in:</p><ul><li><p><a href="#Reference-state-profiles">Reference state profiles</a> (<span>$\pRef{}$</span>, <span>$\rhoRef{}$</span>, and <span>$\alphaRef{}$</span>).</p></li><li><p><a href="#Monin-Obhukov-length">Monin-Obhukov length</a> (<span>$\MOLen$</span>).</p></li><li><p><a href="#Convective-velocity">Convective velocity</a> (<span>$\SDio{\ConvectiveVelocity}$</span>).</p></li><li><p><a href="#Friction-velocity">Friction velocity</a> (<span>$\FrictionVelocity$</span>).</p></li><li><p><a href="#Latent-heat">Latent heat</a> (<span>$\LatentHeatV{T}$</span>).</p></li></ul><p>and equation \eqref{eq:TopPercentile} represents the mean of the top <span>$x$</span>-fraction of a standard normal distribution (Neggers et al., 2009).</p><div>\[\begin{align}
+\Phi^{-1}(x)  &amp;= \text{inverse cumulative distribution function}, \label{eq:InverseCDF} \\
+\mathcal D(x) &amp;= \frac{1}{\sqrt{2\pi x}} \exp{- \frac{1}{2} (\Phi^{-1}(1-x))^2 } , \label{eq:TopPercentile} \\
+\end{align}\]</div><h2 id="Area-fraction"><a class="docs-heading-anchor" href="#Area-fraction">Area fraction</a><a id="Area-fraction-1"></a><a class="docs-heading-anchor-permalink" href="#Area-fraction" title="Permalink"></a></h2><div>\[\begin{align}
+c_{frac} = 0.1, \quad
+\BCB{\aSDi{a}} =
+\begin{cases}
+    1-c_{frac}, &amp; i = \iEnv{} \\
+  \frac{c_{frac}}{\Nsd}, &amp; i \ne \iEnv{}
+\end{cases}, \quad
+\BCT{\aSDi{a}} =
+\begin{cases}
+    1-c_{frac}, &amp; i = \iEnv{} \\
+  \frac{c_{frac}}{\Nsd}, &amp; i \ne \iEnv{}
+\end{cases}
+\end{align}\]</div><h2 id="st-order-moments"><a class="docs-heading-anchor" href="#st-order-moments">1st order moments</a><a id="st-order-moments-1"></a><a class="docs-heading-anchor-permalink" href="#st-order-moments" title="Permalink"></a></h2><p>Top boundary</p><div>\[\begin{align}
+\BCT{\SDi{w}}           &amp;= 0 \\
+\PD_z \BCT{\SDi{\qt}}   &amp;= 0 \\
+\PD_z \BCT{\SDi{\eint}} &amp;= 0 \\
+\end{align}\]</div><p>Bottom boundary</p><div class="admonition is-category-todo"><header class="admonition-header">Todo</header><div class="admonition-body"><p>Need value for <span>$C_{\eint}$</span>.</p></div></div><div>\[\begin{align}
+\BCB{\SDi{w}}     &amp;= 0 \\
+- \SDi{\Kh} \PD_z \BCB{\SDi{\qt}}   &amp;= \TCV{w}{\qt}   + \mathcal D(\aSDi{a}) \sqrt{C_{\qt}^2   \WindSpeed^2\Gamma_{\phi}(\TCV{w}{\qt}  , \TCV{w}{\qt}   )} \\
+- \SDi{\Kh} \PD_z \BCB{\SDi{\eint}} &amp;= \TCV{w}{\eint} + \mathcal D(\aSDi{a}) \sqrt{C_{\eint}^2 \WindSpeed^2\Gamma_{\phi}(\TCV{w}{\eint}, \TCV{w}{\eint} )} \\
+C_{\qt} &amp;= 0.001133 \\
+C_{\ThetaLiqIce} &amp;= 0.001094 \\
+C_{\eint} &amp;=  \\
+\end{align}\]</div><p>where additional variable/function definitions are in:</p><ul><li><a href="#BC-functions">BC functions</a> <span>$\mathcal D$</span>.</li></ul><h2 id="nd-order-moments"><a class="docs-heading-anchor" href="#nd-order-moments">2nd order moments</a><a id="nd-order-moments-1"></a><a class="docs-heading-anchor-permalink" href="#nd-order-moments" title="Permalink"></a></h2><p>Top boundary</p><div>\[\begin{align}
+\BCT{\SDi{TKE}}                         &amp; = 0 \\
+\PD_z \BCT{\IntraCVSDi{\qt}{\qt}}       &amp; = 0 \\
+\PD_z \BCT{\IntraCVSDi{\eint}{\eint}}   &amp; = 0 \\
+\PD_z \BCT{\IntraCVSDi{\eint}{\qt}}     &amp; = 0 \\
+\end{align}\]</div><div class="admonition is-category-todo"><header class="admonition-header">Todo</header><div class="admonition-body"><p>Currently, we only account for the <em>intra</em> sub-domain covariance, but we would like to also account for the <em>inter</em> sub-domain covariance for all but the <span>$TKE$</span>.</p></div></div><p>Bottom boundary</p><div>\[\begin{align}
+\BCB{\SDi{TKE}}                   &amp; = \Gamma_{TKE} \\
+\BCB{\IntraCVSDi{\qt}{\qt}}       &amp; = \Gamma_{\phi}(\TCV{w}{\qt}  , \TCV{w}{\qt}   ) \\
+\BCB{\IntraCVSDi{\eint}{\eint}}   &amp; = \Gamma_{\phi}(\TCV{w}{\qt}  , \TCV{w}{\eint} ) \\
+\BCB{\IntraCVSDi{\eint}{\qt}}     &amp; = \Gamma_{\phi}(\TCV{w}{\eint}, \TCV{w}{\eint} ) \\
+\end{align}\]</div><p>where additional variable/function definitions are in:</p><ul><li><a href="#BC-functions">BC functions</a> <span>$\Gamma_{TKE}$</span>, <span>$\Gamma_{\phi}$</span>, <span>$F_{\eint}$</span>, <span>$\SensibleSurfaceHeatFlux$</span>, <span>$F_{\qt}$</span>, <span>$\LatentSurfaceHeatFlux$</span>.</li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../Microphysics/">« Microphysics</a><a class="docs-footer-nextpage" href="../Model/tracers/">Tracers »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 2 November 2020 15:12">Monday 2 November 2020</span>. Using Julia version 1.5.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>- · ClimateMachine</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../../assets/documenter.js"></script><script src="../../../siteinfo.js"></script><script src="../../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../../"><img src="../../../assets/logo.svg" alt="ClimateMachine logo"/></a><div class="docs-package-name"><span class="docs-autofit">ClimateMachine</span></div><form class="docs-search" action="../../../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../../../">Home</a></li><li><input class="collapse-toggle" id="menuitem-2" type="checkbox"/><label class="tocitem" for="menuitem-2"><span class="docs-label">Getting started</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../GettingStarted/Installation/">Installation</a></li><li><a class="tocitem" href="../../../GettingStarted/RunningClimateMachine/">Running</a></li><li><input class="collapse-toggle" id="menuitem-2-3" type="checkbox"/><label class="tocitem" for="menuitem-2-3"><span class="docs-label">Defaults</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../GettingStarted/Atmos/">Atmosphere model configurations</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3" type="checkbox"/><label class="tocitem" for="menuitem-3"><span class="docs-label">Tutorials</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-1" type="checkbox"/><label class="tocitem" for="menuitem-3-1"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Atmos/heldsuarez/">Dry Idealized GCM</a></li><li><a class="tocitem" href="../../Atmos/risingbubble/">Rising Thermal Bubble</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><input class="collapse-toggle" id="menuitem-3-3" type="checkbox"/><label class="tocitem" for="menuitem-3-3"><span class="docs-label">Land</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-3-1" type="checkbox"/><label class="tocitem" for="menuitem-3-3-1"><span class="docs-label">Heat</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Land/Heat/heat_equation/">Heat Equation</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-4" type="checkbox"/><label class="tocitem" for="menuitem-3-4"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-3-4-1" type="checkbox"/><label class="tocitem" for="menuitem-3-4-1"><span class="docs-label">LinearSolvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../Numerics/LinearSolvers/cg/">Conjugate Gradient</a></li><li><a class="tocitem" href="../../Numerics/LinearSolvers/bgmres/">Batched Generalized Minimal Residual</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-3-5" type="checkbox"/><label class="tocitem" for="menuitem-3-5"><span class="docs-label">Contributing</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../literate_markdown/">Notes on Literate</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-4" type="checkbox"/><label class="tocitem" for="menuitem-4"><span class="docs-label">How-to-guides</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-4-1" type="checkbox"/><label class="tocitem" for="menuitem-4-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Common/MoistThermodynamics/">MoistThermodynamics</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-2" type="checkbox"/><label class="tocitem" for="menuitem-4-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Atmos/TemperatureProfiles/">TemperatureProfiles</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-4-5" type="checkbox"/><label class="tocitem" for="menuitem-4-5"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><span class="tocitem">Meshes</span></li><li><input class="collapse-toggle" id="menuitem-4-5-2" type="checkbox"/><label class="tocitem" for="menuitem-4-5-2"><span class="docs-label">DG methods</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/DGmethods/how_to_make_a_balance_law/">How to make a balance law</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-3" type="checkbox"/><label class="tocitem" for="menuitem-4-5-3"><span class="docs-label">ODE Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/ODESolvers/Timestepping/">Time-integration</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-4-5-4" type="checkbox"/><label class="tocitem" for="menuitem-4-5-4"><span class="docs-label">Linear Solvers</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../HowToGuides/Numerics/LinearSolvers/IterativeSolvers/">Iterative Solvers</a></li></ul></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-5" type="checkbox"/><label class="tocitem" for="menuitem-5"><span class="docs-label">APIs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/">Home</a></li><li><input class="collapse-toggle" id="menuitem-5-2" type="checkbox"/><label class="tocitem" for="menuitem-5-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../APIs/Atmos/Microphysics/">Microphysics</a></li></ul></li><li><span class="tocitem">Ocean</span></li><li><span class="tocitem">Land</span></li><li><input class="collapse-toggle" id="menuitem-5-5" type="checkbox"/><label class="tocitem" for="menuitem-5-5"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Common/SurfaceFluxes/">Surface Fluxes</a></li></ul></li><li><a class="tocitem" href="../../../APIs/Arrays/Arrays/">Arrays</a></li><li><input class="collapse-toggle" id="menuitem-5-7" type="checkbox"/><label class="tocitem" for="menuitem-5-7"><span class="docs-label">Diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Diagnostics/Diagnostics/">List of variables</a></li><li><a class="tocitem" href="../../../APIs/Diagnostics/InputOutput/">Input/Output</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-5-8" type="checkbox"/><label class="tocitem" for="menuitem-5-8"><span class="docs-label">Numerics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../APIs/Numerics/Meshes/Mesh/">Meshes</a></li><li><a class="tocitem" href="../../../APIs/Numerics/LinearSolvers/LinearSolvers/">LinearSolvers</a></li><li><a class="tocitem" href="../../../APIs/Numerics/ODESolvers/ODESolvers/">ODESolvers</a></li><li><a class="tocitem" href="../../../APIs/Numerics/DGmethods/BalanceLawOverview/">Balance Law</a></li></ul></li></ul></li><li><a class="tocitem" href="../../../Contributing/">Contribution guide</a></li><li><input class="collapse-toggle" id="menuitem-7" type="checkbox"/><label class="tocitem" for="menuitem-7"><span class="docs-label">Theory</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><input class="collapse-toggle" id="menuitem-7-1" type="checkbox"/><label class="tocitem" for="menuitem-7-1"><span class="docs-label">Common</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Theory/Common/SurfaceFluxes/">SurfaceFluxes</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-7-2" type="checkbox"/><label class="tocitem" for="menuitem-7-2"><span class="docs-label">Atmos</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../Theory/Atmos/AtmosModel/">AtmosModel</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Microphysics/">Microphysics</a></li><li><a class="tocitem" href="../../../Theory/Atmos/EDMFEquations/">EDMF equations</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Model/turbulence/">Turbulence</a></li><li><a class="tocitem" href="../../../Theory/Atmos/Model/tracers/">Tracers</a></li></ul></li></ul></li><li><input class="collapse-toggle" id="menuitem-8" type="checkbox"/><label class="tocitem" for="menuitem-8"><span class="docs-label">Developer docs</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="../../../DevDocs/CodeStyle/">Coding style</a></li><li><a class="tocitem" href="../../../DevDocs/AcceptableUnicode/">Acceptable Unicode</a></li><li><a class="tocitem" href="../../../DevDocs/VariableList/">Variable list</a></li><li><a class="tocitem" href="../../../DevDocs/DiagnosticVariables/">Diagnostic variable list</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>-</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>-</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/CliMA/ClimateMachine.jl/blob/master/tutorials/Microphysics/ex_1_saturation_adjustment.jl" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><pre><code class="language-">include(&quot;KinematicModel.jl&quot;)
+
+function vars_state_conservative(m::KinematicModel, FT)
+    @vars begin
+        ρ::FT
+        ρu::SVector{3, FT}
+        ρe::FT
+        ρq_tot::FT
+    end
+end
+
+function vars_state_auxiliary(m::KinematicModel, FT)
+    @vars begin</code></pre><p>defined in init<em>state</em>auxiliary</p><pre><code class="language-">        p::FT
+        z::FT</code></pre><p>defined in update_aux</p><pre><code class="language-">        u::FT
+        w::FT
+        q_tot::FT
+        q_vap::FT
+        q_liq::FT
+        q_ice::FT
+        e_tot::FT
+        e_kin::FT
+        e_pot::FT
+        e_int::FT
+        T::FT
+        S::FT
+        RH::FT
+    end
+end
+
+function init_kinematic_eddy!(eddy_model, state, aux, (x, y, z), t)
+    FT = eltype(state)
+
+    _grav::FT = grav(param_set)
+
+    dc = eddy_model.data_config</code></pre><p>density</p><pre><code class="language-">    q_pt_0 = PhasePartition(dc.qt_0)
+    R_m, cp_m, cv_m, γ = gas_constants(param_set, q_pt_0)
+    T::FT = dc.θ_0 * (aux.p / dc.p_1000)^(R_m / cp_m)
+    ρ::FT = aux.p / R_m / T
+    state.ρ = ρ</code></pre><p>moisture</p><pre><code class="language-">    state.ρq_tot = ρ * dc.qt_0</code></pre><p>velocity (derivative of streamfunction)</p><pre><code class="language-">    ρu::FT =
+        dc.wmax * dc.xmax / dc.zmax *
+        cos(π * z / dc.zmax) *
+        cos(2 * π * x / dc.xmax)
+    ρw::FT = 2 * dc.wmax * sin(π * z / dc.zmax) * sin(2 * π * x / dc.xmax)
+    state.ρu = SVector(ρu, FT(0), ρw)
+    u::FT = ρu / ρ
+    w::FT = ρw / ρ</code></pre><p>energy</p><pre><code class="language-">    e_kin::FT = 1 // 2 * (u^2 + w^2)
+    e_pot::FT = _grav * z
+    e_int::FT = internal_energy(param_set, T, q_pt_0)
+    e_tot::FT = e_kin + e_pot + e_int
+    state.ρe = ρ * e_tot
+
+    return nothing
+end
+
+function kinematic_model_nodal_update_auxiliary_state!(
+    m::KinematicModel,
+    state::Vars,
+    aux::Vars,
+    t::Real,
+)
+    FT = eltype(state)
+    _grav::FT = grav(param_set)
+
+    aux.u = state.ρu[1] / state.ρ
+    aux.w = state.ρu[3] / state.ρ
+
+    aux.q_tot = state.ρq_tot / state.ρ
+
+    aux.e_tot = state.ρe / state.ρ
+    aux.e_kin = 1 // 2 * (aux.u^2 + aux.w^2)
+    aux.e_pot = _grav * aux.z
+    aux.e_int = aux.e_tot - aux.e_kin - aux.e_pot</code></pre><p>saturation adjustment happens here</p><pre><code class="language-">    ts = PhaseEquil(param_set, aux.e_int, state.ρ, aux.q_tot)
+    pp = PhasePartition(ts)
+
+    aux.T = ts.T
+    aux.q_vap = aux.q_tot - pp.liq - pp.ice
+    aux.q_liq = pp.liq
+    aux.q_ice = pp.ice
+
+    q = PhasePartition(aux.q_tot, aux.q_liq, aux.q_ice)
+    ts_neq = TemperatureSHumNonEquil(param_set, aux.T, state.ρ, q)
+    aux.S = max(0, aux.q_vap / q_vap_saturation(ts_neq) - FT(1)) * FT(100)
+    aux.RH = aux.q_vap / q_vap_saturation(ts_neq) * FT(100)
+end
+
+function boundary_state!(
+    ::RusanovNumericalFlux,
+    m::KinematicModel,
+    state⁺,
+    aux⁺,
+    n,
+    state⁻,
+    aux⁻,
+    bctype,
+    t,
+    args...,
+) end
+
+@inline function wavespeed(
+    m::KinematicModel,
+    nM,
+    state::Vars,
+    aux::Vars,
+    t::Real,
+)
+    u = state.ρu / state.ρ
+    return abs(dot(nM, u))
+end
+
+@inline function flux_first_order!(
+    m::KinematicModel,
+    flux::Grad,
+    state::Vars,
+    aux::Vars,
+    t::Real,
+)
+    FT = eltype(state)</code></pre><p>advect moisture ...</p><pre><code class="language-">    flux.ρq_tot = SVector(
+        state.ρu[1] * state.ρq_tot / state.ρ,
+        FT(0),
+        state.ρu[3] * state.ρq_tot / state.ρ,
+    )</code></pre><p>... energy ...</p><pre><code class="language-">    flux.ρe = SVector(
+        state.ρu[1] / state.ρ * (state.ρe + aux.p),
+        FT(0),
+        state.ρu[3] / state.ρ * (state.ρe + aux.p),
+    )</code></pre><p>... and don&#39;t advect momentum (kinematic setup)</p><pre><code class="language-julia">end
+
+source!(::KinematicModel, _...) = nothing
+
+function main()</code></pre><p>Working precision</p><pre><code class="language-julia">    FT = Float64</code></pre><pre><code class="language-none">Float64</code></pre><p>DG polynomial order</p><pre><code class="language-julia">    N = 4</code></pre><pre><code class="language-none">4</code></pre><p>Domain resolution and size</p><pre><code class="language-julia">    Δx = FT(20)
+    Δy = FT(1)
+    Δz = FT(20)
+    resolution = (Δx, Δy, Δz)</code></pre><pre><code class="language-none">(20.0, 1.0, 20.0)</code></pre><p>Domain extents</p><pre><code class="language-julia">    xmax = 1500
+    ymax = 10
+    zmax = 1500</code></pre><pre><code class="language-none">1500</code></pre><p>initial configuration</p><pre><code class="language-julia">    wmax = FT(0.6)  # max velocity of the eddy  [m/s]
+    θ_0 = FT(289) # init. theta value (const) [K]
+    p_0 = FT(101500) # surface pressure [Pa]
+    p_1000 = FT(100000) # reference pressure in theta definition [Pa]
+    qt_0 = FT(7.5 * 1e-3) # init. total water specific humidity (const) [kg/kg]
+    z_0 = FT(0) # surface height</code></pre><pre><code class="language-none">0.0</code></pre><p>time stepping</p><pre><code class="language-">    t_ini = FT(0)
+    t_end = FT(60 * 30)
+    dt = 40
+    output_freq = 9
+
+    driver_config = config_kinematic_eddy(
+        FT,
+        N,
+        resolution,
+        xmax,
+        ymax,
+        zmax,
+        wmax,
+        θ_0,
+        p_0,
+        p_1000,
+        qt_0,
+        z_0,
+    )
+    solver_config = ClimateMachine.SolverConfiguration(
+        t_ini,
+        t_end,
+        driver_config;
+        ode_dt = dt,
+        init_on_cpu = true,
+        #Courant_number = CFL,
+    )
+
+    mpicomm = MPI.COMM_WORLD</code></pre><p>output for paraview</p><p>initialize base prefix directory from rank 0</p><pre><code class="language-">    vtkdir = abspath(joinpath(ClimateMachine.Settings.output_dir, &quot;vtk&quot;))
+    if MPI.Comm_rank(mpicomm) == 0
+        mkpath(vtkdir)
+    end
+    MPI.Barrier(mpicomm)
+
+    model = driver_config.bl
+    step = [0]
+    cbvtk =
+        GenericCallbacks.EveryXSimulationSteps(output_freq) do (init = false)
+            out_dirname = @sprintf(
+                &quot;new_ex_1_mpirank%04d_step%04d&quot;,
+                MPI.Comm_rank(mpicomm),
+                step[1]
+            )
+            out_path_prefix = joinpath(vtkdir, out_dirname)
+            @info &quot;doing VTK output&quot; out_path_prefix
+            writevtk(
+                out_path_prefix,
+                solver_config.Q,
+                solver_config.dg,
+                flattenednames(vars_state_conservative(model, FT)),
+                solver_config.dg.state_auxiliary,
+                flattenednames(vars_state_auxiliary(model, FT)),
+            )
+            step[1] += 1
+            nothing
+        end</code></pre><p>get aux variables indices for testing</p><pre><code class="language-">    q_tot_ind = varsindex(vars_state_auxiliary(model, FT), :q_tot)
+    q_vap_ind = varsindex(vars_state_auxiliary(model, FT), :q_vap)
+    q_liq_ind = varsindex(vars_state_auxiliary(model, FT), :q_liq)
+    q_ice_ind = varsindex(vars_state_auxiliary(model, FT), :q_ice)
+    S_ind = varsindex(vars_state_auxiliary(model, FT), :S)</code></pre><p>call solve! function for time-integrator</p><pre><code class="language-">    result = ClimateMachine.invoke!(
+        solver_config;
+        user_callbacks = (cbvtk,),
+        check_euclidean_distance = true,
+    )</code></pre><p>no supersaturation</p><pre><code class="language-">    max_S = maximum(abs.(solver_config.dg.state_auxiliary[:, S_ind, :]))
+    @test isequal(max_S, FT(0))</code></pre><p>qt is conserved</p><pre><code class="language-">    max_q_tot = maximum(abs.(solver_config.dg.state_auxiliary[:, q_tot_ind, :]))
+    min_q_tot = minimum(abs.(solver_config.dg.state_auxiliary[:, q_tot_ind, :]))
+    @test isapprox(max_q_tot, qt_0; rtol = 1e-3)
+    @test isapprox(min_q_tot, qt_0; rtol = 1e-3)</code></pre><p>q<em>vap + q</em>liq = q_tot</p><pre><code class="language-">    max_water_diff = maximum(abs.(
+        solver_config.dg.state_auxiliary[:, q_tot_ind, :] .-
+        solver_config.dg.state_auxiliary[:, q_vap_ind, :] .-
+        solver_config.dg.state_auxiliary[:, q_liq_ind, :],
+    ))
+    @test isequal(max_water_diff, FT(0))</code></pre><p>no ice</p><pre><code class="language-">    max_q_ice = maximum(abs.(solver_config.dg.state_auxiliary[:, q_ice_ind, :]))
+    @test isequal(max_q_ice, FT(0))</code></pre><p>q_liq ∈ reference range</p><pre><code class="language-">    max_q_liq = max(solver_config.dg.state_auxiliary[:, q_liq_ind, :]...)
+    min_q_liq = min(solver_config.dg.state_auxiliary[:, q_liq_ind, :]...)
+    @test max_q_liq &lt; FT(1e-3)
+    @test isequal(min_q_liq, FT(0))
+end
+
+main()</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 27 May 2020 12:31">Wednesday 27 May 2020</span>. Using Julia version 1.3.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
