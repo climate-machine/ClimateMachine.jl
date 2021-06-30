@@ -10,6 +10,7 @@ theory_docs = Any[
     "Atmos" => Any[
         "AtmosModel" => "Theory/Atmos/AtmosModel.md",
         "EDMF Model" => "Theory/Atmos/EDMF_plots.md",
+        "Aerosol Activation" => "Theory/Atmos/Aerosol_activation.md",
         "Microphysics_0M" => "Theory/Atmos/Microphysics_0M.md",
         "Microphysics" => "Theory/Atmos/Microphysics.md",
         "EDMF equations" => "Theory/Atmos/EDMFEquations.md",

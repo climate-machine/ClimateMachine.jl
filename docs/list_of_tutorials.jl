@@ -2,8 +2,8 @@
 #### Defines list of tutorials given `GENERATED_DIR`
 ####
 
-generate_tutorials =
-    parse(Bool, get(ENV, "CLIMATEMACHINE_DOCS_GENERATE_TUTORIALS", "true"))
+generate_tutorials = false
+    # parse(Bool, get(ENV, "CLIMATEMACHINE_DOCS_GENERATE_TUTORIALS", "true"))
 
 tutorials = []
 
