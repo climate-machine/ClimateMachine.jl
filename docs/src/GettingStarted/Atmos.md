@@ -44,6 +44,15 @@ atmos = AtmosModel{FT}(
     configurations.  Equation sets are written in vector-invariant form and
     solved in Cartesian coordinates.  The component `orientation` determines
     whether the problem is solved in a `box (LES)` or a `sphere (GCM)`)
+    
+!!! warning
+
+    The above defaults do not consider any potential interaction with the time stepping
+    components. The user must take appropriate care when setting up the driver configurations.
+    The default hydrostatic reference state may not be suitable to any initial conditions and 
+    it recommended to use a reference state corresponding to the initial condition's background.
+    It is also recommended to use the NoReferenceState type when using a single rate explicit 
+    time stepper.
 
 
 ### GCM Configuration (with defaults)
