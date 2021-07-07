@@ -115,6 +115,8 @@ function solve!(
     adjustfinalstep = true,
     numberofsteps::Integer = 0,
     callbacks = (),
+    do_callback_init = true,
+    do_callback_fini = true,
 )
 
     @assert isfinite(timeend) || numberofsteps > 0
@@ -124,7 +126,9 @@ function solve!(
     t0 = gettime(solver)
 
     # Loop through an initialize callbacks (if they need it)
-    GenericCallbacks.init!(callbacks, solver, Q, param, t0)
+    if do_callback_init
+        GenericCallbacks.init!(callbacks, solver, Q, param, t0)
+    end
 
     step = 0
     time = t0
@@ -152,7 +156,9 @@ function solve!(
     end
 
     # Loop through to fini callbacks
-    GenericCallbacks.fini!(callbacks, solver, Q, param, time)
+    if do_callback_fini
+        GenericCallbacks.fini!(callbacks, solver, Q, param, time)
+    end
 
     return gettime(solver)
 end
