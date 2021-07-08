@@ -150,12 +150,12 @@ function main()
         havg_v = compute_havg(solver_config, v)
         if mpirank == 0
             havg_u ./= havg_rho
-            @test all(ds_u[:, 3] .≈ havg_u)
-            @test all(ds_yvel[:, 3] .≈ havg_v)
+            @test all(ds_u[:, 2] .≈ havg_u)
+            @test all(ds_yvel[:, 2] .≈ havg_v)
 
             realelems = solver_config.dg.grid.topology.realelems
             w = view(Q, :, 4, realelems) ./ view(Q, :, 1, realelems)
-            @test all(ds_zvel[:, :, 3] .≈ w)
+            @test all(ds_zvel[:, :, 2] .≈ w)
         end
     end
 

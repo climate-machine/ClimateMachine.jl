@@ -1,4 +1,6 @@
 #=
+const minimum_collect_interval = 0.01
+
 """
     DiagnosticsGroupParams
 
@@ -25,6 +27,7 @@ mutable struct DiagnosticsGroup{
     init::Function
     collect::Function
     fini::Function
+    last_collect_time::Float64
     interval::String
     out_prefix::String
     writer::AbstractWriter
@@ -47,6 +50,7 @@ mutable struct DiagnosticsGroup{
         name,
         init,
         collect,
+        0.0,
         fini,
         interval,
         out_prefix,
@@ -68,6 +72,7 @@ function GenericCallbacks.init!(dgngrp::DiagnosticsGroup, solver, Q, param, t)
     )
     dgngrp.init(dgngrp, t)
     dgngrp.collect(dgngrp, t)
+    dgngrp.last_collect_time = t
     return nothing
 end
 function GenericCallbacks.call!(dgngrp::DiagnosticsGroup, solver, Q, param, t)
@@ -80,6 +85,7 @@ function GenericCallbacks.call!(dgngrp::DiagnosticsGroup, solver, Q, param, t)
         t,
     )
     dgngrp.collect(dgngrp, t)
+    dgngrp.last_collect_time = t
     @toc diagnostics
     return nothing
 end
@@ -91,7 +97,9 @@ function GenericCallbacks.fini!(dgngrp::DiagnosticsGroup, solver, Q, param, t)
         dgngrp.name,
         t,
     )
-    dgngrp.collect(dgngrp, t)
+    if t - last_collect_time >= minimum_collect_interval
+        dgngrp.collect(dgngrp, t)
+    end
     dgngrp.fini(dgngrp, t)
     return nothing
 end

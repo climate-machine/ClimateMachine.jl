@@ -143,6 +143,8 @@ function diagnostics(
     end
 end
 
+const minimum_vtk_interval = 0.01
+
 """
     vtk(vtk_opt, solver_config)
 
@@ -154,6 +156,7 @@ function vtk(vtk_opt, solver_config, output_dir, number_sample_points)
     cb_constr === nothing && return nothing
 
     vtknum = Ref(1)
+    last_collect_time = Ref(0.0)
 
     mpicomm = solver_config.mpicomm
     dg = solver_config.dg
@@ -162,6 +165,11 @@ function vtk(vtk_opt, solver_config, output_dir, number_sample_points)
     FT = eltype(Q)
 
     cb_vtk = GenericCallbacks.AtInitAndFini() do
+        sim_time = ODESolvers.gettime(solver_config.solver)
+        if sim_time - last_collect_time[] < minimum_vtk_interval
+            return nothing
+        end
+
         # TODO: make an object
         vprefix = @sprintf(
             "%s_mpirank%04d_num%04d",
@@ -208,6 +216,7 @@ function vtk(vtk_opt, solver_config, output_dir, number_sample_points)
         end
 
         vtknum[] += 1
+        last_collect_time[] = sim_time
         nothing
     end
     return cb_constr(cb_vtk)
